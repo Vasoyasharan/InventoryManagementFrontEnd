@@ -44,7 +44,7 @@ const Sidebar = () => {
                 </li>
               </ul>
               <div className="sidebar-footer">
-                <h5>Contact Us</h5>
+                <h5>Customer Care</h5>
                 <div className="contact-icons">
                   <FontAwesomeIcon icon={faPhone} size="lg" /> &nbsp;
                   <FontAwesomeIcon icon={faEnvelope} size="lg" /> &nbsp;
