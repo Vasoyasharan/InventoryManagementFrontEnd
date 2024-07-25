@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen, faUserPlus, faUserSlash } from "@fortawesome/free-solid-svg-icons";
-import './CustomerList.css'; // Import the CSS file
+import './CustomerList.css'; 
 
 const CustomerList = (props) => {
     const [data, setData] = useState([]);
@@ -48,7 +48,7 @@ const CustomerList = (props) => {
             </div>
 
             <div className="mt-3">
-                <table className="custom-table"> {/* Apply the custom table class */}
+                <table className="custom-table"> 
                     <thead>
                         <tr>
                             <th>Customer Name</th>
