@@ -1,4 +1,4 @@
-const Url = "https://10f8-2401-4900-1f3f-62a0-68c3-2fcc-31fc-2dd6.ngrok-free.app/";
+const Url = "https://d7a5-171-78-212-169.ngrok-free.app/";
 
 let token = localStorage.getItem("token");
 
