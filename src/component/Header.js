@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "../Css/Dashboard.css";
 import React from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 

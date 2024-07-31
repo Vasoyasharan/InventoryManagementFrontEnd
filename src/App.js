@@ -4,8 +4,8 @@ import Login from "./pages/Authentication/Login"
 import Signup from "./pages/Authentication/Signup"
 import { ProtectedRoute, AuthProtected } from "./Routes/route"
 import { PageRoutes } from "./Routes"
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const isAuthenticated = localStorage.getItem("token")

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Validation from "./LoginValidation";
 import axios from "axios";
 import { Url } from "../../Url";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
     const [values, setValues] = useState({

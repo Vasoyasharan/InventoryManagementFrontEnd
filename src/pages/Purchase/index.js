@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
 import './PurchaseBillList.css'; // Import the CSS file
 
 const PurchaseBillList = (props) => {

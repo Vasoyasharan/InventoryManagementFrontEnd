@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Url, config } from "../../Url";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Vendor = (props) => {
   const params = useParams();
