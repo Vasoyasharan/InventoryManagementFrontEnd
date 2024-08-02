@@ -1,8 +1,8 @@
-import "../Css/Dashboard.css"
-import React from "react"
-import { NavLink } from "react-router-dom"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTachometerAlt, faFileInvoice, faBoxOpen, faUsers, faTruck, faChartLine, faPhone, faEnvelope, faHome } from '@fortawesome/free-solid-svg-icons'
+import "../Css/Dashboard.css";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTachometerAlt, faFileInvoice, faBoxOpen, faUsers, faTruck, faChartLine, faPhone, faEnvelope, faHome } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
   return (
@@ -14,32 +14,32 @@ const Sidebar = () => {
               <ul className="nav flex-column">
                 <li className="nav-item">
                   <NavLink className="nav-link" aria-current="page" to="/dashboard">
-                    <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
+                    <FontAwesomeIcon icon={faTachometerAlt} /> <span className="nav-text">Dashboard</span>
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/purchase">
-                    <FontAwesomeIcon icon={faFileInvoice} /> Purchase Bill
+                    <FontAwesomeIcon icon={faFileInvoice} /> <span className="nav-text">Purchase Bill</span>
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/product">
-                    <FontAwesomeIcon icon={faBoxOpen} /> Products
+                    <FontAwesomeIcon icon={faBoxOpen} /> <span className="nav-text">Products</span>
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/customer">
-                    <FontAwesomeIcon icon={faUsers} /> Customers
+                    <FontAwesomeIcon icon={faUsers} /> <span className="nav-text">Customers</span>
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/vendor">
-                    <FontAwesomeIcon icon={faTruck} /> Vendors
+                    <FontAwesomeIcon icon={faTruck} /> <span className="nav-text">Vendors</span>
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/report">
-                    <FontAwesomeIcon icon={faChartLine} /> Report
+                    <FontAwesomeIcon icon={faChartLine} /> <span className="nav-text">Report</span>
                   </NavLink>
                 </li>
               </ul>
@@ -56,7 +56,7 @@ const Sidebar = () => {
         </div>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

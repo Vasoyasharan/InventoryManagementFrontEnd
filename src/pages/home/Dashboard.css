@@ -1,5 +1,5 @@
 body {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .dashboard-main {
@@ -11,6 +11,8 @@ body {
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 20px;
+  position: relative;
+  background-color: #ffffff; /* Ensure cards have a white background */
 }
 
 .dashboard-content .card-title {
@@ -22,25 +24,31 @@ body {
   font-size: 1.5rem;
 }
 
-/* Updated card colors to match website theme */
-.card.bg-primary {
-  background-color: #007f72; /* Color from sidebar gradient */
-  color: #ffffff;
+/* Adding side color lines to the cards */
+.card-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 5px;
+  border-radius: 10px 0 0 10px;
 }
 
-.card.bg-success {
-  background-color: #13bcab; /* Another color from sidebar gradient */
-  color: #ffffff;
+.card-line-primary::before {
+  background-color: #32c7b8; /* Color from sidebar gradient */
 }
 
-.card.bg-warning {
-  background-color: #009688; /* Color from navbar */
-  color: #ffffff;
+.card-line-success::before {
+  background-color: #3f4add; /* Another color from sidebar gradient */
 }
 
-.card.bg-danger {
-  background-color: #26df9b; /* Color from navbar */
-  color: #ffffff;
+.card-line-warning::before {
+  background-color: #c9cc1b; /* Color from navbar */
+}
+
+.card-line-danger::before {
+  background-color: #df4b26; /* Color from navbar */
 }
 
 .shadow {
@@ -66,6 +74,7 @@ body {
   border: 1px solid #dee2e6;
 }
 
-.table-bordered th, .table-bordered td {
+.table-bordered th,
+.table-bordered td {
   border: 1px solid #dee2e6;
 }

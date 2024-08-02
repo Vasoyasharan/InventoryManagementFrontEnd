@@ -17,11 +17,12 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
-
+      {/* Card Section */}
+    
       <section className="dashboard-content">
         <div className="row">
           <div className="col-12 col-md-6 col-lg-3 mb-4">
-            <div className="card shadow card-orders">
+            <div className="card shadow card-line card-line-primary">
               <div className="card-body">
                 <div className="card-title">Total Orders</div>
                 <div className="card-text">1,234</div>
@@ -29,7 +30,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-3 mb-4">
-            <div className="card shadow card-sales">
+            <div className="card shadow card-line card-line-success">
               <div className="card-body">
                 <div className="card-title">Total Sales</div>
                 <div className="card-text">$12,345</div>
@@ -37,7 +38,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-3 mb-4">
-            <div className="card shadow card-customers">
+            <div className="card shadow card-line card-line-warning">
               <div className="card-body">
                 <div className="card-title">New Customers</div>
                 <div className="card-text">123</div>
@@ -45,7 +46,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-3 mb-4">
-            <div className="card shadow card-issues">
+            <div className="card shadow card-line card-line-danger">
               <div className="card-body">
                 <div className="card-title">Pending Issues</div>
                 <div className="card-text">5</div>
@@ -63,8 +64,12 @@ const Dashboard = () => {
               </div>
               <div className="card-body">
                 <ul className="list-unstyled">
-                  <li><strong>User1</strong> added a new product <span className="text-muted">2 hours ago</span></li>
-                  <li><strong>User2</strong> updated an order status <span className="text-muted">5 hours ago</span></li>
+                  <li>
+                    <strong>User1</strong> added a new product <span className="text-muted">2 hours ago</span>
+                  </li>
+                  <li>
+                    <strong>User2</strong> updated an order status <span className="text-muted">5 hours ago</span>
+                  </li>
                   {/* Add more recent activities here */}
                 </ul>
               </div>
@@ -193,9 +198,15 @@ const Dashboard = () => {
               </div>
               <div className="card-body">
                 <ul className="list-unstyled">
-                  <li><strong>Product A</strong> - $500</li>
-                  <li><strong>Product B</strong> - $300</li>
-                  <li><strong>Product C</strong> - $200</li>
+                  <li>
+                    <strong>Product A</strong> - $500
+                  </li>
+                  <li>
+                    <strong>Product B</strong> - $300
+                  </li>
+                  <li>
+                    <strong>Product C</strong> - $200
+                  </li>
                 </ul>
               </div>
             </div>

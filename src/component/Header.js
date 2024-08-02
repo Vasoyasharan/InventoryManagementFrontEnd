@@ -34,7 +34,7 @@ const Header = (props) => {
     <React.Fragment>
       <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap shadow">
         <NavLink className="navbar-brand bg-dark col-md-3 col-lg-2 me-0 px-3" to="/dashboard">
-          Your Own Shop
+          SmartInventory
         </NavLink>
         <div className="navbar-text text-light   ms-3">
           Hello {userName}, {getCurrentGreeting()}
