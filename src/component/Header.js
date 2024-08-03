@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import "../Css/Dashboard.css";
+import "../Css/Sidebar.css";
 import React from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -21,7 +21,7 @@ body {
   z-index: 100;
   padding: 48px 0;
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
-  background: linear-gradient(135deg, #007f72 0%, #13bcab 50%, #9ebbb8 100%);
+  background: linear-gradient(135deg, #050505 0%, #212726 60%, #cad3d2 100%);
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@ body {
   display: flex;
   align-items: center;
   padding-left: 20px;
-  border-bottom: 2px solid #034842;
+  border-bottom: 2px solid #ffffff;
   text-decoration: none;
 }
 
@@ -58,7 +58,8 @@ body {
 }
 
 .sidebar .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(68, 56, 56, 0.1);
+  color:#5dd7db;
 }
 
 .sidebar-footer {
@@ -117,13 +118,13 @@ body {
 padding-top: .75rem;
 padding-bottom: .75rem;
 font-size: 1rem;
-background: linear-gradient(135deg, #009688 0%, #26df9b 100%);
+background: linear-gradient(135deg, #000000 0%, #747776 100%);
 color: #ffffff;
 box-shadow: inset -1px 0 0 rgba(0, .50, .25, .50);
 }
 
 .navbar {
-background: linear-gradient(135deg, #007f72 0%, #13bcab 50%, #1e6059 100%);
+background: linear-gradient(135deg, #000000 0%, #2d3333 50%, #939998 100%);
 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 

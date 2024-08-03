@@ -1,4 +1,4 @@
-import "../Css/Dashboard.css";
+import "../Css/Sidebar.css";
 import Dashboard from "../pages/home/Dashboard";
 import Report from "../pages/Report";
 import CustomerList from "../pages/Customer";

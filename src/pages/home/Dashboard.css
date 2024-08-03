@@ -36,7 +36,7 @@ body {
 }
 
 .card-line-primary::before {
-  background-color: #32c7b8; /* Color from sidebar gradient */
+  background-color: #097066; /* Color from sidebar gradient */
 }
 
 .card-line-success::before {
