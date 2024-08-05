@@ -3,19 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import Validation from "./LoginValidation";
 import axios from "axios";
 import { Url } from "../../Url";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const Login = () => {
     const [values, setValues] = useState({
-        // username: "kminchelle",
-        // password: "0lelplR",
         username: "",
         password: "",
-        // expiresInMins: 1,
     });
 
-    const URL = Url + "login";
-    // const URL = "https://dummyjson.com/auth/login";
+    // const URL = "http://localhost:5500/api/user/signin";
+    const URL = Url + "/user/signin";
 
     const navigate = useNavigate();
 
@@ -34,8 +31,9 @@ const Login = () => {
         try {
             if (!errors.username && !errors.password) {
                 const res = await axios.post(URL, values);
-                if (res.data.token) {
-                    localStorage.setItem("token", res.data.token);
+                if (res.data.payload.token) {
+                    console.log("token is here object")
+                    localStorage.setItem("token", res.data.payload.token);
                     navigate("/dashboard");
                     return toast.success("Login Successfully");
                 } else {
