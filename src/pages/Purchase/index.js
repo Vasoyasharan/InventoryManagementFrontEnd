@@ -4,17 +4,17 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import './PurchaseBillList.css'; // Import the CSS file
+import { ToastContainer, toast } from "react-toastify";
+import "./PurchaseBillList.css"; // Import the CSS file
 
 const PurchaseBillList = (props) => {
     const [data, setData] = useState([]);
-    const URL = Url + "purchase";
+    const URL = Url + "/purchase";
 
     const fetchData = async () => {
         try {
             const response = await axios.get(URL, config);
-            setData(response.data.data);
+            setData(response.data.payload.purchaseData);
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
@@ -27,7 +27,7 @@ const PurchaseBillList = (props) => {
 
     const handleDelete = async (purchaseID) => {
         try {
-            await axios.delete(`${URL}/delete/${purchaseID}`, config);
+            await axios.delete(`${URL}/${purchaseID}`, config);
             fetchData();
             toast.success("Purchase Bill Deleted Successfully");
         } catch (error) {
@@ -67,19 +67,19 @@ const PurchaseBillList = (props) => {
                                 var n = new Date(item.date);
                                 const date = n.toISOString().split("T")[0];
                                 return (
-                                    <tr key={item.purchaseID}>
-                                        <td>{item.billNo}</td>
-                                        <td>{item.vendor.vendorName}</td>
+                                    <tr key={item._id}>
+                                        <td>{item.bill_no}</td>
+                                        <td>{item.vendorDetail.vendorName}</td>
                                         <td>{date}</td>
-                                        <td>{item.product.productName}</td>
+                                        <td>{item.productDetail.productName}</td>
                                         <td>{item.qty}</td>
                                         <td>{item.price}</td>
                                         <td>{item.amount}</td>
                                         <td className="action-icons">
-                                            <NavLink to={{ pathname: `update/${item.purchaseID}` }} state={item} className="link-primary mx-2">
+                                            <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2">
                                                 <FontAwesomeIcon icon={faFilePen} />
                                             </NavLink>
-                                            <NavLink className="link-danger mx-2" onClick={() => handleDelete(item.purchaseID)}>
+                                            <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
                                                 <FontAwesomeIcon icon={faTrashCan} />
                                             </NavLink>
                                         </td>

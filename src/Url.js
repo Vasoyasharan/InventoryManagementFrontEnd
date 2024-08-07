@@ -1,4 +1,4 @@
-const Url = "https://95cd-2409-40c1-101e-6542-4491-ea70-db1e-c6b5.ngrok-free.app/api";
+const Url = " http://localhost:5500/api";
 
 let token = localStorage.getItem("token");
 

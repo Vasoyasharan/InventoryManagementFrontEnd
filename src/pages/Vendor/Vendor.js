@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Url, config } from "../../Url";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 const Vendor = (props) => {
   const params = useParams();
@@ -14,7 +14,7 @@ const Vendor = (props) => {
 
   const [loading, setLoading] = useState(true);
 
-  const URL = Url + "vendor";
+  const URL = Url + "/vendor";
 
   const handleInput = (event) => {
     setValues((prev) => ({
@@ -26,7 +26,7 @@ const Vendor = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post(URL + "/create", values, config);
+      await axios.post(URL + "/", values, config);
       setValues({ vendorName: "", mobileNo: "" });
       navigate("/vendor");
       toast.success("Vendor Created Successfully");
@@ -41,7 +41,7 @@ const Vendor = (props) => {
     event.preventDefault();
     if (!params.id) return;
     try {
-      await axios.put(`${URL}/update/${params.id}`, values, config);
+      await axios.put(`${URL}/${params.id}`, values, config);
       setValues({ vendorName: "", mobileNo: "" });
       navigate("/vendor");
       toast.success("Vendor Updated Successfully");
@@ -54,7 +54,7 @@ const Vendor = (props) => {
     try {
       if (params.id) {
         const response = await axios.get(`${URL}/${params.id}`, config);
-        setValues(response.data.data[0]);
+        setValues(response.data.payload.vendorData[0]);
       }
     } catch (error) {
       console.log(error);

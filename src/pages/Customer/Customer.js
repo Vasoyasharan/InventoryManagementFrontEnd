@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Url, config } from "../../Url";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 const Customer = (props) => {
     const params = useParams();
@@ -14,7 +14,7 @@ const Customer = (props) => {
     });
     const [loading, setLoading] = useState(true); // Corrected this line
 
-    const URL = Url + "customer";
+    const URL = Url + "/customer";
 
     const handleInput = (event) => {
         setValues((prev) => ({
@@ -26,7 +26,7 @@ const Customer = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(URL + "/create", values, config);
+            await axios.post(URL + "/", values, config);
             setValues({ customerName: "", mobileNo: "" });
             navigate("/customer");
             toast.success("Customer Created Successfully");
@@ -41,7 +41,7 @@ const Customer = (props) => {
         event.preventDefault();
         if (!params.id) return;
         try {
-            await axios.put(`${URL}/update/${params.id}`, values, config);
+            await axios.put(`${URL}/${params.id}`, values, config);
             setValues({ customerName: "", mobileNo: "" });
             navigate("/customer");
             toast.success("Customer Updated Successfully");
@@ -54,7 +54,7 @@ const Customer = (props) => {
         try {
             if (params.id) {
                 const response = await axios.get(`${URL}/${params.id}`, config);
-                setValues(response.data.data[0]);
+                setValues(response.data.payload.customerData[0]);
             }
         } catch (error) {
             console.log(error);
@@ -92,7 +92,16 @@ const Customer = (props) => {
                                 <label htmlFor="customerName" className="required-star">
                                     Customer<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <input type="text" className="form-control" id="customerName" placeholder="Please Add Customer" name="customerName" required onChange={handleInput} value={values.customerName} />
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="customerName"
+                                    placeholder="Please Add Customer"
+                                    name="customerName"
+                                    required
+                                    onChange={handleInput}
+                                    value={values.customerName}
+                                />
                             </div>
                         </div>
                         <div className="col-md-6 mb-6">
@@ -100,7 +109,17 @@ const Customer = (props) => {
                                 <label htmlFor="mobileNo">
                                     Mobile No.<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <input type="number" className="form-control" id="mobileNo" placeholder="99XXXXXX01" name="mobileNo" maxLength="10" min="012345" onChange={handleInput} value={values.mobileNo} />
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    id="mobileNo"
+                                    placeholder="99XXXXXX01"
+                                    name="mobileNo"
+                                    maxLength="10"
+                                    min="012345"
+                                    onChange={handleInput}
+                                    value={values.mobileNo}
+                                />
                             </div>
                         </div>
                     </div>
