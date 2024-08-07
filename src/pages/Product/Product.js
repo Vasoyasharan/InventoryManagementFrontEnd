@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Url, config } from "../../Url";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 const Product = (props) => {
   const params = useParams();
@@ -13,7 +13,7 @@ const Product = (props) => {
 
   const [loading, setLoading] = useState(true);
 
-  const URL = Url + "product";
+  const URL = Url + "/product";
 
   const handleInput = (event) => {
     setValues((prev) => ({
@@ -25,7 +25,7 @@ const Product = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post(URL + "/create", values, config);
+      await axios.post(URL + "/", values, config);
       setValues({ productName: "" });
       navigate("/product");
       toast.success("Product Created Successfully");
@@ -40,7 +40,7 @@ const Product = (props) => {
     event.preventDefault();
     if (!params.id) return;
     try {
-      await axios.put(`${URL}/update/${params.id}`, values, config);
+      await axios.put(`${URL}/${params.id}`, values, config);
       setValues({ productName: "" });
       navigate("/product");
       toast.success("Product Updated Successfully");
@@ -53,7 +53,7 @@ const Product = (props) => {
     try {
       if (params.id) {
         const response = await axios.get(`${URL}/${params.id}`, config);
-        setValues(response.data.data[0]);
+        setValues(response.data.payload.productData[0]);
       }
     } catch (error) {
       console.log(error);

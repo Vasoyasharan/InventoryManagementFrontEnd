@@ -9,7 +9,7 @@ const Header = (props) => {
   const navigate = useNavigate();
 
   // Username stored in local storage
-  const userName = localStorage.getItem('userName') || 'Sharan';
+  const userName = localStorage.getItem('userName') || 'Null';
 
   const getCurrentGreeting = () => {
     const currentHour = new Date().getHours();
