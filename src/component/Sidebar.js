@@ -9,7 +9,7 @@ const Sidebar = () => {
     <React.Fragment>
       <div className="container-fluid">
         <div className="row">
-          <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-info sidebar">
+          <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block sidebar">
             <div className="position-sticky pt-3">
               <ul className="nav flex-column">
                 <li className="nav-item">
@@ -43,14 +43,6 @@ const Sidebar = () => {
                   </NavLink>
                 </li>
               </ul>
-              <div className="sidebar-footer">
-                <h5>Customer Care</h5>
-                <div className="contact-icons">
-                  <FontAwesomeIcon icon={faPhone} size="lg" /> &nbsp;
-                  <FontAwesomeIcon icon={faEnvelope} size="lg" /> &nbsp;
-                  <FontAwesomeIcon icon={faHome} size="lg" />
-                </div>
-              </div>
             </div>
           </nav>
         </div>

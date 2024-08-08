@@ -1,78 +1,64 @@
 /* Custom table styling */
 .custom-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin: 20px 0;
-  font-size: 0.875rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px; /* Rounded corners for the table */
-  overflow: hidden; /* Ensure content does not overflow */
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensure content does not overflow */
 }
 
 .custom-table thead {
-  background: linear-gradient(135deg, #003f7d 0%, #005b9b 100%);
-  color: #ffffff;
-  border-bottom: 2px solid #005b9b;
+    background: linear-gradient(135deg, #003f7d 0%, #005b9b 100%);
+    color: #ffffff;
+    border-bottom: 2px solid #005b9b;
 }
 
 .custom-table th {
-  padding: 12px 15px;
-  text-align: left;
-  font-weight: bold;
-  font-size: 1rem;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
 .custom-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #dee2e6;
-  position: relative;
-  overflow: hidden; /* Ensure content does not overflow */
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+    position: relative;
+    overflow: hidden; /* Ensure content does not overflow */
 }
 
 .custom-table tbody tr {
-  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Added box-shadow transition */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Added box-shadow transition */
 }
 
 .custom-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-  border-radius: 4px; /* Rounded corners for rows */
+    background-color: #f9f9f9;
+    border-radius: 4px; /* Rounded corners for rows */
 }
 
 .custom-table tbody tr:hover {
-  background-color: #e0f7fa;
-  transform: scale(1.02);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
+    background-color: #e0f7fa;
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
 }
 
 .custom-table tbody td:last-child {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 .action-icons a {
-  color: #007bff;
-  font-size: 1.1rem; /* Larger icons */
-  transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease; /* Added background color transition */
-  padding: 0.5rem;
-  border-radius: 50%; /* Circular background for icons */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.action-icons a:hover {
-  color: #0056b3;
-  transform: scale(1.2);
-  background-color: rgba(0, 123, 255, 0.1); /* Light background on hover */
-}
-
-.link-danger {
-  color: #dc3545;
-}
-
-.link-danger:hover {
-  color: #c82333;
+    color: #007bff;
+    font-size: 1.1rem; /* Larger icons */
+    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease; /* Added background color transition */
+    padding: 0.5rem;
+    border-radius: 50%; /* Circular background for icons */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
