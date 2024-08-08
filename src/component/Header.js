@@ -4,7 +4,6 @@ import React from "react";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-// import companyLogo from "../../public/inventoryLogo.png"
 
 const Header = (props) => {
     const navigate = useNavigate();
@@ -34,14 +33,14 @@ const Header = (props) => {
     return (
         <React.Fragment>
             <header className="navbar sticky-top flex-md-nowrap shadow">
-                <NavLink className="navbar-brand col-md-3 col-lg-2 me-0 px-3" to="/dashboard">
+                <NavLink className="navbar-brand me-0 px-3" to="/dashboard">
                     <img src={`${process.env.PUBLIC_URL}/inventoryLogo.png`} alt="logo" style={{ width: "250px", height: "55px" }} />
                 </NavLink>
                 <div className="navbar-text text-dark ms-3">
-                    Hello {userName}, {getCurrentGreeting()}
+                    Hello <u>{userName}</u>, <i>{getCurrentGreeting()}</i>
                 </div>
                 <div className="navbar-nav ms-auto">
-                    <div className="link-lg link-dark me-3" style={{ cursor: "pointer" }} onClick={handleLogout}>
+                    <div className="link-lg link-dark" style={{ cursor: "pointer", padding: "6px 10px" }} onClick={handleLogout}>
                         LogOut
                         <FontAwesomeIcon icon={faRightFromBracket} size="2x" className="mx-2" />
                     </div>

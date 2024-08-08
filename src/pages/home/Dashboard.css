@@ -4,6 +4,7 @@ body {
 
 .dashboard-main {
   padding-top: 20px;
+  background-color: #fcfcfc;
 }
 
 .dashboard-content .card {

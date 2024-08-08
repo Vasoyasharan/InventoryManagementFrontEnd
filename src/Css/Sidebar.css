@@ -23,7 +23,7 @@ body {
     z-index: 100;
     padding: 48px 0;
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
-    background-color: rgba(238, 238, 238, 0.411);
+    background-color: rgb(245, 251, 255);
     color: #000000;
     display: flex;
     flex-direction: column;
@@ -58,7 +58,7 @@ body {
 
 .sidebar .nav-link.active {
     background-color: rgb(183, 183, 183);
-    color: #ffffff;
+    color: #00b0b6;
     border-radius: 10px;
 }
 
@@ -70,7 +70,7 @@ body {
 
 .contact-icons {
     display: flex;
-    gap: 10px;
+    gap: 10px;  
 }
 
 /* Responsive */
@@ -109,16 +109,14 @@ body {
 
 /* Navbar */
 .navbar-brand {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    font-size: 1rem;
     background-color: white;
+    width: 266px !important;
+    height: 69ipx !important;
 }
 
 .navbar {
     height: 70px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(69, 161, 161, 0.3);
 }
 
 .navbar .navbar-toggler {
@@ -141,4 +139,22 @@ body {
 .form-control-dark {
     border-color: transparent;
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+.navbar-text {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+/* LogOut button  */
+.navbar-nav {
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 0.1px solid black;
+    transition: transform 0.3s;
+}
+
+.navbar-nav:hover {
+    background-color: #b4b4b4;
+    transform: translateY(-5px);
 }
