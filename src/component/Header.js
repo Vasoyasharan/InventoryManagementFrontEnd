@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "../Css/Sidebar.css";
 import React from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 // import companyLogo from "../../public/inventoryLogo.png"
