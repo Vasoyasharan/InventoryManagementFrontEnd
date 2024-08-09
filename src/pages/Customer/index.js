@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Url, config } from "../../Url";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen, faUserPlus, faUserSlash } from "@fortawesome/free-solid-svg-icons";
