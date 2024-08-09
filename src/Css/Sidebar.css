@@ -58,7 +58,7 @@ body {
 
 .sidebar .nav-link.active {
     background-color: rgb(183, 183, 183);
-    color: #00b0b6;
+    color: #00c2c9;
     border-radius: 10px;
 }
 
@@ -70,7 +70,7 @@ body {
 
 .contact-icons {
     display: flex;
-    gap: 10px;  
+    gap: 10px;
 }
 
 /* Responsive */
