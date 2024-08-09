@@ -36,14 +36,14 @@
 }
 
 .custom-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #fafafa;
     border-radius: 4px; /* Rounded corners for rows */
 }
 
 .custom-table tbody tr:hover {
-    background-color: #e0f7fa;
+    background-color: #e8e8e87d !important;
     transform: scale(1.02);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .custom-table tbody td:last-child {
@@ -53,7 +53,21 @@
 }
 
 .action-icons a {
-    color: #007bff;
+    font-size: 1.1rem; /* Larger icons */
+    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease; /* Added background color transition */
+    /* padding: 0.3rem; */
+    border-radius: 50%; /* Circular background for icons */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-icons a:hover {
+    transform: scale(1.2);
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.link-danger {
     font-size: 1.1rem; /* Larger icons */
     transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease; /* Added background color transition */
     padding: 0.5rem;
@@ -63,18 +77,9 @@
     justify-content: center;
 }
 
-.action-icons a:hover {
-    color: #0056b3;
-    transform: scale(1.2);
-    background-color: rgba(0, 123, 255, 0.1); /* Light background on hover */
-}
-
-.link-danger {
-    color: #dc3545;
-}
-
 .link-danger:hover {
-    color: #c82333;
+    transform: scale(1.2);
+    background-color: rgba(0, 123, 255, 0.1);
 }
 
 /* Form Styling */
