@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Url, config } from "../../Url";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -18,7 +18,6 @@ const SaleBill = (props) => {
         price: 0,
         amount: 0,
     });
-    console.log("values", values);
 
     const [customers, setCustomers] = useState([]);
     const [products, setProducts] = useState([]);
@@ -56,8 +55,8 @@ const SaleBill = (props) => {
         event.preventDefault();
         try {
             await axios.post(URL, values, config);
-            navigate("/purchase");
-            toast.success("Purchase Bill Created Successfully");
+            navigate("/sale");
+            toast.success("Sale Bill Created Successfully");
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
@@ -80,10 +79,10 @@ const SaleBill = (props) => {
         try {
             if (params.id) {
                 const response = await axios.get(`${URL}/${params.id}`, config);
-                const purchaseData = response.data.payload.purchaseData[0];
-                const formattedDate = new Date(purchaseData.date).toISOString().split("T")[0];
+                const saleData = response.data.payload.saleData[0];
+                const formattedDate = new Date(saleData.date).toISOString().split("T")[0];
                 setValues({
-                    ...purchaseData,
+                    ...saleData,
                     date: formattedDate,
                 });
             }
@@ -102,7 +101,7 @@ const SaleBill = (props) => {
     }, [params.id]);
 
     const handleCancel = () => {
-        navigate("/purchase");
+        navigate("/sale");
     };
 
     let name = "";
@@ -116,18 +115,18 @@ const SaleBill = (props) => {
         <>
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
-                    <h3 className="m-0">{name} PURCHASE BILL</h3>
+                    <h3 className="m-0">{name} SALE BILL</h3>
                 </div>
                 <form onSubmit={(e) => handleSubmit(e, values)}>
                     <div className="row mt-3">
                         <div className="col-md-6 mb-6">
                             <div className="form-group">
-                                <label htmlFor="vendorName" className="required-star">
-                                    Vendor<span style={{ color: "red", marginLeft: "3px" }}>*</span>
+                                <label htmlFor="customerName" className="required-star">
+                                    Customer<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <select className="form-select" id="vendorDetail" name="vendorDetail" onChange={(e) => handleInput(e, e.target.value)} value={values.vendorDetail}>
+                                <select className="form-select" id="customerDetail" name="customerDetail" onChange={(e) => handleInput(e, e.target.value)} value={values.customerDetail}>
                                     <option disabled value="">
-                                        Select Vendor
+                                        Select Customer
                                     </option>
                                     {customers &&
                                         customers.map((item) => (
@@ -143,15 +142,7 @@ const SaleBill = (props) => {
                                 <label htmlFor="bill_no">
                                     Bill No.<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="bill_no"
-                                    placeholder="Enter Bill No."
-                                    name="bill_no"
-                                    onChange={(e) => handleInput(e, e.target.value)}
-                                    value={values.bill_no}
-                                />
+                                <input type="text" className="form-control" id="bill_no" placeholder="Enter Bill No." name="bill_no" onChange={(e) => handleInput(e, e.target.value)} value={values.bill_no} />
                             </div>
                         </div>
                         <div className="col-md-6 mb-6">
@@ -159,15 +150,7 @@ const SaleBill = (props) => {
                                 <label htmlFor="date">
                                     Date<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    id="date"
-                                    placeholder="Enter Bill Date"
-                                    name="date"
-                                    onChange={(e) => handleInput(e, new Date(e.target.value).toISOString())}
-                                    value={dayjs(values.date).format("YYYY-MM-DD")}
-                                />
+                                <input type="date" className="form-control" id="date" placeholder="Enter Bill Date" name="date" onChange={(e) => handleInput(e, new Date(e.target.value).toISOString())} value={dayjs(values.date).format("YYYY-MM-DD")} />
                             </div>
                         </div>
                     </div>
@@ -177,16 +160,8 @@ const SaleBill = (props) => {
                                 <label htmlFor="productName" className="required-star">
                                     Product<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <select
-                                    className="form-select"
-                                    id="productDetail"
-                                    name="productDetail"
-                                    onChange={(e) => handleInput(e, e.target.value)}
-                                    value={values.productDetail}
-                                >
-                                    <option value="" disabled>
-                                        Select Product
-                                    </option>
+                                <select className="form-select" id="productDetail" name="productDetail" onChange={(e) => handleInput(e, e.target.value)} value={values.productDetail}>
+                                    <option disabled value="">Select Product</option>
                                     {products &&
                                         products.map((item) => (
                                             <option value={item._id} key={item._id}>
@@ -201,15 +176,7 @@ const SaleBill = (props) => {
                                 <label htmlFor="qty">
                                     Qty.<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    id="qty"
-                                    placeholder="Enter Quantity"
-                                    name="qty"
-                                    onChange={(e) => handleInput(e, Number(e.target.value))}
-                                    value={values.qty || ""}
-                                />
+                                <input type="number" className="form-control" id="qty" placeholder="Enter Quantity" name="qty" onChange={(e) => handleInput(e, Number(e.target.value))} value={values.qty || ""} />
                             </div>
                         </div>
                         <div className="col-md-3 mb-3">
@@ -217,15 +184,7 @@ const SaleBill = (props) => {
                                 <label htmlFor="price">
                                     Price<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    id="price"
-                                    placeholder="Enter Price"
-                                    name="price"
-                                    onChange={(e) => handleInput(e, Number(e.target.value))}
-                                    value={values.price || ""}
-                                />
+                                <input type="number" className="form-control" id="price" placeholder="Enter Price" name="price" onChange={(e) => handleInput(e, Number(e.target.value))} value={values.price || ""} />
                             </div>
                         </div>
                         {/* <div className="col-md-3 mb-3">

@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
-// import "./PurchaseBillList.css"; // Import the CSS file
 
 const SaleBillList = (props) => {
     const [data, setData] = useState([]);
@@ -14,7 +13,7 @@ const SaleBillList = (props) => {
     const fetchData = async () => {
         try {
             const response = await axios.get(URL, config);
-            setData(response.data.payload.purchaseData);
+            setData(response.data.payload.saleData);
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
@@ -29,7 +28,7 @@ const SaleBillList = (props) => {
         try {
             await axios.delete(`${URL}/${saleID}`, config);
             fetchData();
-            toast.success("Purchase Bill Deleted Successfully");
+            toast.success("Sale Bill Deleted Successfully");
         } catch (error) {
             return toast.error(error.response.data.message);
         }
@@ -52,7 +51,7 @@ const SaleBillList = (props) => {
                     <thead>
                         <tr>
                             <th>Bill No.</th>
-                            <th>Vendor Name</th>
+                            <th>Customer Name</th>
                             <th>Date</th>
                             <th>Product</th>
                             <th>Qty.</th>

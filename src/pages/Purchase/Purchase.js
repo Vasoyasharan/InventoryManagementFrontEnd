@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Url, config } from "../../Url";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import dayjs from "dayjs";
 
 const PurchaseBill = (props) => {
