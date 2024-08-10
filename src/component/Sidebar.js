@@ -23,6 +23,11 @@ const Sidebar = () => {
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
+                                    <NavLink className="nav-link" to="/sale">
+                                        <FontAwesomeIcon icon={faFileInvoice} /> <span className="nav-text">Sales Bill</span>
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item">
                                     <NavLink className="nav-link" to="/product">
                                         <FontAwesomeIcon icon={faBoxOpen} /> <span className="nav-text">Products</span>
                                     </NavLink>
