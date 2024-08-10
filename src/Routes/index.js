@@ -9,11 +9,15 @@ import ProductList from "../pages/Product";
 import Product from "../pages/Product/Product";
 import PurchaseBillList from "../pages/Purchase";
 import PurchaseBill from "../pages/Purchase/Purchase";
+import SalesBill from "../pages/Sale/Sales";
+import SaleBillList from "../pages/Sale";
 
 const PageRoutes = [
   { path: "/dashboard", element: Dashboard, name: "DASHBOARD" },
   { path: "/purchase", element: PurchaseBillList, name: "PURCHASE BILL" },
   { path: "/purchase/:type/:id?", element: PurchaseBill , name: "PURCHASE BILL" },
+  { path: "/sale/", element: SaleBillList, name: "SALES BILL" },
+  { path: "/Sales/:type/:id?", element: SalesBill , name: "SALES BILL" },
   { path: "/product", element: ProductList, name: "PRODUCT" },
   { path: "/product/:type/:id?", element: Product },
   { path: "/customer", element: CustomerList, name: "CUSTOMER" },
