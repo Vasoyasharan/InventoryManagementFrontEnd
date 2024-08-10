@@ -30,6 +30,10 @@ const Header = (props) => {
         }
     };
 
+    const goToTerms = () => {
+        navigate("/terms-conditions");
+    };
+
     return (
         <React.Fragment>
             <header className="navbar sticky-top flex-md-nowrap shadow">
@@ -41,14 +45,15 @@ const Header = (props) => {
                 </div>
 
                 <div className="navbar-actions ms-auto d-flex align-items-center">
-                    <button type="button" className="btn btn-sm btn-outline-secondary">
+                    <button type="button" className="btn btn-sm btn-outline-secondary" onClick={goToTerms}>
                         <FontAwesomeIcon icon={faFileContract} className="me-1" />
                         Terms & Conditions
                     </button>
-                    <button type="button" className="btn btn-sm btn-outline-secondary">
+                    <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => navigate("/privacy-policy")}>
                         <FontAwesomeIcon icon={faShieldAlt} className="me-1" />
                         Privacy Policy
                     </button>
+
                     <div className="logout-btn" onClick={handleLogout}>
                         LogOut
                         <FontAwesomeIcon icon={faRightFromBracket} size="2x" className="mx-2" />

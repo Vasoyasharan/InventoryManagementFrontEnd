@@ -17,6 +17,7 @@ const AuthProtected = (props) => {
     </>
   )
 }
+
 const ProtectedRoute = (props) => {
   const Cmp = props.element
   const navigate = useNavigate()
