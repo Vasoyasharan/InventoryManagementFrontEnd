@@ -110,8 +110,7 @@ body {
 /* Navbar */
 .navbar-brand {
     background-color: white;
-    width: 266px !important;
-    height: 69ipx !important;
+    width: 265px !important;
 }
 
 .navbar {
@@ -142,12 +141,13 @@ body {
 }
 
 .navbar-text {
-    font-size: 19px;
+    font-size: 19px;    
     font-weight: 700;
 }
 
 /* LogOut button  */
 .navbar-nav {
+    height: 40px;
     background-color: #ffffff;
     border-radius: 5px;
     border: 0.1px solid black;
