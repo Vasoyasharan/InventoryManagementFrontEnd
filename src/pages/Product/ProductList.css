@@ -6,8 +6,8 @@
     margin: 20px 0;
     font-size: 0.875rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; /* Rounded corners for the table */
-    overflow: hidden; /* Ensure content does not overflow */
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .custom-table thead {
@@ -28,21 +28,21 @@
     text-align: left;
     border-bottom: 1px solid #dee2e6;
     position: relative;
-    overflow: hidden; /* Ensure content does not overflow */
+    overflow: hidden;
 }
 
 .custom-table tbody tr {
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Added box-shadow transition */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .custom-table tbody tr:nth-child(even) {
-    border-radius: 4px; /* Rounded corners for rows */
+    border-radius: 4px;
 }
 
 .custom-table tbody tr:hover {
     background-color: #e8e8e87d !important;
     transform: scale(1.02);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .custom-table tbody td:last-child {

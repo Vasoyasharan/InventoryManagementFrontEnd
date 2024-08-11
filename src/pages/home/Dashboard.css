@@ -13,7 +13,7 @@ body {
   padding: 15px;
   margin-bottom: 20px;
   position: relative;
-  background-color: #ffffff; /* Ensure cards have a white background */
+  background-color: #ffffff;
 }
 
 .dashboard-content .card-title {
@@ -37,19 +37,19 @@ body {
 }
 
 .card-line-primary::before {
-  background-color: #097066; /* Color from sidebar gradient */
+  background-color: #097066;
 }
 
 .card-line-success::before {
-  background-color: #3f4add; /* Another color from sidebar gradient */
+  background-color: #3f4add;
 }
 
 .card-line-warning::before {
-  background-color: #c9cc1b; /* Color from navbar */
+  background-color: #c9cc1b;
 }
 
 .card-line-danger::before {
-  background-color: #df4b26; /* Color from navbar */
+  background-color: #df4b26;
 }
 
 .shadow {
@@ -57,19 +57,15 @@ body {
 }
 
 .btn-outline-secondary {
-  color: #007f72; /* Match primary color */
-  border-color: #007f72; /* Match primary color */
+  color: #007f72;
+  border-color: #007f72;
 }
 
 .btn-outline-secondary:hover {
-  background-color: #007f72; /* Match primary color */
+  background-color: #8ac1bb;
   color: #ffffff;
-  border-color: #007f72; /* Match primary color */
+  border-color: #007f72;
 }
-
-/* .calendar {
-  Basic calendar styling
-} */
 
 .table-bordered {
   border: 1px solid #dee2e6;

@@ -7,9 +7,9 @@ body {
 }
 
 .container-fluid {
-    margin-left: 250px; /* Default sidebar width */
+    margin-left: 250px;
     transition: margin-left 0.3s ease;
-    padding: 0 20px; /* Add some padding for content */
+    padding: 0 20px;
 }
 
 /* Sidebar */
@@ -76,11 +76,11 @@ body {
 /* Responsive */
 @media (max-width: 770px) {
     .sidebar {
-        width: 60px; /* Collapsed width */
+        width: 60px;
     }
 
     .container-fluid {
-        margin-left: 60px; /* Adjust based on collapsed sidebar width */
+        margin-left: 60px;
     }
 
     .sidebar .nav-link {
@@ -99,7 +99,7 @@ body {
 
 @media (min-width: 771px) {
     .container-fluid {
-        margin-left: 250px; /* Adjust based on sidebar width */
+        margin-left: 250px;
     }
 
     .sidebar .nav-text {
