@@ -1,7 +1,36 @@
 import React from "react";
+import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import "./Dashboard.css";
+import TaskManager from "./TaskManager";
 
 const Dashboard = () => {
+    const data = [
+        { name: 'Jan', orders: 2100, sales: 2500 },
+        { name: 'Feb', orders: 2000, sales: 2200 },
+        { name: 'Mar', orders: 2200, sales: 2400 },
+        { name: 'Apr', orders: 2300, sales: 2600 },
+        { name: 'May', orders: 2400, sales: 2700 },
+        { name: 'Jun', orders: 2500, sales: 2900 },
+    ];
+
+    const productPerformance = [
+        { name: 'Products A', uv: 3000, pv: 2400 },
+        { name: 'Products B', uv: 2000, pv: 2000 },
+        { name: 'Products C', uv: 4000, pv: 2400 },
+        { name: 'Products D', uv: 3000, pv: 2200 },
+        { name: 'Products E', uv: 2000, pv: 1500 },
+        { name: 'Products F', uv: 1000, pv: 1200 },
+    ];
+
+    const customerData = [
+        { name: 'Group A', value: 400 },
+        { name: 'Group B', value: 300 },
+        { name: 'Group C', value: 300 },
+        { name: 'Group D', value: 200 },
+    ];
+
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
     return (
         <main className="dashboard-main col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -21,8 +50,8 @@ const Dashboard = () => {
                     </button>
                 </div>
             </div>
-            {/* Card Section */}
 
+            {/* Card Section */}
             <section className="dashboard-content">
                 <div className="row">
                     <div className="col-12 col-md-6 col-lg-3 mb-4">
@@ -59,161 +88,111 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Recent Activity Feed */}
-                <div className="row">
-                    <div className="col-12 mb-4">
+                {/* Sales Overview and Product Performance */}
+                <div className="row mb-4">
+                    <div className="col-md-6">
                         <div className="card shadow">
                             <div className="card-header">
-                                <h4 className="card-title">Recent Activity Feed</h4>
+                                <h4 className="card-title">Sales Overview</h4>
                             </div>
                             <div className="card-body">
-                                <ul className="list-unstyled">
-                                    <li>
-                                        <strong>User1</strong> added a new product <span className="text-muted">2 hours ago</span>
-                                    </li>
-                                    <li>
-                                        <strong>User2</strong> updated an order status <span className="text-muted">5 hours ago</span>
-                                    </li>
-                                    {/* Add more recent activities here */}
-                                </ul>
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <LineChart data={data}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="orders" stroke="#8884d8" />
+                                        <Line type="monotone" dataKey="sales" stroke="#82ca9d" />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="card shadow">
+                            <div className="card-header">
+                                <h4 className="card-title">Product Performance</h4>
+                            </div>
+                            <div className="card-body">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart data={productPerformance}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="uv" fill="#8884d8" />
+                                        <Bar dataKey="pv" fill="#82ca9d" />
+                                    </BarChart>
+                                </ResponsiveContainer>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Calendar View */}
-                <div className="row">
-                    <div className="col-12 mb-4">
+                {/* Customer Distribution */}
+                <div className="row mb-4">
+                    <div className="col-12">
                         <div className="card shadow">
                             <div className="card-header">
-                                <h4 className="card-title">Calendar View</h4>
+                                <h4 className="card-title">Customer Distribution</h4>
                             </div>
                             <div className="card-body">
-                                <div className="calendar">
-                                    <table className="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Sun</th>
-                                                <th>Mon</th>
-                                                <th>Tue</th>
-                                                <th>Wed</th>
-                                                <th>Thu</th>
-                                                <th>Fri</th>
-                                                <th>Sat</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>28</td>
-                                                <td>29</td>
-                                                <td>30</td>
-                                                <td>31</td>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>3</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>5</td>
-                                                <td>6</td>
-                                                <td>7</td>
-                                                <td>8</td>
-                                                <td>9</td>
-                                                <td>10</td>
-                                            </tr>
-                                            <tr>
-                                                <td>11</td>
-                                                <td>12</td>
-                                                <td>13</td>
-                                                <td>14</td>
-                                                <td>15</td>
-                                                <td>16</td>
-                                                <td>17</td>
-                                            </tr>
-                                            <tr>
-                                                <td>18</td>
-                                                <td>19</td>
-                                                <td>20</td>
-                                                <td>21</td>
-                                                <td>22</td>
-                                                <td>23</td>
-                                                <td>24</td>
-                                            </tr>
-                                            <tr>
-                                                <td>25</td>
-                                                <td>26</td>
-                                                <td>27</td>
-                                                <td>28</td>
-                                                <td>29</td>
-                                                <td>30</td>
-                                                <td>1</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <PieChart>
+                                        <Pie
+                                            data={customerData}
+                                            cx="50%"
+                                            cy="50%"
+                                            labelLine={false}
+                                            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                                            outerRadius={100}
+                                            fill="#8884d8"
+                                            dataKey="value"
+                                        >
+                                            {customerData.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip />
+                                    </PieChart>
+                                </ResponsiveContainer>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* User Activity Matrix */}
-                <div className="row">
-                    <div className="col-12 mb-4">
+                {/* Additional Interesting Element */}
+                <div className="row mb-4">
+                    <div className="col-12">
                         <div className="card shadow">
                             <div className="card-header">
-                                <h4 className="card-title">User Activity Matrix</h4>
+                                <h4 className="card-title">Performance Comparison</h4>
                             </div>
                             <div className="card-body">
-                                <table className="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>User</th>
-                                            <th>Login</th>
-                                            <th>Orders</th>
-                                            <th>Sales</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>User1</td>
-                                            <td>5</td>
-                                            <td>10</td>
-                                            <td>$200</td>
-                                        </tr>
-                                        <tr>
-                                            <td>User2</td>
-                                            <td>3</td>
-                                            <td>7</td>
-                                            <td>$150</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <LineChart data={data}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="orders" stroke="#8884d8" />
+                                        <Line type="monotone" dataKey="sales" stroke="#82ca9d" />
+                                    </LineChart>
+                                </ResponsiveContainer>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Top Products */}
+
+                {/* Task Manager */}
                 <div className="row">
                     <div className="col-12 mb-4">
-                        <div className="card shadow">
-                            <div className="card-header">
-                                <h4 className="card-title">Top Products</h4>
-                            </div>
-                            <div className="card-body">
-                                <ul className="list-unstyled">
-                                    <li>
-                                        <strong>Product A</strong> - $500
-                                    </li>
-                                    <li>
-                                        <strong>Product B</strong> - $300
-                                    </li>
-                                    <li>
-                                        <strong>Product C</strong> - $200
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <TaskManager />
                     </div>
                 </div>
             </section>
