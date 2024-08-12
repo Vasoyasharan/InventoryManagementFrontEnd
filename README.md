@@ -70,3 +70,37 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+{
+    "success": true,
+    "message": "Successful",
+    "count": 7,
+    "payload": {
+        "transactionData": [
+            {
+                "_id": "66b09bce00e1d8e921ba0912",
+                "productID": {
+                    "_id": "66b0466cc2d4fd3a69003f42",
+                    "productName": "candies",
+                    "stock": 110
+                },
+                "transaction_type": "Purchase",
+                "transactionId": "66b09bce00e1d8e921ba0910",
+                "vendorID": {
+                    "_id": "66ac9f47879a35e7e47a6b7f",
+                    "vendorName": "peter",
+                    "mobileNo": "1234567890"
+                },
+                "qty": 5,
+                "price": 50,
+                "amount": 250,
+                "transaction_date": "2024-08-05T09:30:54.227Z"
+            },
+        ]
+    }
+}
+
+I have this type of report response data and now i want to create the reactJS cards which conatin the this data in that and this data will be come from the API from the server side and now my API is 
+
+http://localhost:5500/api/reports

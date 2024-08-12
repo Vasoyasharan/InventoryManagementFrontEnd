@@ -11,7 +11,7 @@ const Header = (props) => {
     const navigate = useNavigate();
 
  // Username stored in local storage
- const userName = localStorage.getItem("username") || "null";
+ const userName = (localStorage.getItem("username") || "null").toUpperCase();
 
  const getCurrentGreeting = () => {
      const currentHour = new Date().getHours();
@@ -25,10 +25,10 @@ const Header = (props) => {
  };
 
  const handleLogout = () => {
-    if (window.confirm("Are you sure you want to Log Out")) {
+    if (window.confirm("Are you sure you want to Log Out ?")) {
         localStorage.clear();
         navigate("/login");
-        return toast.success("Logout Successfully");
+        return toast.success("Logout Successfully...");
     }
 };
 

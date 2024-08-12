@@ -1,6 +1,6 @@
 import "../Css/Sidebar.css";
 import Dashboard from "../pages/home/Dashboard";
-import Report from "../pages/Report";
+import Report from "../pages/Reports/Report";
 import CustomerList from "../pages/Customer";
 import Customer from "../pages/Customer/Customer";
 import VendorList from "../pages/Vendor";
