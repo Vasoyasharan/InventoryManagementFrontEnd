@@ -1,8 +1,18 @@
 import "../Css/Sidebar.css";
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTachometerAlt, faFileInvoice, faBoxOpen, faUsers, faTruck, faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { faTachometerAlt, faFileInvoice, faReceipt, faBoxOpen, faUsers, faTruck, faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
+
+const sidebarItems = [
+    { to: "/dashboard", icon: faTachometerAlt, text: "Dashboard" },
+    { to: "/purchase", icon: faFileInvoice, text: "Purchase Bill" },
+    { to: "/sale", icon: faReceipt, text: "Sales Bill" },
+    { to: "/product", icon: faBoxOpen, text: "Products" },
+    { to: "/customer", icon: faUsers, text: "Customers" },
+    { to: "/vendor", icon: faTruck, text: "Vendors" },
+    { to: "/report", icon: faChartLine, text: "Report" },
+];
 
 const Sidebar = () => {
     return (
@@ -12,41 +22,13 @@ const Sidebar = () => {
                     <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block sidebar">
                         <div className="position-sticky pt-3">
                             <ul className="nav flex-column">
-                                <li className="nav-item">
-                                    <NavLink className="nav-link" aria-current="page" to="/dashboard">
-                                        <FontAwesomeIcon icon={faTachometerAlt} /> <span className="nav-text">Dashboard</span>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink className="nav-link" to="/purchase">
-                                        <FontAwesomeIcon icon={faFileInvoice} /> <span className="nav-text">Purchase Bill</span>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink className="nav-link" to="/sale">
-                                        <FontAwesomeIcon icon={faFileInvoice} /> <span className="nav-text">Sales Bill</span>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink className="nav-link" to="/product">
-                                        <FontAwesomeIcon icon={faBoxOpen} /> <span className="nav-text">Products</span>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink className="nav-link" to="/customer">
-                                        <FontAwesomeIcon icon={faUsers} /> <span className="nav-text">Customers</span>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink className="nav-link" to="/vendor">
-                                        <FontAwesomeIcon icon={faTruck} /> <span className="nav-text">Vendors</span>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink className="nav-link" to="/report">
-                                        <FontAwesomeIcon icon={faChartLine} /> <span className="nav-text">Report</span>
-                                    </NavLink>
-                                </li>
+                                {sidebarItems.map((item, index) => (
+                                    <li key={index} className="nav-item">
+                                        <NavLink className="nav-link" to={item.to}>
+                                            <FontAwesomeIcon icon={item.icon} /> <span className="nav-text">{item.text}</span>
+                                        </NavLink>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </nav>
