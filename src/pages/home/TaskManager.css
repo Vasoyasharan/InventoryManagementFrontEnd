@@ -1,0 +1,33 @@
+.task-manager .card-header {
+  background-color: #007bff;
+  color: white;
+}
+
+.task-manager .task-input input {
+  border-radius: 4px;
+}
+
+.task-manager .btn-primary {
+  width: 100%;
+}
+
+.task-manager .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-manager .task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.task-manager .form-select {
+  width: 150px;
+  border-radius: 4px;
+}
+
+.task-manager .btn-info, .task-manager .btn-danger {
+  padding: 4px 8px;
+  border-radius: 4px;
+}
