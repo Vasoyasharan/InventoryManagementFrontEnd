@@ -4,6 +4,7 @@ import Validation from "./SignupValidation";
 import { Url } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
+import signUpImage from "../../images/SignupImage.png";
 
 const Signup = () => {
     const [values, setValues] = useState({
@@ -50,32 +51,73 @@ const Signup = () => {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center bg-dark vh-100">
-            <div className="bg-white p-3 rounded w-25">
-                <h2>Sign-Up</h2>
-                <form action="" onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="username">
-                            <strong>Username</strong>
-                        </label>
-                        <input type="text" placeholder="Enter Username" name="username" className="form-control rounded-0" onChange={handleInput} value={values.username} />
-                        {errors.username && <span className="text-danger">{errors.username}</span>}
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="password">
-                            <strong>Password</strong>
-                        </label>
-                        <input type="password" placeholder="Enter Password" name="password" className="form-control rounded-0" onChange={handleInput} value={values.password} />
-                        {errors.password && <span className="text-danger">{errors.password}</span>}
-                    </div>
-                    <button type="submit" className="btn btn-outline-success w-100 rounded-0">
-                        <strong>Sign Up</strong>
-                    </button>
-                    <p>You are agree to our terms and policies</p>
-                    <Link to="/" className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none">
-                        Login
-                    </Link>
-                </form>
+        <div className="d-flex justify-content-center align-items-center  vh-100">
+            <div className="bg-white p-4 rounded d-flex container shadow-lg">
+                {/* Left Side with SVG/PNG */}
+                <div className="w-50 d-flex justify-content-center align-items-center pe-4">
+                    <img
+                        src={signUpImage}
+                        alt="Signup Illustration"
+                        className="img-fluid"
+                    />
+                </div>
+                {/* Right Side with Signup Form */}
+                <div className="w-50 ps-4">
+                    <form action="" onSubmit={handleSubmit}>
+                        <h6>Join us today !!</h6>
+                        <div className="mb-3">
+                            <h2 style={{ color: "rgb(21 151 35)" }}>Sign-Up</h2>
+                            <hr />
+                            <label htmlFor="username">
+                                <strong>Username</strong>
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Enter Username"
+                                name="username"
+                                className="form-control rounded-2"
+                                onChange={handleInput}
+                                value={values.username}
+                            />
+                            {errors.username && (
+                                <span className="text-danger">
+                                    {errors.username}
+                                </span>
+                            )}
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password">
+                                <strong>Password</strong>
+                            </label>
+                            <input
+                                type="password"
+                                placeholder="Enter Password"
+                                name="password"
+                                className="form-control rounded-2"
+                                onChange={handleInput}
+                                value={values.password}
+                            />
+                            {errors.password && (
+                                <span className="text-danger">
+                                    {errors.password}
+                                </span>
+                            )}
+                        </div>
+                        <p>You agree to our terms and policies</p>
+                        <button
+                            type="submit"
+                            className="btn btn-outline-success w-100 rounded-1 mb-3"
+                        >
+                            <strong>Sign Up</strong>
+                        </button>
+                        <Link
+                            to="/"
+                            className="btn w-100 loginButton text-decoration-none"
+                        >
+                            Login
+                        </Link>
+                    </form>
+                </div>
             </div>
         </div>
     );
