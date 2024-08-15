@@ -18,9 +18,20 @@ const Report = () => {
             setLoading(false);
         } catch (error) {
             console.log(error);
-            toast.error(error.response?.data?.message || "An error occurred");
+            toast.error(error.response.data.message);
             setError(error);
             setLoading(false);
+        }
+    };
+
+    const deleteTransaction = async (transactionId) => {
+        try {
+            await axios.delete(`${URL}/${transactionId}`, config);
+            toast.success("Report deleted successfully!");
+            fetchReports()
+        } catch (error) {
+            console.log(error);
+            toast.error("Failed to delete the report");
         }
     };
 
@@ -37,28 +48,56 @@ const Report = () => {
     }
 
     return (
-        <div>
-          {transactions.map((transaction) => (
-            <div key={transaction._id} className="card">
-              <h3>{transaction.productID.productName}</h3>
-              <p>Transaction Type: {transaction.transaction_type}</p>
-              <p>Quantity: {transaction.qty}</p>
-              <p>Price: ₹{transaction.price}</p>
-              <p>Amount: ₹{transaction.amount}</p>
-              {transaction.transaction_type === 'Sale' ? (
-                <>
-                  <p>Customer: {transaction.customerID.customerName}</p>
-                  <p>Mobile: {transaction.customerID.mobileNo}</p>
-                </>
-              ) : (
-                <>
-                  <p>Vendor: {transaction.vendorID.vendorName}</p>
-                  <p>Mobile: {transaction.vendorID.mobileNo}</p>
-                </>
-              )}
-              <p>Date: {new Date(transaction.transaction_date).toLocaleDateString()}</p>
-            </div>
-          ))}
+        <div className="container-fluid">
+          <div className="row">
+            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+              <div className="row">
+                {transactions.map((transaction) => (
+                  <div
+                    key={transaction._id}
+                    className="col-md-6 mb-3"
+                  >
+                    <div
+                      className="card"
+                      style={{
+                        backgroundColor:
+                          transaction.transaction_type === "Purchase"
+                            ? "#a25e5e"
+                            : "#6e956e",
+                        color: "white", // Ensure text is readable on the background
+                      }}
+                    >
+                      <div className="card-body">
+                        <h3>{transaction.productID.productName}</h3>
+                        <p>Transaction Type: <span className="transaction_type">{transaction.transaction_type}</span></p>
+                        <p>Quantity: {transaction.qty}</p>
+                        <p>Price: ₹{transaction.price}</p>
+                        <p>Amount: ₹{transaction.amount}</p>
+                        {transaction.transaction_type === "Sale" ? (
+                          <>
+                            <p>Customer: {transaction.customerID.customerName}</p>
+                            <p>Mobile: {transaction.customerID.mobileNo}</p>
+                          </>
+                        ) : (
+                          <>
+                            <p>Vendor: {transaction.vendorID.vendorName}</p>
+                            <p>Mobile: {transaction.vendorID.mobileNo}</p>
+                          </>
+                        )}
+                        <p>Date: {new Date(transaction.transaction_date).toLocaleDateString()}</p>
+                        <button 
+                          className="btn btn-danger mt-3"
+                          onClick={() => deleteTransaction(transaction._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </main>
+          </div>
         </div>
       );
 };
