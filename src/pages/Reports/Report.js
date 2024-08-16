@@ -28,7 +28,7 @@ const Report = () => {
         try {
             await axios.delete(`${URL}/${transactionId}`, config);
             toast.success("Report deleted successfully!");
-            fetchReports()
+            fetchReports();
         } catch (error) {
             console.log(error);
             toast.error("Failed to delete the report");
@@ -49,57 +49,65 @@ const Report = () => {
 
     return (
         <div className="container-fluid">
-          <div className="row">
-            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-              <div className="row">
-                {transactions.map((transaction) => (
-                  <div
-                    key={transaction._id}
-                    className="col-md-6 mb-3"
-                  >
-                    <div
-                      className="card"
-                      style={{
-                        backgroundColor:
-                          transaction.transaction_type === "Purchase"
-                            ? "#a25e5e"
-                            : "#6e956e",
-                        color: "white", // Ensure text is readable on the background
-                      }}
-                    >
-                      <div className="card-body">
-                        <h3>{transaction.productID.productName}</h3>
-                        <p>Transaction Type: <span className="transaction_type">{transaction.transaction_type}</span></p>
-                        <p>Quantity: {transaction.qty}</p>
-                        <p>Price: ₹{transaction.price}</p>
-                        <p>Amount: ₹{transaction.amount}</p>
-                        {transaction.transaction_type === "Sale" ? (
-                          <>
-                            <p>Customer: {transaction.customerID.customerName}</p>
-                            <p>Mobile: {transaction.customerID.mobileNo}</p>
-                          </>
-                        ) : (
-                          <>
-                            <p>Vendor: {transaction.vendorID.vendorName}</p>
-                            <p>Mobile: {transaction.vendorID.mobileNo}</p>
-                          </>
-                        )}
-                        <p>Date: {new Date(transaction.transaction_date).toLocaleDateString()}</p>
-                        <button 
-                          className="btn btn-danger mt-3"
-                          onClick={() => deleteTransaction(transaction._id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
+            <div className="row">
+                <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <div className="row">
+                        {transactions.map((transaction) => (
+                            <div key={transaction._id} className="col-md-6 mb-4">
+                                <div
+                                    className="card"
+                                    style={{
+                                        background: "#f7f7f7",
+                                        borderRadius: "12px",
+                                    }}
+                                >
+                                    <div
+                                        className="d-flex justify-content-between align-items-center p-3"
+                                        style={{
+                                            backgroundColor: transaction.transaction_type === "Purchase" ? "rgb(187 110 110)" : "rgb(90 114 90)",
+                                            borderRadius: "12px 12px 0 0",
+                                            color: "#fff",
+                                        }}
+                                    >
+                                        <h5 className="m-0">{transaction.productID.productName}</h5>
+                                        <span className="badge bg-light text-dark">{transaction.transaction_type}</span>
+                                    </div>
+                                    <div className="card-body">
+                                        <div className="d-flex justify-content-between">
+                                            <div>
+                                                <p className="mb-1">
+                                                    <strong>Quantity:</strong> {transaction.qty}
+                                                </p>
+                                                <p className="mb-1">
+                                                    <strong>Price:</strong> ₹ {transaction.price}
+                                                </p>
+                                            </div>
+                                        <div className="mb-2">
+                                            <strong>Amount:</strong> ₹ {transaction.amount}
+                                        </div>
+
+                                            
+                                            <div className="text-end">
+                                                <p className="mb-1">
+                                                    <strong>{transaction.transaction_type === "Purchase" ? "Vendor" : "Customer"}:</strong> {transaction.transaction_type === "Purchase" ? transaction.vendorID.vendorName : transaction.customerID.customerName}
+                                                </p>
+                                                <p className="text-muted">{new Date(transaction.transaction_date).toLocaleDateString()}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="card-footer text-end" style={{backgroundColor:'gainsboro'}}>
+                                        <button className="btn btn-outline-danger" style={{width:'100px'}} onClick={() => deleteTransaction(transaction._id)}>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                  </div>
-                ))}
-              </div>
-            </main>
-          </div>
+                </main>
+            </div>
         </div>
-      );
+    );
 };
 
 export default Report;

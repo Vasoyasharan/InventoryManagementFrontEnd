@@ -78,7 +78,7 @@ const TaskManager = () => {
         try {
             await axios.delete(`${URL}/${taskId}`, config);
             toast.success("Task Deleted Successfully");
-            fetchTasks(); // Refresh the task list
+            fetchTasks();
         } catch (error) {
             toast.error(error.response.data.message);
         }

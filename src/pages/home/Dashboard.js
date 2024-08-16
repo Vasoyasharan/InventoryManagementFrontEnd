@@ -138,6 +138,13 @@ const Dashboard = () => {
                     ))}
                 </div>
 
+                {/* Task Manager */}
+                <div className="row">
+                    <div className="col-12 mb-4">
+                        <TaskManager />
+                    </div>
+                </div>
+                
                 {/* Sales Overview and Product Performance */}
                 <div className="row mb-4">
                     <div className="col-md-6">
@@ -226,13 +233,6 @@ const Dashboard = () => {
                                 </ResponsiveContainer>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                {/* Task Manager */}
-                <div className="row">
-                    <div className="col-12 mb-4">
-                        <TaskManager />
                     </div>
                 </div>
             </section>
