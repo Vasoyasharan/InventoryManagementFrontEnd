@@ -191,7 +191,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Additional Interesting Element */}
-                <div className="row mb-4">
+                {/* <div className="row mb-4">
                     <div className="col-12">
                         <div className="card shadow">
                             <div className="card-header">
@@ -212,7 +212,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </section>
         </main>
     );
