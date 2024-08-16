@@ -144,7 +144,8 @@ const Dashboard = () => {
                         <TaskManager />
                     </div>
                 </div>
-                
+                <hr></hr>
+                <hr></hr>
                 {/* Sales Overview and Product Performance */}
                 <div className="row mb-4">
                     <div className="col-md-6">
@@ -183,29 +184,6 @@ const Dashboard = () => {
                                         <Bar dataKey="uv" fill="#8884d8" />
                                         <Bar dataKey="pv" fill="#82ca9d" />
                                     </BarChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Customer Distribution */}
-                <div className="row mb-4">
-                    <div className="col-12">
-                        <div className="card shadow">
-                            <div className="card-header">
-                                <h4 className="card-title">Customer Distribution</h4>
-                            </div>
-                            <div className="card-body">
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <PieChart>
-                                        <Pie data={customerData} cx="50%" cy="50%" labelLine={false} label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`} outerRadius={100} fill="#8884d8" dataKey="value">
-                                            {customerData.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip />
-                                    </PieChart>
                                 </ResponsiveContainer>
                             </div>
                         </div>
