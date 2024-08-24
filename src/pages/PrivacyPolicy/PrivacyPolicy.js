@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
                 Back
             </button>
             <h1>Privacy Policy</h1>
-            <p>Effective Date: [Insert Date]</p>
+            <p>Effective Date: 01-07-2024</p>
 
             <section>
                 <h2>Introduction</h2>
@@ -24,7 +24,7 @@ const PrivacyPolicy = () => {
             <section>
                 <h2>Information We Collect</h2>
                 <ul>
-                    <li><strong>Personal Information:</strong> Name, email address, and other contact details.</li>
+                    <li><strong>Personal Information:</strong> Name and  other contact details.</li>
                     <li><strong>Usage Data:</strong> Information on how you use our website, including pages viewed and links clicked.</li>
                     <li><strong>Cookies:</strong> Small data files stored on your device to enhance your user experience.</li>
                 </ul>
@@ -61,7 +61,7 @@ const PrivacyPolicy = () => {
             <section>
                 <h2>Your Rights</h2>
                 <p>
-                    You have the right to access, update, or delete your personal information. If you wish to exercise any of these rights, please contact us at [Insert Contact Email].
+                    You have the right to access, update, or delete your personal information. If you wish to exercise any of these rights, please contact us at Sharanvasoya.dev@protone.me
                 </p>
             </section>
 
@@ -75,7 +75,7 @@ const PrivacyPolicy = () => {
             <section>
                 <h2>Contact Us</h2>
                 <p>
-                    If you have any questions or concerns about this Privacy Policy, please contact us at [Insert Contact Email].
+                    If you have any questions or concerns about this Privacy Policy, please contact us at shranvasoya.dev@protone.me
                 </p>
             </section>
         </div>

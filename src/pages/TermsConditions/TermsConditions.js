@@ -50,12 +50,12 @@ const TermsConditions = () => {
 
             <section>
                 <h2>7. Governing Law</h2>
-                <p>These terms and conditions are governed by and construed in accordance with the laws of [Your Country/State]. Any disputes arising out of or related to these terms shall be subject to the exclusive jurisdiction of the courts located in [Your Location].</p>
+                <p>These terms and conditions are governed by and construed in accordance with the laws of India/Gujarat. Any disputes arising out of or related to these terms shall be subject to the exclusive jurisdiction of the courts located in Gujarat.</p>
             </section>
 
             <section>
                 <h2>8. Contact Us</h2>
-                <p>If you have any questions or concerns about these terms and conditions, please contact us at [Insert Contact Email].</p>
+                <p>If you have any questions or concerns about these terms and conditions, please contact us at [Sharanvasoya.dev@protone.me].</p>
             </section>
         </div>
     );
