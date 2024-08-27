@@ -1,0 +1,62 @@
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85); /* Slightly transparent background 1 */
+  background-color: rgba(0, 0, 0, 0.9); /* Slightly darker background 2 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loader-container {
+  text-align: center;
+}
+
+.loader {
+  border: 8px solid transparent;
+  border-top: 8px solid rgba(52, 152, 219, 0.9); /* Blue color for loader */
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  box-shadow: 0 0 20px rgba(52, 152, 219, 0.6), 0 0 40px rgba(52, 152, 219, 0.3); /* Subtle glowing effect */
+  background: linear-gradient(45deg, rgba(52, 152, 219, 0.2) 25%, rgba(52, 152, 219, 0.1) 50%, rgba(52, 152, 219, 0.3) 75%);
+
+  /* 2nd styling  */
+  border: 6px solid rgba(255, 255, 255, 0.3);
+  border-top: 6px solid #3498db; /* Blue color for loader */
+  animation: spin 1s linear infinite;
+  box-shadow: 0px 0px 25px rgba(52, 152, 219, 0.7); /* Enhanced glowing effect */
+}
+
+.loader-text {
+  color: #ffffff;
+  margin-top: 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}

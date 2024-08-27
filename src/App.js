@@ -6,19 +6,31 @@ import { ProtectedRoute, AuthProtected } from "./Routes/route";
 import { PageRoutes } from "./Routes";
 import TermsConditions from "./pages/TermsConditions/TermsConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
+import Loader from "./component/Loader";
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
-  
+
   return (
     <React.Fragment>
-      <div className="App">
-        <BrowserRouter>
+      <BrowserRouter>
+        <Loader /> {/* Loader Component */}
+        <div className="App">
           <Routes>
-            <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
-            <Route path="*" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+            <Route
+              path="/"
+              element={
+                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="*"
+              element={
+                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
+              }
+            />
 
             {/* Auth Page Protected */}
             <Route exact path="/login" element={<AuthProtected element={Login} />} />
@@ -27,19 +39,24 @@ function App() {
             {/* Terms and Conditions Route */}
             <Route path="/terms-conditions" element={<TermsConditions />} />
 
-            {/* Privacy Policy  */}
+            {/* Privacy Policy */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
             {/* Page Module Protected */}
             {PageRoutes.map((route, id) => (
-              <React.Fragment key={id}>
-                <Route path={route.path} element={<ProtectedRoute name={route.name} element={route.element} />} exact />
-              </React.Fragment>
+              <Route
+                key={id}
+                path={route.path}
+                element={
+                  <ProtectedRoute name={route.name} element={route.element} />
+                }
+                exact
+              />
             ))}
           </Routes>
-        </BrowserRouter>
+        </div>
         <ToastContainer />
-      </div>
+      </BrowserRouter>
     </React.Fragment>
   );
 }
