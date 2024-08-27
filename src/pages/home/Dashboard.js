@@ -16,12 +16,12 @@ const Dashboard = () => {
     ];
 
     const productPerformance = [
-        { name: "Products A", uv: 3000, pv: 2400 },
-        { name: "Products B", uv: 2000, pv: 2000 },
-        { name: "Products C", uv: 4000, pv: 2400 },
-        { name: "Products D", uv: 3000, pv: 2200 },
-        { name: "Products E", uv: 2000, pv: 1500 },
-        { name: "Products F", uv: 1000, pv: 1200 },
+        { name: "Pencil", uv: 3000, pv: 2400 },
+        { name: "Notebook", uv: 2000, pv: 2000 },
+        { name: "Pen", uv: 4000, pv: 2400 },
+        { name: "Glue Stick", uv: 3000, pv: 2200 },
+        { name: "Stapler", uv: 2000, pv: 1500 },
+        { name: "Piano", uv: 1000, pv: 1200 },
     ];
 
     const customerData = [
