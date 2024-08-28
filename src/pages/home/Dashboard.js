@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import axios from "axios";
 import { Url, config } from "../../Url";
 import "./Dashboard.css";
@@ -23,15 +23,6 @@ const Dashboard = () => {
         { name: "Stapler", uv: 2000, pv: 1500 },
         { name: "Piano", uv: 1000, pv: 1200 },
     ];
-
-    const customerData = [
-        { name: "Group A", value: 400 },
-        { name: "Group B", value: 300 },
-        { name: "Group C", value: 300 },
-        { name: "Group D", value: 200 },
-    ];
-
-    const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
     const [customerCount, setCustomerCount] = useState(0);
     const [vendorCount, setVendorCount] = useState(0);
@@ -190,29 +181,6 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Additional Interesting Element */}
-                {/* <div className="row mb-4">
-                    <div className="col-12">
-                        <div className="card shadow">
-                            <div className="card-header">
-                                <h4 className="card-title">Performance Comparison</h4>
-                            </div>
-                            <div className="card-body">
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <LineChart data={data}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="name" />
-                                        <YAxis />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Line type="monotone" dataKey="orders" stroke="#8884d8" />
-                                        <Line type="monotone" dataKey="sales" stroke="#82ca9d" />
-                                    </LineChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
             </section>
         </main>
     );

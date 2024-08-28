@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import "./Loader.css";
+import "../Css/Loader.css";
 
 const Loader = () => {
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ const Loader = () => {
     handleStart();
 
     // Hide loader after a delay when route change is complete
-    setTimeout(() => handleComplete(), 2000);
+    setTimeout(() => handleComplete(), 1000);
 
   }, [location]);
 
