@@ -1,28 +1,38 @@
 body {
+  font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
 }
 
 .dashboard-main {
   padding-top: 20px;
-  background-color: #fcfcfc;
+  background-color: #f8f9fa;
 }
 
 .dashboard-content .card {
   border: none;
-  border-radius: 10px;
-  padding: 15px;
+  border-radius: 12px;
+  padding: 12px;
   margin-bottom: 20px;
   position: relative;
   background-color: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-content .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .dashboard-content .card-title {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #343a40;
 }
 
 .dashboard-content .card-text {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #495057;
 }
 
 /* Adding side color lines to the cards */
@@ -32,8 +42,8 @@ body {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 5px;
-  border-radius: 10px 0 0 10px;
+  width: 6px;
+  border-radius: 12px 0 0 12px;
 }
 
 .card-line-primary::before {

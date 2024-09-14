@@ -135,8 +135,6 @@ const Dashboard = () => {
                         <TaskManager />
                     </div>
                 </div>
-                <hr></hr>
-                <hr></hr>
                 {/* Sales Overview and Product Performance */}
                 <div className="row mb-4">
                     <div className="col-md-6">
