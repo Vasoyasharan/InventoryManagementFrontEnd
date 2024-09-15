@@ -14,7 +14,7 @@ const Loader = () => {
     handleStart();
 
     // Hide loader after a delay when route change is complete
-    setTimeout(() => handleComplete(), 1000);
+    setTimeout(() => handleComplete(), 300);
 
   }, [location]);
 
