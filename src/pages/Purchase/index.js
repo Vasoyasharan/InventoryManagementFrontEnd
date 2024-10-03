@@ -69,9 +69,9 @@ const PurchaseBillList = (props) => {
                                 return (
                                     <tr key={item._id}>
                                         <td>{item.bill_no}</td>
-                                        <td>{item.vendorDetail.vendorName}</td>
+                                        <td>{item.vendorDetail ? item.vendorDetail.vendorName : <em>Unavailabe Vendor</em>}</td>
                                         <td>{date}</td>
-                                        <td>{item.productDetail.productName}</td>
+                                        <td>{item.productDetail ? item.productDetail.productName : <em>Unavailabe Product</em>}</td>
                                         <td>{item.qty}</td>
                                         <td>{item.price}</td>
                                         <td>{item.amount}</td>

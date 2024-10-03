@@ -67,22 +67,23 @@ const SaleBillList = (props) => {
                                 const date = n.toISOString().split("T")[0];
                                 return (
                                     <tr key={item._id}>
-                                        <td>{item.bill_no}</td>
-                                        <td>{item.customerDetail.customerName}</td>
-                                        <td>{date}</td>
-                                        <td>{item.productDetail.productName}</td>
-                                        <td>{item.qty}</td>
-                                        <td>{item.price}</td>
-                                        <td>{item.amount}</td>
-                                        <td className="action-icons">
-                                            <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2">
-                                                <FontAwesomeIcon icon={faFilePen} />
-                                            </NavLink>
-                                            <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
-                                                <FontAwesomeIcon icon={faTrashCan} />
-                                            </NavLink>
-                                        </td>
-                                    </tr>
+    <td>{item.bill_no}</td>
+    <td>{item.customerDetail ? item.customerDetail.customerName : <em>Unavailabe Customer</em>}</td>
+    <td>{date}</td>
+    <td>{item.productDetail ? item.productDetail.productName : <em>Unavailabe Product</em>}</td>
+    <td>{item.qty}</td>
+    <td>{item.price}</td>
+    <td>{item.amount}</td>
+    <td className="action-icons">
+        <NavLink to={{ pathname: `/update/${item._id}` }} state={item} className="link-primary mx-2">
+            <FontAwesomeIcon icon={faFilePen} />
+        </NavLink>
+        <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
+            <FontAwesomeIcon icon={faTrashCan} />
+        </NavLink>
+    </td>
+</tr>
+
                                 );
                             })}
                     </tbody>
