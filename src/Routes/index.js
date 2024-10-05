@@ -11,7 +11,7 @@ import PurchaseBillList from "../pages/Purchase";
 import PurchaseBill from "../pages/Purchase/Purchase";
 import SaleBillList from "../pages/Sale";
 import SalesBill from "../pages/Sale/Sales";
-import setting from "../pages/setting/setting";
+import setting from "../pages/setting";
 
 const PageRoutes = [
   { path: "/dashboard", element: Dashboard, name: "DASHBOARD" },
