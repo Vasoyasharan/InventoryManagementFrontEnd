@@ -1,7 +1,7 @@
 import "../Css/Sidebar.css";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTachometerAlt, faFileInvoice, faReceipt, faBoxOpen, faUsers, faTruck, faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { faTachometerAlt, faFileInvoice, faReceipt, faBoxOpen, faUsers, faTruck, faChartLine, faCog } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 
 const sidebarItems = [
@@ -12,7 +12,7 @@ const sidebarItems = [
     { to: "/customer", icon: faUsers, text: "Customers" },
     { to: "/vendor", icon: faTruck, text: "Vendors" },
     { to: "/report", icon: faChartLine, text: "Report" },
-    { to: "/setting", icon: faChartLine, text: "Setting" },
+    { to: "/setting", icon: faCog, text: "Setting" },
 ];
 
 const Sidebar = () => {

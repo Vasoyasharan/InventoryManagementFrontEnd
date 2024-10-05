@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faPhoneAlt, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faPhoneAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import "../CustomerCare/CustomerCare.css";
 
@@ -8,13 +8,13 @@ const CustomerCare = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
-        navigate("/dashboard");  // Redirect to the home or dashboard page
+        navigate(-1);
     };
 
     return (
         <div className="customer-care-container">
             <button className="back-button" onClick={handleBack}>
-         Back
+                Back
             </button>
             
             <h1 className="customer-care-title">Customer Care</h1>
@@ -28,10 +28,7 @@ const CustomerCare = () => {
                     <FontAwesomeIcon icon={faEnvelope} size="2x" />
                     <h3>Email Us:</h3>
                     <p>
-                         <a href="mailto:vananihardik8553@gmail.com">vananihardik8553@gmail.com</a> <br />
-                        <a href="mailto:sharanvasoya@proton.me">sharanvasoya@proton.me</a> <br />
-                        <a href="mailto:hiraparapiyu@gmail.com">hiraparapiyu@gmail.com</a> <br />
-                        <a href="mailto:vaghasiyadhruv2004@gmail.com">vaghasiyadhruv2004@gmail.com</a>
+                        <a href="mailto:vananihardik8553@gmail.com">vananihardik8553@gmail.com</a>
                     </p>
                 </div>
                 

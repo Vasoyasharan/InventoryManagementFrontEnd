@@ -1,60 +1,74 @@
 import React, { useState } from 'react';
-import './SettingsPage.css'; // Import external CSS
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'; // Import for navigation
+import './SettingsPage.css'; // External CSS
 
 const SettingsPage = () => {
   const [username, setUsername] = useState('currentUsername');
-  const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // State for showing/hiding delete modal
+  const navigate = useNavigate(); // Initialize navigate hook
+
+  // Validations
+  const validateUsername = () => {
+    if (username.length < 3) {
+      toast.error("Username must be at least 3 characters long.");
+      return false;
+    }
+    return true;
+  };
+
+  const validatePassword = () => {
+    if (newPassword.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return false;
+    }
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match!");
+      return false;
+    }
+    return true;
+  };
 
   const handleUpdateUsername = () => {
-    alert(`Username updated to: ${username}`);
+    if (validateUsername()) {
+      toast.success(`Username updated to: ${username}`);
+      // Add API call or logic to actually update username
+    }
   };
 
   const handleChangePassword = () => {
-    if (newPassword === confirmPassword) {
-      alert('Password updated successfully!');
-    } else {
-      alert('Passwords do not match!');
+    if (validatePassword()) {
+      toast.success("Password updated successfully!");
+      // Add API call or logic to actually update password
     }
   };
 
   const handleDeleteAccount = () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete your account?");
-    if (confirmDelete) {
-      alert('Account deleted successfully!');
-    }
+    setShowDeleteModal(true); // Show delete confirmation modal
+  };
+
+  const confirmDeleteAccount = () => {
+    // Simulate account deletion API call
+    toast.success("Account deleted successfully!");
+
+    // Clear user session or token (assuming localStorage)
+    localStorage.removeItem('authToken'); // Clear authentication token or session
+
+    setTimeout(() => {
+      navigate('/signup'); // Redirect to signup page after 2 seconds
+    }, 2000);
   };
 
   return (
     <div className="settings-container">
       <h1 className="settings-title">Account Settings</h1>
 
-      {/* Username Section */}
-      {/* <div className="settings-section">
-        <label>Update Username</label>
-        <input
-          type="text"
-          className="settings-input"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter new username"
-        />
-        <button className="settings-button" onClick={handleUpdateUsername}>
-          Update Username
-        </button>
-      </div> */}
-
       {/* Password Section */}
       <div className="settings-section">
         <label>Change Password</label>
-        {/* <input
-          type="password"
-          className="settings-input"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          placeholder="Current Password"
-        /> */}
         <input
           type="password"
           className="settings-input"
@@ -81,6 +95,27 @@ const SettingsPage = () => {
           Delete My Account
         </button>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Are you sure?</h2>
+            <p>Do you really want to delete your account? This action cannot be undone.</p>
+            <div className="modal-actions">
+              <button className="modal-button confirm-button" onClick={confirmDeleteAccount}>
+                Yes, Delete
+              </button>
+              <button className="modal-button cancel-button" onClick={() => setShowDeleteModal(false)}>
+                No, Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification Container */}
+      <ToastContainer />
     </div>
   );
 };
