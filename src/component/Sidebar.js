@@ -12,6 +12,7 @@ const sidebarItems = [
     { to: "/customer", icon: faUsers, text: "Customers" },
     { to: "/vendor", icon: faTruck, text: "Vendors" },
     { to: "/report", icon: faChartLine, text: "Report" },
+    { to: "/setting", icon: faChartLine, text: "setting" },
 ];
 
 const Sidebar = () => {
