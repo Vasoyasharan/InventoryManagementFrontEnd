@@ -70,7 +70,7 @@ const Header = (props) => {
             </header>
 
             {/* Stylish Modal for Logout Confirmation */}
-            <Modal show={showModal} onHide={handleCloseModal} centered size="md" dialogClassName="custom-modal">
+            <Modal show={showModal} onHide={handleCloseModal} centered size="md" dialogClassName="custom-modal logout-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Logout</Modal.Title>
                 </Modal.Header>

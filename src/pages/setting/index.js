@@ -1,24 +1,14 @@
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom'; // Import for navigation
-import './SettingsPage.css'; // External CSS
+import { useNavigate } from 'react-router-dom';
+import './SettingsPage.css';
 
 const SettingsPage = () => {
-  const [username, setUsername] = useState('currentUsername');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // State for showing/hiding delete modal
-  const navigate = useNavigate(); // Initialize navigate hook
-
-  // Validations
-  const validateUsername = () => {
-    if (username.length < 3) {
-      toast.error("Username must be at least 3 characters long.");
-      return false;
-    }
-    return true;
-  };
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const navigate = useNavigate();
 
   const validatePassword = () => {
     if (newPassword.length < 6) {
@@ -30,13 +20,6 @@ const SettingsPage = () => {
       return false;
     }
     return true;
-  };
-
-  const handleUpdateUsername = () => {
-    if (validateUsername()) {
-      toast.success(`Username updated to: ${username}`);
-      // Add API call or logic to actually update username
-    }
   };
 
   const handleChangePassword = () => {
@@ -58,7 +41,7 @@ const SettingsPage = () => {
     localStorage.removeItem('authToken'); // Clear authentication token or session
 
     setTimeout(() => {
-      navigate('/signup'); // Redirect to signup page after 2 seconds
+      navigate('/signup');
     }, 2000);
   };
 
@@ -98,7 +81,7 @@ const SettingsPage = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="modal">
+        <div className="modal delete-account-modal">
           <div className="modal-content">
             <h2>Are you sure?</h2>
             <p>Do you really want to delete your account? This action cannot be undone.</p>

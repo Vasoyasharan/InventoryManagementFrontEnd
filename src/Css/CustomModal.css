@@ -1,11 +1,12 @@
-.custom-modal .modal-content {
+/* Add specific styles for the logout modal */
+.logout-modal .modal-content {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     background: #ffffff;
     padding: 15px;
 }
 
-.custom-modal .modal-header {
+.logout-modal .modal-header {
     background-color: #1e2a38;
     color: #ffffff;
     border-bottom: 1px solid #ddd;
@@ -13,34 +14,34 @@
     border-top-right-radius: 8px;
 }
 
-.custom-modal .modal-title {
+.logout-modal .modal-title {
     font-size: 1.5rem;
     font-weight: 600;
 }
 
-.custom-modal .modal-body {
+.logout-modal .modal-body {
     font-size: 1rem;
     color: #333;
     padding: 15px 0;
 }
 
-.custom-modal .modal-footer {
+.logout-modal .modal-footer {
     border-top: 1px solid #ddd;
 }
 
-.custom-modal .btn-primary {
+.logout-modal .btn-primary {
     background-color: #3498db;
     border-color: #3498db;
     font-weight: 600;
 }
 
-.custom-modal .btn-outline-secondary {
+.logout-modal .btn-outline-secondary {
     color: #3498db;
     border-color: #3498db;
     font-weight: 600;
 }
 
-.custom-modal .btn-outline-secondary:hover {
+.logout-modal .btn-outline-secondary:hover {
     background-color: #3498db;
     color: #ffffff;
 }
