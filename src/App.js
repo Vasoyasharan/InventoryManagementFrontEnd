@@ -5,6 +5,7 @@ import Signup from "./pages/Authentication/Signup";
 import { ProtectedRoute, AuthProtected } from "./Routes/route";
 import { PageRoutes } from "./Routes";
 import TermsConditions from "./pages/TermsConditions/TermsConditions";
+import CustomerCare from "./pages/CustomerCare/CustomerCare";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import { ToastContainer } from "react-toastify";
 import Loader from "./component/Loader";
@@ -41,6 +42,9 @@ function App() {
 
             {/* Privacy Policy */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+            {/* Customer Care Page */}
+            <Route path="/customer-care" element={<CustomerCare />} />
 
             {/* Page Module Protected */}
             {PageRoutes.map((route, id) => (
