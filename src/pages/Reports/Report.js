@@ -69,8 +69,7 @@ const Report = () => {
                                             color: "#fff",
                                         }}
                                     >
-                                        <h5 className="m-0">{transaction.productID.productName}</h5>
-                                        <span className="badge bg-light text-dark">{transaction.transaction_type}</span>
+                                        <h5 className="m-0">{transaction.productID ? transaction.productID.productName : <em>Unavailabe Product</em>}</h5>                                        <span className="badge bg-light text-dark">{transaction.transaction_type}</span>
                                     </div>
                                     <div className="card-body">
                                         <div className="d-flex justify-content-between">
@@ -82,21 +81,20 @@ const Report = () => {
                                                     <strong>Price:</strong> ₹ {transaction.price}
                                                 </p>
                                             </div>
-                                        <div className="mb-2">
-                                            <strong>Amount:</strong> ₹ {transaction.amount}
-                                        </div>
+                                            <div className="mb-2">
+                                                <strong>Amount:</strong> ₹ {transaction.amount}
+                                            </div>
 
-                                            
                                             <div className="text-end">
                                                 <p className="mb-1">
-                                                    <strong>{transaction.transaction_type === "Purchase" ? "Vendor" : "Customer"}:</strong> {transaction.transaction_type === "Purchase" ? transaction.vendorID.vendorName : transaction.customerID.customerName}
+                                                    <strong>{transaction.transaction_type === "Purchase" ? "Vendor" : "Customer"}:</strong> {transaction.transaction_type === "Purchase" ? (transaction.vendorID && transaction.vendorID.vendorName ? transaction.vendorID.vendorName : <em>Unavailabe</em>) : transaction.customerID && transaction.customerID.customerName ? transaction.customerID.customerName : <em>Unavailabe</em>}
                                                 </p>
                                                 <p className="text-muted">{new Date(transaction.transaction_date).toLocaleDateString()}</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="card-footer text-end" style={{backgroundColor:'gainsboro'}}>
-                                        <button className="btn btn-outline-danger" style={{width:'100px'}} onClick={() => deleteTransaction(transaction._id)}>
+                                    <div className="card-footer text-end" style={{ backgroundColor: "gainsboro" }}>
+                                        <button className="btn btn-outline-danger" style={{ width: "100px" }} onClick={() => deleteTransaction(transaction._id)}>
                                             Delete
                                         </button>
                                     </div>
