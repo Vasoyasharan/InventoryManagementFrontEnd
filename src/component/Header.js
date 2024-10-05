@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import inventoryLogo from "../images/inventoryLogo.png";
-import { faRightFromBracket, faFileContract, faShieldAlt } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket, faFileContract, faShieldAlt, faHeadset } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Css/CustomModal.css";
@@ -13,7 +13,6 @@ const Header = (props) => {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
 
-    // Username fetching from api
     const userName = (localStorage.getItem("username") || "null").toUpperCase();
 
     const getCurrentGreeting = () => {
@@ -57,6 +56,10 @@ const Header = (props) => {
                     <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => navigate("/privacy-policy")}>
                         <FontAwesomeIcon icon={faShieldAlt} className="me-1" />
                         Privacy Policy
+                    </button>
+                    <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => navigate("/customer-care")}>
+                        <FontAwesomeIcon icon={faHeadset} className="me-1" />
+                        Customer Care
                     </button>
 
                     <div className="logout-btn" onClick={handleShowModal}>

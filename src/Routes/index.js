@@ -29,6 +29,7 @@ const PageRoutes = [
   { path: "/setting/:type/:id?", element: setting },
   { path: "/setting", element: setting, name: "SETTING" }
   
+  
 
 ];
 

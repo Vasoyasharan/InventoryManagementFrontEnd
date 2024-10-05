@@ -1,0 +1,122 @@
+.customer-care-container {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+}
+
+.customer-care-title {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.customer-care-text {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.customer-care-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.contact-method:hover {
+    transform: translateY(-5px);
+}
+
+.contact-method h3 {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+.contact-method p {
+    font-size: 16px;
+    color: #555;
+}
+
+.contact-method a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.contact-method a:hover {
+    text-decoration: underline;
+}
+
+.contact-method svg {
+    color: #007bff;
+}
+
+/* Back button styling */
+.back-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 100px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+.back-button svg {
+    margin-right: 5px;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .customer-care-info {
+        flex-direction: row;
+        justify-content: center;
+        gap: 40px;
+    }
+
+    .contact-method {
+        width: 45%;
+    }
+
+    .customer-care-title {
+        font-size: 36px;
+    }
+
+    .customer-care-text {
+        font-size: 18px;
+    }
+
+    .back-button {
+        font-size: 16px;
+    }
+}
