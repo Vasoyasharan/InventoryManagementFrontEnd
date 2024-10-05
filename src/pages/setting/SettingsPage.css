@@ -1,0 +1,80 @@
+/* Container styling */
+.settings-container {
+  background-color: #f0f4f8;
+  padding: 40px;
+  margin: 20px auto;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+.settings-title {
+  font-size: 28px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Section styling */
+.settings-section {
+  margin-bottom: 30px;
+}
+
+.settings-section label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Input styling */
+.settings-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Button styling */
+.settings-button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.settings-button:hover {
+  background-color: #0056b3;
+}
+
+/* Delete account section */
+.delete-section label {
+  color: #dc3545;
+  font-size: 18px;
+}
+
+.delete-account-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.delete-account-button:hover {
+  background-color: #c82333;
+}

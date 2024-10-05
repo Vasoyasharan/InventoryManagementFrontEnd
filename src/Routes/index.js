@@ -11,6 +11,7 @@ import PurchaseBillList from "../pages/Purchase";
 import PurchaseBill from "../pages/Purchase/Purchase";
 import SaleBillList from "../pages/Sale";
 import SalesBill from "../pages/Sale/Sales";
+import setting from "../pages/setting/setting";
 
 const PageRoutes = [
   { path: "/dashboard", element: Dashboard, name: "DASHBOARD" },
@@ -25,6 +26,10 @@ const PageRoutes = [
   { path: "/vendor", element: VendorList, name: "VENDOR" },
   { path: "/vendor/:type/:id?", element: Vendor },
   { path: "/report", element: Report, name: "REPORT" },
+  { path: "/setting/:type/:id?", element: setting },
+  { path: "/setting", element: setting, name: "SETTING" }
+  
+
 ];
 
 export { PageRoutes };
