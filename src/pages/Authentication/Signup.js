@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Validation from "./SignupValidation";
+import Validation from "./SignupValidation"; // Make sure your validation includes the email
 import { Url } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -8,7 +8,8 @@ import signUpImage from "../../images/SignupImage.png";
 
 const Signup = () => {
     const [values, setValues] = useState({
-        username: "", // Updated to use "username" instead of "name"
+        username: "",
+        email: "", // Added email field here
         password: "",
     });
 
@@ -27,10 +28,9 @@ const Signup = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setErrors(Validation(values));
+        setErrors(Validation(values)); // Ensure Validation includes email validation
         try {
-            if (!errors.username && !errors.password) {
-                // Updated to use "username" instead of "name"
+            if (!errors.username && !errors.password && !errors.email) { // Check for email as well
                 const res = await axios.post(URL, values);
                 console.log("response received", res);
 
@@ -40,20 +40,20 @@ const Signup = () => {
                     return toast.success("Signup Successfully");
                 } else {
                     alert("Signup failed");
-                    setValues({ username: "", password: "" });
+                    setValues({ username: "", email: "", password: "" });
                 }
             }
         } catch (error) {
             console.log(error);
-            setValues({ username: "", password: "" });
+            setValues({ username: "", email: "", password: "" });
             return toast.error(error.response.data.message);
         }
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center  vh-100">
+        <div className="d-flex justify-content-center align-items-center vh-100">
             <div className="bg-white p-4 rounded d-flex container shadow-lg">
-                {/* Left Side with SVG/PNG */}
+                {/* Left Side with Image */}
                 <div className="w-50 d-flex justify-content-center align-items-center pe-4">
                     <img
                         src={signUpImage}
@@ -82,6 +82,24 @@ const Signup = () => {
                             {errors.username && (
                                 <span className="text-danger">
                                     {errors.username}
+                                </span>
+                            )}
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="email">
+                                <strong>Email</strong>
+                            </label>
+                            <input
+                                type="email"
+                                placeholder="Enter Email"
+                                name="email"
+                                className="form-control rounded-2"
+                                onChange={handleInput}
+                                value={values.email}
+                            />
+                            {errors.email && (
+                                <span className="text-danger">
+                                    {errors.email}
                                 </span>
                             )}
                         </div>
