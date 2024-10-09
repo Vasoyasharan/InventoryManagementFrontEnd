@@ -1,24 +1,29 @@
+/* Container for settings page */
 .settings-container {
-  background-color: #f0f4f8;
-  padding: 40px;
-  margin: 20px auto;
-  max-width: 600px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.settings-title {
-  font-size: 28px;
-  color: #333;
-  text-align: center;
-  margin-bottom: 30px;
+  background-color: #ffffff;
+  padding: 10px;
+  margin: 0px auto;
+  max-width: 800px;
+  /* border-radius: 10px; */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   font-family: 'Roboto', sans-serif;
 }
 
+/* Heading aligned to top left */
+.settings-title {
+  font-size: 28px;
+  color: #007bff; /* Primary color matching website theme */
+  text-align: left; /* Align to top left corner */
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+/* Section margins */
 .settings-section {
   margin-bottom: 30px;
 }
 
+/* Label styling */
 .settings-section label {
   display: block;
   font-size: 18px;
@@ -26,6 +31,7 @@
   color: #333;
 }
 
+/* Input fields */
 .settings-input {
   width: 100%;
   padding: 12px;
@@ -36,9 +42,9 @@
   box-sizing: border-box;
 }
 
-/* Button styling */
+/* Button styles (primary and consistent with the site's theme) */
 .settings-button {
-  background-color: #007bff;
+  background-color: #007bff; /* Same as the add button on product page */
   color: white;
   padding: 12px;
   border: none;
@@ -53,12 +59,7 @@
   background-color: #0056b3;
 }
 
-/* Delete account section */
-.delete-section label {
-  color: #dc3545;
-  font-size: 18px;
-}
-
+/* Delete account button */
 .delete-account-button {
   background-color: #dc3545;
   color: white;
@@ -75,6 +76,7 @@
   background-color: #c82333;
 }
 
+/* Modal for delete account */
 .delete-account-modal {
   position: fixed;
   top: 0;
@@ -103,6 +105,7 @@
   margin-bottom: 20px;
 }
 
+/* Modal action buttons */
 .delete-account-modal .modal-actions {
   display: flex;
   justify-content: space-around;
@@ -123,4 +126,29 @@
 .delete-account-modal .cancel-button {
   background-color: #6c757d;
   color: white;
+}
+
+/* Warning section for delete account */
+.delete-warning {
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #ffe5e5;
+  border: 1px solid #ffcccc;
+  border-radius: 5px;
+}
+
+.delete-warning p {
+  color: #ff4b4b;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.delete-warning ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  color: #333;
+}
+
+.delete-warning ul li {
+  margin-bottom: 8px;
 }

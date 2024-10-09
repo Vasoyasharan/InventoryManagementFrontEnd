@@ -74,6 +74,17 @@ const SettingsPage = () => {
       {/* Delete Account Section */}
       <div className="settings-section delete-section">
         <label>Delete Account</label>
+
+        {/* Warning Section */}
+        <div className="delete-warning">
+          <p>What happens when you delete your account:</p>
+          <ul>
+            <li>All your Products and Bills will be deleted.</li>
+            <li>All associated data will be deleted.</li>
+            <li>None of the above can be reversed.</li>
+          </ul>
+        </div>
+
         <button className="delete-account-button" onClick={handleDeleteAccount}>
           Delete My Account
         </button>
