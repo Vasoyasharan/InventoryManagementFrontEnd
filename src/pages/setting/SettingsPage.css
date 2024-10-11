@@ -4,17 +4,14 @@
   padding: 10px;
   margin: 0px auto;
   max-width: 800px;
-  /* border-radius: 10px; */
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   font-family: 'Roboto', sans-serif;
 }
 
 /* Heading aligned to top left */
 .settings-title {
   font-size: 28px;
-  color: #007bff; /* Primary color matching website theme */
-  text-align: left; /* Align to top left corner */
   margin-bottom: 30px;
+  padding-left: 0px;
   font-weight: bold;
 }
 
@@ -42,9 +39,8 @@
   box-sizing: border-box;
 }
 
-/* Button styles (primary and consistent with the site's theme) */
 .settings-button {
-  background-color: #007bff; /* Same as the add button on product page */
+  background-color: #007bff;
   color: white;
   padding: 12px;
   border: none;

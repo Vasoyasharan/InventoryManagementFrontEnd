@@ -30,14 +30,13 @@ const SettingsPage = () => {
   };
 
   const handleDeleteAccount = () => {
-    setShowDeleteModal(true); // Show delete confirmation modal
+    setShowDeleteModal(true);
   };
 
   const confirmDeleteAccount = () => {
     // Simulate account deletion API call
     toast.success("Account deleted successfully!");
 
-    // Clear user session or token (assuming localStorage)
     localStorage.removeItem('authToken'); // Clear authentication token or session
 
     setTimeout(() => {
