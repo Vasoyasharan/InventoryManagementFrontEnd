@@ -28,7 +28,7 @@ const CustomerCare = () => {
                     <FontAwesomeIcon icon={faEnvelope} size="2x" />
                     <h3>Email Us:</h3>
                     <p>
-                        <a href="mailto:vananihardik8553@gmail.com">vananihardik8553@gmail.com</a>
+                        <a href="mailto:vananihardik8553@gmail.com">stock.tracker@email.com</a>
                     </p>
                 </div>
                 
