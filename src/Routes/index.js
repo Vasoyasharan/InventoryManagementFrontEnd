@@ -14,23 +14,20 @@ import SalesBill from "../pages/Sale/Sales";
 import setting from "../pages/setting";
 
 const PageRoutes = [
-  { path: "/dashboard", element: Dashboard, name: "DASHBOARD" },
-  { path: "/purchase", element: PurchaseBillList, name: "PURCHASE BILL" },
-  { path: "/purchase/:type/:id?", element: PurchaseBill , name: "PURCHASE BILL" },
-  { path: "/sale", element: SaleBillList, name: "SALES BILL" },
-  { path: "/sale/:type/:id?", element: SalesBill , name: "SALES BILL" },
-  { path: "/product", element: ProductList, name: "PRODUCT" },
-  { path: "/product/:type/:id?", element: Product },
-  { path: "/customer", element: CustomerList, name: "CUSTOMER" },
-  { path: "/customer/:type/:id?", element: Customer },
-  { path: "/vendor", element: VendorList, name: "VENDOR" },
-  { path: "/vendor/:type/:id?", element: Vendor },
-  { path: "/report", element: Report, name: "REPORT" },
-  { path: "/setting/:type/:id?", element: setting },
-  { path: "/setting", element: setting, name: "SETTING" }
-  
-  
-
+    { path: "/dashboard", element: Dashboard, name: "DASHBOARD" },
+    { path: "/purchase", element: PurchaseBillList, name: "PURCHASE BILL" },
+    { path: "/purchase/:type/:id?", element: PurchaseBill, name: "PURCHASE BILL" },
+    { path: "/sale", element: SaleBillList, name: "SALES BILL" },
+    { path: "/sale/:type/:id?", element: SalesBill, name: "SALES BILL" },
+    { path: "/product", element: ProductList, name: "PRODUCT" },
+    { path: "/product/:type/:id?", element: Product },
+    { path: "/customer", element: CustomerList, name: "CUSTOMER" },
+    { path: "/customer/:type/:id?", element: Customer },
+    { path: "/vendor", element: VendorList, name: "VENDOR" },
+    { path: "/vendor/:type/:id?", element: Vendor },
+    { path: "/report", element: Report, name: "REPORT" },
+    { path: "/setting/:type/:id?", element: setting },
+    { path: "/setting", element: setting, name: "SETTING" },
 ];
 
 export { PageRoutes };

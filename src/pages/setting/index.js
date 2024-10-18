@@ -28,8 +28,8 @@ const SettingsPage = ({ userID }) => {
     const handleChangePassword = async () => {
         const URL = Url + "/user";
         if (validatePassword()) {
-          try {
-            // Make API request to update the password
+            try {
+                // Make API request to update the password
                 await axios.put(
                     `${URL}`,
                     {
@@ -42,29 +42,39 @@ const SettingsPage = ({ userID }) => {
                 // Optionally: You can navigate the user to a different page after a delay
                 setTimeout(() => {
                     navigate("/dashboard");
-                  }, 2000);
-                } catch (error) {
+                }, 2000);
+            } catch (error) {
                 console.log(error);
                 // Handle any errors during the API call
                 toast.error(error.response?.data?.message || "Failed to update password.");
             }
-          }
+        }
     };
 
     const handleDeleteAccount = () => {
         setShowDeleteModal(true);
     };
 
-    const confirmDeleteAccount = () => {
-        // Simulate account deletion API call
-        toast.success("Account deleted successfully!");
+    const confirmDeleteAccount = async () => {
+        try {
+            const URL = Url + "/user";
+            // Make API request to delete the user account
+            const response = await axios.delete(`${URL}`, config);
 
-        // Clear authentication token or session
-        localStorage.removeItem("authToken");
+            console.log("RESPONSE : ", response);
 
-        setTimeout(() => {
-            navigate("/signup");
-        }, 2000);
+            toast.success("Account deleted successfully!");
+            localStorage.removeItem("token");
+
+            // Optionally: You can navigate the user to a different page after a delay
+            setTimeout(() => {
+                navigate("/signup");
+            }, 1000);
+        } catch (error) {
+            console.log(error);
+            // Handle any errors during the API call
+            toast.error(error.response?.data?.message || "Failed to delete account.");
+        }
     };
 
     return (
