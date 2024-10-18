@@ -39,6 +39,7 @@ const SettingsPage = ({ userID }) => {
                 );
 
                 toast.success("Password updated successfully!");
+
                 // Optionally: You can navigate the user to a different page after a delay
                 setTimeout(() => {
                     navigate("/dashboard");
@@ -61,9 +62,8 @@ const SettingsPage = ({ userID }) => {
             // Make API request to delete the user account
             const response = await axios.delete(`${URL}`, config);
 
-            console.log("RESPONSE : ", response);
-
             toast.success("Account deleted successfully!");
+
             localStorage.removeItem("token");
 
             // Optionally: You can navigate the user to a different page after a delay
