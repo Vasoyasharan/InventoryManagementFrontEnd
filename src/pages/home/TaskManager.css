@@ -31,3 +31,27 @@
   padding: 4px 8px;
   border-radius: 4px;
 }
+
+.task-high {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.task-medium {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.task-low {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.list-group-item {
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

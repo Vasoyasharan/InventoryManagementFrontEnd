@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "./TaskManager.css";
 
 const TaskManager = () => {
     const [values, setValues] = useState({
         taskName: "",
         date: "",
-        status: "Pending",
+        status: "High",
     });
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -37,7 +38,7 @@ const TaskManager = () => {
                 await axios.post(URL, values, config);
                 toast.success("Task Created Successfully");
             }
-            setValues({ taskName: "", date: "", status: "Pending" });
+            setValues({ taskName: "", date: "", status: "High" });
             setEditMode(false);
             setCurrentTaskId(null);
             fetchTasks();
@@ -91,7 +92,7 @@ const TaskManager = () => {
 
     // Handle form cancel action
     const handleCancel = () => {
-        setValues({ taskName: "", date: "", status: "Pending" });
+        setValues({ taskName: "", date: "", status: "High" });
         setEditMode(false);
         setCurrentTaskId(null);
     };
@@ -115,7 +116,16 @@ const TaskManager = () => {
                                     Task Name
                                     <span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <input type="text" className="form-control" id="taskName" placeholder="Please Add Task" name="taskName" required onChange={handleInput} value={values.taskName} />
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="taskName"
+                                    placeholder="Please Add Task"
+                                    name="taskName"
+                                    required
+                                    onChange={handleInput}
+                                    value={values.taskName}
+                                />
                             </div>
                         </div>
                         <div className="col-md-6 mb-6">
@@ -123,7 +133,14 @@ const TaskManager = () => {
                                 <label htmlFor="date">
                                     Date<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <input type="date" className="form-control" id="date" name="date" onChange={handleInput} value={values.date} />
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    id="date"
+                                    name="date"
+                                    onChange={handleInput}
+                                    value={values.date}
+                                />
                             </div>
                         </div>
                         <div className="col-md-6 mb-6">
@@ -131,7 +148,13 @@ const TaskManager = () => {
                                 <label htmlFor="status">
                                     Priority<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
-                                <select className="form-control" id="status" name="status" onChange={handleInput} value={values.status}>
+                                <select
+                                    className="form-control"
+                                    id="status"
+                                    name="status"
+                                    onChange={handleInput}
+                                    value={values.status}
+                                >
                                     <option value="High">High</option>
                                     <option value="Medium">Medium</option>
                                     <option value="Low">Low</option>
@@ -151,30 +174,45 @@ const TaskManager = () => {
                 <div className="mt-4">
                     <h3 style={{ color: "#06795e" }}>Task List</h3>
                     <ul className="list-group">
-                        {tasks.map((task) => (
-                            <li key={task._id} className="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <strong>{task.taskName.toUpperCase()}</strong> <br />
-                                    <small>
-                                        <i>Date: </i>
-                                        <b>{new Date(task.date).toDateString()}</b>
-                                    </small>{" "}
-                                    <br />
-                                    <small>
-                                        <i>Status: </i>
-                                        <b>{task.status}</b>
-                                    </small>
-                                </div>
-                                <div>
-                                    <button className="btn btn-sm btn-info me-2" onClick={() => fetchData(task._id)}>
-                                        Edit
-                                    </button>
-                                    <button className="btn btn-sm btn-danger" onClick={() => deleteTask(task._id)}>
-                                        Delete
-                                    </button>
-                                </div>
-                            </li>
-                        ))}
+                        {tasks.map((task) => {
+                            const taskClass =
+                                task.status === "High"
+                                    ? "task-high"
+                                    : task.status === "Medium"
+                                    ? "task-medium"
+                                    : "task-low";
+
+                            return (
+                                <li key={task._id} className={`list-group-item ${taskClass}`}>
+                                    <div>
+                                        <strong>{task.taskName.toUpperCase()}</strong> <br />
+                                        <small>
+                                            <i>Date: </i>
+                                            <b>{new Date(task.date).toDateString()}</b>
+                                        </small>{" "}
+                                        <br />
+                                        <small>
+                                            <i>Status: </i>
+                                            <b>{task.status}</b>
+                                        </small>
+                                    </div>
+                                    <div>
+                                        <button
+                                            className="btn btn-sm btn-outline-primary me-2"
+                                            onClick={() => fetchData(task._id)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="btn btn-sm btn-danger"
+                                            onClick={() => deleteTask(task._id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
             </main>
