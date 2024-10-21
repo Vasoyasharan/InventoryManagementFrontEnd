@@ -13,9 +13,10 @@ body {
   border-radius: 12px;
   padding: 12px;
   margin-bottom: 20px;
-  position: relative;
+  position: relative; /* Important for ::before to position correctly */
   background-color: #ffffff;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden; /* Ensure the pseudo-element isn't clipped */
 }
 
 .dashboard-content .card:hover {
@@ -35,7 +36,7 @@ body {
   color: #495057;
 }
 
-/* Adding side color lines to the cards */
+/* Pseudo-element for side color strip */
 .card-line::before {
   content: "";
   position: absolute;
@@ -44,8 +45,10 @@ body {
   bottom: 0;
   width: 6px;
   border-radius: 12px 0 0 12px;
+  z-index: 1;
 }
 
+/* Color variations for cards */
 .card-line-primary::before {
   background-color: #097066;
 }
@@ -60,6 +63,10 @@ body {
 
 .card-line-danger::before {
   background-color: #df4b26;
+}
+
+.card-line-info::before {
+  background-color: #72ee72;
 }
 
 .shadow {

@@ -1,52 +1,60 @@
+/* Customer Care Container */
 .customer-care-container {
-    padding: 50px 20px;
-    text-align: center;
-    background-color: #f9f9f9;
-    border-radius: 10px;
+    padding: 50px 30px;
+    background-color: #ffffff; /* Clean white background */
+    border-radius: 12px;
     max-width: 800px;
-    margin: 20px auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
     position: relative;
     font-family: 'Roboto', sans-serif;
 }
 
+/* Title Styling */
 .customer-care-title {
-    font-size: 32px;
+    font-size: 36px;
     color: #333;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007bff; /* Subtle underline for emphasis */
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
+/* Text Styling */
 .customer-care-text {
-    font-size: 16px;
-    color: #666;
+    font-size: 18px;
+    color: #555;
     margin-bottom: 30px;
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
+/* Contact Methods Container */
 .customer-care-info {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
 }
 
+/* Contact Method Styling */
 .contact-method {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #fff;
+    background-color: #f4f4f4;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-method:hover {
     transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }
 
 .contact-method h3 {
     margin-top: 10px;
-    font-size: 20px;
+    font-size: 22px;
     color: #333;
 }
 
@@ -55,51 +63,61 @@
     color: #555;
 }
 
+/* Contact Links */
 .contact-method a {
     color: #007bff;
     text-decoration: none;
     font-size: 16px;
+    margin-top: 10px;
 }
 
 .contact-method a:hover {
     text-decoration: underline;
 }
 
+/* Icon Color */
 .contact-method svg {
     color: #007bff;
+    font-size: 28px;
 }
 
+/* Back Button Styling */
 .back-button {
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 100px;
     background-color: #007bff;
-    color: #fff;
+    color: white;
     border: none;
     padding: 10px 15px;
-    font-size: 12px;
+    font-size: 16px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .back-button:hover {
     background-color: #0056b3;
-    color: #fff;
+    transform: translateY(-2px); /* Lift effect on hover */
 }
 
+.back-button:focus {
+    outline: none;
+}
+
+/* Icon in Back Button */
 .back-button svg {
-    margin-right: 5px;
+    margin-right: 8px;
+    font-size: 18px;
 }
 
 /* Responsive Design */
 @media (min-width: 768px) {
     .customer-care-info {
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-between;
         gap: 40px;
     }
 
@@ -108,7 +126,7 @@
     }
 
     .customer-care-title {
-        font-size: 36px;
+        font-size: 40px;
     }
 
     .customer-care-text {
@@ -116,6 +134,6 @@
     }
 
     .back-button {
-        font-size: 16px;
+        font-size: 18px;
     }
 }

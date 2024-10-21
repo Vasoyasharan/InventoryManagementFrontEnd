@@ -1,53 +1,63 @@
 .terms-conditions-container {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 30px auto;
     padding: 20px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Terms & Conditions Headings */
 .terms-conditions-container h1,
 .terms-conditions-container h2 {
-    color: #45a1a1;
+    color: #2a9d8f;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #2a9d8f;
 }
 
-.terms-conditions-container p {
-    color: #333;
-    line-height: 1.6;
+/* Terms & Conditions Paragraphs and Lists */
+.terms-conditions-container p,
+.terms-conditions-container ul {
+    color: #444;
+    line-height: 1.8;
+    font-family: 'Roboto', sans-serif;
 }
 
 .terms-conditions-container ul {
-    list-style-type: disc;
+    list-style-type: circle;
     margin-left: 20px;
 }
 
 .terms-conditions-container li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
+/* Terms & Conditions Section Spacing */
 .terms-conditions-container section {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
+/* Back Button */
 .back-button {
-    background-color: #45a1a1;
+    background-color: #2a9d8f;
     color: white;
     border: none;
-    border-radius: 5px;
-    padding: 8px 13px;
+    border-radius: 8px;
+    padding: 10px 15px;
     cursor: pointer;
-    font-size: 19px;
+    font-size: 20px;
     position: absolute;
     top: 20px;
     right: 20px;
     display: flex;
     align-items: center;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .back-button:hover {
-    background-color: #368686;
+    background-color: #21867a;
+    transform: translateY(-2px);
 }
 
 .back-button:focus {
@@ -56,6 +66,6 @@
 
 .back-button::before {
     content: "<";
-    margin-right: 7px;
-    font-size: 20px;
+    margin-right: 8px;
+    font-size: 22px;
 }

@@ -41,9 +41,9 @@ const SettingsPage = ({ userID }) => {
                 toast.success("Password updated successfully!");
 
                 // Optionally: You can navigate the user to a different page after a delay
-                setTimeout(() => {
-                    navigate("/dashboard");
-                }, 2000);
+                // setTimeout(() => {
+                //     navigate("/dashboard");
+                // }, 1500);
             } catch (error) {
                 console.log(error);
                 // Handle any errors during the API call

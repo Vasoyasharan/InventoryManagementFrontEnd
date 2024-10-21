@@ -154,30 +154,54 @@ body {
     align-items: center;
     gap: 5px;
 }
+.user-info {
+    display: flex; /* Use flexbox for better alignment */
+    align-items: center; /* Center items vertically */
+    padding: 15px; /* Add padding */
+    margin-top: 20px; /* Space above */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #ffffff; /* White background for contrast */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.user-icon {
+    font-size: 28px; /* Increase size of user icon */
+    margin-right: 15px; /* Space between icon and username */
+    color: #007bff; /* Change icon color to a primary shade */
+}
+
+.username {
+    flex-grow: 1; /* Allow this span to take available space */
+    font-size: 18px; /* Adjust font size */
+    font-weight: 600; /* Slightly bolder font */
+    color: #333; /* Dark color for text */
+}
 
 .logout-btn {
     display: flex;
     align-items: center;
-    background-color: #6ec1c1;
-    color: white;
-    border-radius: 5px;
-    padding: 5px 15px;
+    background-color: #6ec1c1; /* Light teal background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px 12px; /* Adjust padding for better touch target */
     cursor: pointer;
-    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
 .logout-btn:hover {
-    background-color: #368686;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    background-color: #368686; /* Darker teal on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
 }
 
 .logout-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(0); /* Reset on active */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Reset shadow on active */
 }
 
-.logout-btn .fa-right-from-bracket {
-    margin-left: 8px;
+.logout-icon {
+    margin-left: 10px; /* Space between username and logout icon */
+    font-size: 20px; /* Size of the logout icon */
+    color: white; /* Match icon color with button text */
 }

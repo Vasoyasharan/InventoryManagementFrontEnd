@@ -129,12 +129,12 @@ const TaskManager = () => {
                         <div className="col-md-6 mb-6">
                             <div className="form-group">
                                 <label htmlFor="status">
-                                    Status<span style={{ color: "red", marginLeft: "3px" }}>*</span>
+                                    Priority<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
                                 <select className="form-control" id="status" name="status" onChange={handleInput} value={values.status}>
-                                    <option value="Pending">Pending</option>
-                                    <option value="In Progress">In Progress</option>
-                                    <option value="Completed">Completed</option>
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
                                 </select>
                             </div>
                         </div>

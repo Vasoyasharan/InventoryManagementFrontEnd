@@ -75,7 +75,7 @@ const PrivacyPolicy = () => {
             <section>
                 <h2>Contact Us</h2>
                 <p>
-                    If you have any questions or concerns about this Privacy Policy, please contact us at shranvasoya.dev@protone.me
+                    If you have any questions or concerns about this Privacy Policy, please contact us at stock.tracker@email.com
                 </p>
             </section>
         </div>

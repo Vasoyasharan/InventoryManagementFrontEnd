@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Validation from "./SignupValidation"; // Make sure your validation includes the email
+import Validation from "./SignupValidation";
 import { Url } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -9,15 +9,14 @@ import signUpImage from "../../images/SignupImage.png";
 const Signup = () => {
     const [values, setValues] = useState({
         username: "",
-        email: "", // Added email field here
+        email: "",
         password: "",
     });
 
-    const URL = Url + "/user/signup";
-
-    const navigate = useNavigate();
-
     const [errors, setErrors] = useState({});
+    const [isChecked, setIsChecked] = useState(false); // State for checkbox
+    const navigate = useNavigate();
+    const URL = Url + "/user/signup";
 
     const handleInput = (event) => {
         setValues((prev) => ({
@@ -26,11 +25,15 @@ const Signup = () => {
         }));
     };
 
+    const handleCheckboxChange = (event) => {
+        setIsChecked(event.target.checked); // Track checkbox state
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setErrors(Validation(values)); // Ensure Validation includes email validation
+        setErrors(Validation(values)); // Ensure validation includes email
         try {
-            if (!errors.username && !errors.password && !errors.email) { // Check for email as well
+            if (!errors.username && !errors.password && !errors.email) {
                 const res = await axios.post(URL, values);
                 console.log("response received", res);
 
@@ -53,7 +56,6 @@ const Signup = () => {
     return (
         <div className="d-flex justify-content-center align-items-center vh-100">
             <div className="bg-white p-4 rounded d-flex container shadow-lg">
-                {/* Left Side with Image */}
                 <div className="w-50 d-flex justify-content-center align-items-center pe-4">
                     <img
                         src={signUpImage}
@@ -61,10 +63,9 @@ const Signup = () => {
                         className="img-fluid"
                     />
                 </div>
-                {/* Right Side with Signup Form */}
                 <div className="w-50 ps-4">
-                    <form action="" onSubmit={handleSubmit}>
-                        <h6>Join us today !!</h6>
+                    <form onSubmit={handleSubmit}>
+                        <h6>Join the Revolution – It All Starts with You!</h6>
                         <div className="mb-3">
                             <h2 style={{ color: "rgb(21 151 35)" }}>Sign-Up</h2>
                             <hr />
@@ -121,10 +122,25 @@ const Signup = () => {
                                 </span>
                             )}
                         </div>
-                        <p>You agree to our terms and policies</p>
+                        <div className="form-check mb-3">
+                            <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="terms"
+                                checked={isChecked}
+                                onChange={handleCheckboxChange}
+                            />
+                            <label
+                                className="form-check-label"
+                                htmlFor="terms"
+                            >
+                                I agree to the terms and conditions
+                            </label>
+                        </div>
                         <button
                             type="submit"
                             className="btn btn-outline-success w-100 rounded-1 mb-3"
+                            disabled={!isChecked} // Disable button if not checked
                         >
                             <strong>Sign Up</strong>
                         </button>

@@ -55,7 +55,7 @@ const TermsConditions = () => {
 
             <section>
                 <h2>8. Contact Us</h2>
-                <p>If you have any questions or concerns about these terms and conditions, please contact us at [Sharanvasoya.dev@protone.me].</p>
+                <p>If you have any questions or concerns about these terms and conditions, please contact us at stock.tracker@email.com</p>
             </section>
         </div>
     );
