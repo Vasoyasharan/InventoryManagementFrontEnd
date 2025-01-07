@@ -1,57 +1,46 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import inventoryLogo from "../images/inventoryLogo.png";
-import { faFileContract, faShieldAlt, faHeadset } from "@fortawesome/free-solid-svg-icons";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { faBell, faFileAlt, faShieldAlt, faHeadset, faSignOutAlt, faCog, faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
-    const navigate = useNavigate();
-    const userName = (localStorage.getItem("username") || "null").toUpperCase();
+  const [greeting, setGreeting] = useState("");
 
-    const getCurrentGreeting = () => {
-        const hour = new Date().getHours();
-        if (hour < 12) return "Good Morning";
-        if (hour < 18) return "Good Afternoon";
-        return "Good Evening";
-    };
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    if (currentHour < 12) {
+      setGreeting("Good Morning, Michel");
+    } else if (currentHour < 18) {
+      setGreeting("Good Afternoon, Michel");
+    } else {
+      setGreeting("Good Evening, Michel");
+    }
+  }, []);
 
-    return (
-        <header className="navbar sticky-top flex-md-nowrap shadow">
-            <NavLink className="navbar-brand me-0 px-3" to="/dashboard">
-                <img src={inventoryLogo} alt="logo" style={{ width: "249px", height: "55px" }} />
-            </NavLink>
-            <div className="navbar-text text-dark ms-3">
-                <i>{getCurrentGreeting()}</i> <u>{userName}</u>
-            </div>
-            <div className="navbar-actions ms-auto d-flex align-items-center">
-                <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                    onClick={() => navigate("/terms-conditions")}
-                >
-                    <FontAwesomeIcon icon={faFileContract} className="me-1" />
-                    Terms & Conditions
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                    onClick={() => navigate("/privacy-policy")}
-                >
-                    <FontAwesomeIcon icon={faShieldAlt} className="me-1" />
-                    Privacy Policy
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                    onClick={() => navigate("/customer-care")}
-                >
-                    <FontAwesomeIcon icon={faHeadset} className="me-1" />
-                    Customer Care
-                </button>
-            </div>
-        </header>
-    );
+  return (
+    <div className="navbar">
+      <div className="navbar-left">
+        {/* Greeting */}
+        <div className="greeting">
+    <FontAwesomeIcon icon={faUser} className="user-icon" />
+          <span>{greeting}</span>
+        </div>
+      </div>
+      {/* Search Bar */}
+      <div className="navbar-center">
+        <input type="text" className="search-bar" placeholder="Search..." />
+        <FontAwesomeIcon icon={faSearch} className="search-icon" />
+      </div>
+      {/* Navbar Icons */}
+      <div className="navbar-right">
+        <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
+        <FontAwesomeIcon icon={faFileAlt} className="navbar-icon" title="Terms & Conditions" />
+        <FontAwesomeIcon icon={faShieldAlt} className="navbar-icon" title="Privacy Policy" />
+        <FontAwesomeIcon icon={faHeadset} className="navbar-icon" title="Customer Care" />
+        <FontAwesomeIcon icon={faSignOutAlt} className="navbar-icon" title="Sign Out" />
+        <FontAwesomeIcon icon={faCog} className="navbar-icon spin-icon" title="Settings" />
+      </div>
+    </div>
+  );
 };
 
 export default Header;
