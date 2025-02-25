@@ -1,4 +1,4 @@
-/* Custom table styling */
+/* Modern table styling */
 .custom-table {
     width: 100%;
     border-collapse: separate;
@@ -6,13 +6,14 @@
     margin: 20px 0;
     font-size: 0.875rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; /* Rounded corners for the table */
-    overflow: hidden; /* Ensure content does not overflow */
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
 }
 
 .custom-table thead {
     background: linear-gradient(135deg, #003f7d 0%, #005b9b 100%);
-    color: #ffffff;
+    color: #000000;
     border-bottom: 2px solid #005b9b;
 }
 
@@ -28,16 +29,16 @@
     text-align: left;
     border-bottom: 1px solid #dee2e6;
     position: relative;
-    overflow: hidden; /* Ensure content does not overflow */
+    overflow: hidden;
 }
 
 .custom-table tbody tr {
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Added box-shadow transition */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .custom-table tbody tr:nth-child(even) {
     background-color: #fafafa;
-    border-radius: 4px; /* Rounded corners for rows */
+    border-radius: 4px;
 }
 
 .custom-table tbody tr:hover {
@@ -53,10 +54,9 @@
 }
 
 .action-icons a {
-    font-size: 1.1rem; /* Larger icons */
-    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease; /* Added background color transition */
-    /* padding: 0.3rem; */
-    border-radius: 50%; /* Circular background for icons */
+    font-size: 1.1rem;
+    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -68,10 +68,10 @@
 }
 
 .link-danger {
-    font-size: 1.1rem; /* Larger icons */
-    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease; /* Added background color transition */
+    font-size: 1.1rem;
+    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
     padding: 0.5rem;
-    border-radius: 50%; /* Circular background for icons */
+    border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -82,78 +82,52 @@
     background-color: rgba(0, 123, 255, 0.1);
 }
 
-/* Form Styling */
-form {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+/* Search and filter styling */
+.search-box {
+    position: relative;
 }
 
-form .form-group {
-    margin-bottom: 20px;
+.search-box .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
 }
 
-form .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
+.search-box input {
+    padding-left: 35px;
 }
 
-form .form-control {
-    width: 100%;
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s;
+.entries-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-form .form-control:focus {
-    border-color: #007f72;
-    box-shadow: 0 0 5px rgba(0, 127, 114, 0.3);
+.entries-selector select {
+    width: auto;
 }
 
-form button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.3s;
+/* Pagination styling */
+.pagination {
+    margin: 0;
 }
 
-form button:hover {
-    transform: translateY(-2px);
+.page-item.active .page-link {
+    background-color: #3498db;
+    border-color: #3498db;
 }
 
-.btn-outline-primary {
-    background-color: #007bff;
-    color: #fff;
+.page-link {
+    color: #3498db;
+    border: 1px solid #ddd;
+    margin: 0 2px;
+    border-radius: 4px;
 }
 
-.btn-outline-primary:hover {
-    background-color: #0056b3;
-    color: #fff;
-}
-
-.btn-outline-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-.btn-outline-danger:hover {
-    background-color: #c82333;
-    color: #fff;
-}
-
-.required-star {
-    color: #d9534f;
-    margin-left: 3px;
-}
-
-@media (max-width: 767.98px) {
-    form {
-        padding: 15px;
-    }
+.page-link:hover {
+    color: #2980b9;
+    background-color: #f5f6fa;
+    border-color: #ddd;
 }

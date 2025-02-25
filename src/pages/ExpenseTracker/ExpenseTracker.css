@@ -1,0 +1,159 @@
+/* Form Styling */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    margin-top: 8px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+textarea.form-control {
+    resize: vertical; /* Allow vertical resizing */
+}
+
+/* Button Styling */
+.button-group {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px;
+}
+
+.button-group .btn {
+    width: 120px; /* Fixed width for buttons */
+    padding: 0.75rem 1rem; /* Padding for better appearance */
+    font-size: 1rem; /* Font size */
+    font-weight: 500; /* Font weight */
+    border-radius: 6px; /* Rounded corners */
+    text-align: center; /* Center text */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Blue color */
+    border: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red color */
+    border: none;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #b02a37; /* Darker red on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+
+/*output page css */
+/* Custom table styling */
+.custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.custom-table thead {
+    background: linear-gradient(135deg, #003f7d 0%, #005b9b 100%);
+    color: #ffffff;
+    border-bottom: 2px solid #005b9b;
+}
+
+.custom-table th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.custom-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.custom-table tbody tr {
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.custom-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #e9ecef;
+    transform: scale(1.01);
+}
+
+.custom-table tbody td:last-child {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Pagination styling */
+.pagination {
+    margin: 0;
+}
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.page-link {
+    color: #007bff;
+    border: 1px solid #dee2e6;
+    margin: 0 2px;
+    border-radius: 4px;
+}
+
+.page-link:hover {
+    color: #0056b3;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+/* Search and filter styling */
+.form-control {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}

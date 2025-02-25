@@ -1,23 +1,24 @@
-import { faFileCirclePlus, faFilePen, faTrashCan, faEye, } from "@fortawesome/free-solid-svg-icons";
+import { faFileCirclePlus, faFilePen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./PurchaseBillList.css"; // Import the CSS file
+import "./ExpenseTracker.css"; // Import the CSS file
 
-const PurchaseBillList = (props) => {
+const ExpenseTrackerTable = () => {
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [recordsPerPage, setRecordsPerPage] = useState(10); // Default records per page
     const [currentPage, setCurrentPage] = useState(1);
-    const URL = Url + "/purchase";
+    const navigate = useNavigate();
+    const URL = Url + "/expense";
 
     const fetchData = async () => {
         try {
             const response = await axios.get(URL, config);
-            setData(response.data.payload.purchaseData);
+            setData(response.data.payload.expenseData);
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
@@ -28,11 +29,11 @@ const PurchaseBillList = (props) => {
         fetchData();
     }, []);
 
-    const handleDelete = async (purchaseID) => {
+    const handleDelete = async (expenseID) => {
         try {
-            await axios.delete(`${URL}/${purchaseID}`, config);
+            await axios.delete(`${URL}/${expenseID}`, config);
             fetchData();
-            toast.success("Purchase Bill Deleted Successfully");
+            toast.success("Expense Deleted Successfully");
         } catch (error) {
             return toast.error(error.response.data.message);
         }
@@ -40,9 +41,9 @@ const PurchaseBillList = (props) => {
 
     // Filter data based on search query
     const filteredData = data.filter((item) =>
-        item.bill_no.toString().includes(searchQuery) ||
-        (item.vendorDetail?.vendorName?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (item.productDetail?.productName?.toLowerCase().includes(searchQuery.toLowerCase()))
+        item.expenseName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.vendorName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.paymentMode.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     // Pagination logic
@@ -55,10 +56,10 @@ const PurchaseBillList = (props) => {
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
-                <h3 className="m-0">{props.name}</h3>
+                <h3 className="m-0">Expense Tracker</h3>
                 <div className="btn-toolbar mb-2 mb-md-0">
                     <NavLink to="add" className="btn btn-md btn-outline-dark">
-                        Add Purchase Bill
+                        Add Expense
                         <FontAwesomeIcon icon={faFileCirclePlus} className="mx-2" />
                     </NavLink>
                 </div>
@@ -70,7 +71,7 @@ const PurchaseBillList = (props) => {
                     <input
                         type="text"
                         className="form-control"
-                        placeholder="Search by Bill No, Vendor, or Product"
+                        placeholder="Search by Expense Name, Vendor, or Payment Mode"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -94,44 +95,32 @@ const PurchaseBillList = (props) => {
                 <table className="table custom-table">
                     <thead>
                         <tr>
-                            <th>Bill No.</th>
+                            <th>Expense Name</th>
                             <th>Vendor Name</th>
-                            <th>Date</th>
-                            <th>Product</th>
-                            <th>Qty.</th>
-                            <th>Price (₹)</th>
+                            <th>Payment Mode</th>
                             <th>Amount (₹)</th>
+                            <th>Note</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {currentRecords.map((item) => {
-                            const date = new Date(item.date).toISOString().split("T")[0];
-                            return (
-                                <tr key={item._id}>
-                                    <td>{item.bill_no}</td>
-                                    <td>{item.vendorDetail ? item.vendorDetail.vendorName : <em>Unavailable Vendor</em>}</td>
-                                    <td>{date}</td>
-                                    <td>{item.productDetail ? item.productDetail.productName : <em>Unavailable Product</em>}</td>
-                                    <td>{item.qty}</td>
-                                    <td>{item.price}</td>
-                                    <td>{item.amount}</td>
-                                    <td className="action-icons">
-                                        <button
-                                            className="view-icon"
-                                        >
-                                            <FontAwesomeIcon icon={faEye} />
-                                        </button>
-                                        <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2">
-                                            <FontAwesomeIcon icon={faFilePen} />
-                                        </NavLink>
-                                        <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
-                                            <FontAwesomeIcon icon={faTrashCan} />
-                                        </NavLink>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                        {currentRecords.map((item) => (
+                            <tr key={item._id}>
+                                <td>{item.expenseName}</td>
+                                <td>{item.vendorName}</td>
+                                <td>{item.paymentMode}</td>
+                                <td>{item.amount}</td>
+                                <td>{item.note}</td>
+                                <td className="action-icons">
+                                    <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2">
+                                        <FontAwesomeIcon icon={faFilePen} />
+                                    </NavLink>
+                                    <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                    </NavLink>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
@@ -157,4 +146,4 @@ const PurchaseBillList = (props) => {
     );
 };
 
-export default PurchaseBillList;
+export default ExpenseTrackerTable;

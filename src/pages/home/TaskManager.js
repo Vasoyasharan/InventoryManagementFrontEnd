@@ -16,6 +16,8 @@ const TaskManager = () => {
     const [loading, setLoading] = useState(true);
     const [editMode, setEditMode] = useState(false);
     const [currentTaskId, setCurrentTaskId] = useState(null);
+    const [filterPriority, setFilterPriority] = useState("All"); // Filter by priority
+    const [showDeadlinePopup, setShowDeadlinePopup] = useState(false); // Deadline popup state
 
     const URL = Url + "/task";
 
@@ -44,7 +46,7 @@ const TaskManager = () => {
             fetchTasks();
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "An error occurred");
         }
     };
 
@@ -55,7 +57,7 @@ const TaskManager = () => {
             setTasks(response.data.payload.taskData);
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "An error occurred");
         } finally {
             setLoading(false);
         }
@@ -70,7 +72,7 @@ const TaskManager = () => {
             setCurrentTaskId(taskId);
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "An error occurred");
         }
     };
 
@@ -81,7 +83,7 @@ const TaskManager = () => {
             toast.success("Task Deleted Successfully");
             fetchTasks();
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "An error occurred");
         }
     };
 
@@ -95,6 +97,34 @@ const TaskManager = () => {
         setValues({ taskName: "", date: "", status: "High" });
         setEditMode(false);
         setCurrentTaskId(null);
+    };
+
+    // Filter tasks by priority
+    const filteredTasks = tasks.filter((task) => {
+        if (filterPriority === "All") return true;
+        return task.status === filterPriority;
+    });
+
+    // Check for tasks with deadlines in 1-2 days
+    useEffect(() => {
+        const now = new Date();
+        const nearDeadlineTasks = tasks.filter((task) => {
+            const taskDate = new Date(task.date);
+            const timeDiff = taskDate - now;
+            const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            return daysDiff >= 1 && daysDiff <= 2;
+        });
+
+        if (nearDeadlineTasks.length > 0) {
+            setShowDeadlinePopup(true);
+        } else {
+            setShowDeadlinePopup(false);
+        }
+    }, [tasks]);
+
+    // Close deadline popup
+    const closeDeadlinePopup = () => {
+        setShowDeadlinePopup(false);
     };
 
     // Determine the form action name based on mode
@@ -162,25 +192,43 @@ const TaskManager = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-3">
-                        <button className="btn btn-outline-primary me-3 fw-bold" type="submit">
-                            {actionName}
-                        </button>
-                        <button className="btn btn-outline-danger fw-bold" type="button" onClick={handleCancel}>
-                            Cancel
-                        </button>
-                    </div>
+                    <div className="mt-3 button-group">
+    <button className="btn btn-primary fw-bold" type="submit" style={{ width: "120px" }}>
+        {actionName}
+    </button>
+    <button className="btn btn-danger fw-bold" type="button" onClick={handleCancel} style={{ width: "120px" }}>
+        Cancel
+    </button>
+</div>
                 </form>
+
+                {/* Task List Section */}
                 <div className="mt-4">
-                    <h3 style={{ color: "#06795e" }}>Task List</h3>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h3 style={{ color: "#06795e" }}>Task List</h3>
+                        <div className="form-group">
+                            <label htmlFor="filterPriority">Filter by Priority:</label>
+                            <select
+                                className="form-control"
+                                id="filterPriority"
+                                value={filterPriority}
+                                onChange={(e) => setFilterPriority(e.target.value)}
+                            >
+                                <option value="All">All</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
                     <ul className="list-group">
-                        {tasks.map((task) => {
+                        {filteredTasks.map((task) => {
                             const taskClass =
                                 task.status === "High"
                                     ? "task-high"
                                     : task.status === "Medium"
-                                    ? "task-medium"
-                                    : "task-low";
+                                        ? "task-medium"
+                                        : "task-low";
 
                             return (
                                 <li key={task._id} className={`list-group-item ${taskClass}`}>
@@ -196,18 +244,12 @@ const TaskManager = () => {
                                             <b>{task.status}</b>
                                         </small>
                                     </div>
-                                    <div>
-                                        <button
-                                            className="btn btn-sm btn-outline-primary me-2"
-                                            onClick={() => fetchData(task._id)}
-                                        >
-                                            Edit
+                                    <div className="task-actions">
+                                        <button className="task-btn edit-btn" onClick={() => fetchData(task._id)}>
+                                            <i className="fas fa-edit"></i>
                                         </button>
-                                        <button
-                                            className="btn btn-sm btn-danger"
-                                            onClick={() => deleteTask(task._id)}
-                                        >
-                                            Delete
+                                        <button className="task-btn delete-btn" onClick={() => deleteTask(task._id)}>
+                                            <i className="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
                                 </li>
@@ -215,6 +257,34 @@ const TaskManager = () => {
                         })}
                     </ul>
                 </div>
+
+                {/* Deadline Popup */}
+                {showDeadlinePopup && (
+                    <div className="deadline-popup">
+                        <div className="popup-content">
+                            <h4>Upcoming Deadlines</h4>
+                            <ul>
+                                {tasks
+                                    .filter((task) => {
+                                        const taskDate = new Date(task.date);
+                                        const now = new Date();
+                                        const timeDiff = taskDate - now;
+                                        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                                        return daysDiff >= 1 && daysDiff <= 2;
+                                    })
+                                    .map((task) => (
+                                        <li key={task._id}>
+                                            <strong>{task.taskName}</strong> - Due in{" "}
+                                            {Math.ceil((new Date(task.date) - new Date()) / (1000 * 60 * 60 * 24))} days
+                                        </li>
+                                    ))}
+                            </ul>
+                            <button className="btn btn-primary" onClick={closeDeadlinePopup}>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
             </main>
         </>
     );

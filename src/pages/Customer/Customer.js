@@ -1,9 +1,17 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Url, config } from "../../Url";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+
+// State-City Mapping (Sample Data)
+const stateCityMap = {
+    Gujarat: ["Surat", "Ahmedabad", "Vadodara", "Rajkot", "Gandhinagar", "Bhavnagar", "Jamnagar"],
+    Maharashtra: ["Mumbai", "Pune", "Nagpur", "Nashik", "Thane", "Aurangabad", "Solapur"],
+    Rajasthan: ["Jaipur", "Udaipur", "Jodhpur", "Kota", "Ajmer", "Bikaner", "Alwar"],
+    Karnataka: ["Bengaluru", "Mysuru", "Hubli", "Mangaluru", "Belagavi", "Davangere", "Ballari"],
+    TamilNadu: ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tirunelveli", "Erode"],
+};
 
 const Customer = (props) => {
     const params = useParams();
@@ -11,38 +19,50 @@ const Customer = (props) => {
     const [values, setValues] = useState({
         customerName: "",
         mobileNo: "",
+        state: "",
+        city: "",
     });
-    const [loading, setLoading] = useState(true); // Corrected this line
+    const [loading, setLoading] = useState(true);
+    const [cities, setCities] = useState([]); // Cities based on selected state
 
     const URL = Url + "/customer";
 
+    // Handle input changes
     const handleInput = (event) => {
+        const { name, value } = event.target;
         setValues((prev) => ({
             ...prev,
-            [event.target.name]: event.target.value,
+            [name]: value,
         }));
+
+        // Update cities dropdown when state changes
+        if (name === "state") {
+            setCities(stateCityMap[value] || []);
+        }
     };
 
+    // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             await axios.post(URL + "/", values, config);
-            setValues({ customerName: "", mobileNo: "" });
+            setValues({ customerName: "", mobileNo: "", state: "", city: "" });
             navigate("/customer");
             toast.success("Customer Created Successfully");
         } catch (error) {
             console.log(error);
-            setValues({ customerName: "", mobileNo: "" });
+            setValues({ customerName: "", mobileNo: "", state: "", city: "" });
             toast.error(error.response.data.message);
         }
     };
 
+    // Handle update
     const handleUpdate = async (event) => {
         event.preventDefault();
         if (!params.id) return;
         try {
             await axios.put(`${URL}/${params.id}`, values, config);
-            setValues({ customerName: "", mobileNo: "" });
+            setValues({ customerName: "", mobileNo: "", state: "", city: "" });
             navigate("/customer");
             toast.success("Customer Updated Successfully");
         } catch (error) {
@@ -50,11 +70,14 @@ const Customer = (props) => {
         }
     };
 
+    // Fetch customer data for editing
     const fetchData = async () => {
         try {
             if (params.id) {
                 const response = await axios.get(`${URL}/${params.id}`, config);
                 setValues(response.data.payload.customerData[0]);
+                // Set cities based on the state in fetched data
+                setCities(stateCityMap[response.data.payload.customerData[0].state] || []);
             }
         } catch (error) {
             console.log(error);
@@ -68,6 +91,7 @@ const Customer = (props) => {
         fetchData();
     }, [params.id]);
 
+    // Handle cancel action
     const handleCancel = () => {
         navigate("/customer");
     };
@@ -90,13 +114,13 @@ const Customer = (props) => {
                         <div className="col-md-6 mb-6">
                             <div className="form-group">
                                 <label htmlFor="customerName" className="required-star">
-                                    Customer<span style={{ color: "red", marginLeft: "3px" }}>*</span>
+                                    Customer Name<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     id="customerName"
-                                    placeholder="Please Add Customer"
+                                    placeholder="Enter Customer Name"
                                     name="customerName"
                                     required
                                     onChange={handleInput}
@@ -106,7 +130,7 @@ const Customer = (props) => {
                         </div>
                         <div className="col-md-6 mb-6">
                             <div className="form-group">
-                                <label htmlFor="mobileNo">
+                                <label htmlFor="mobileNo" className="required-star">
                                     Mobile No.<span style={{ color: "red", marginLeft: "3px" }}>*</span>
                                 </label>
                                 <input
@@ -122,18 +146,63 @@ const Customer = (props) => {
                                 />
                             </div>
                         </div>
+                        <div className="col-md-6 mb-6">
+                            <div className="form-group">
+                                <label htmlFor="state" className="required-star">
+                                    State<span style={{ color: "red", marginLeft: "3px" }}>*</span>
+                                </label>
+                                <select
+                                    className="form-control"
+                                    id="state"
+                                    name="state"
+                                    required
+                                    onChange={handleInput}
+                                    value={values.state}
+                                >
+                                    <option value="">Select State</option>
+                                    {Object.keys(stateCityMap).map((state) => (
+                                        <option key={state} value={state}>
+                                            {state}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="col-md-6 mb-6">
+                            <div className="form-group">
+                                <label htmlFor="city" className="required-star">
+                                    City<span style={{ color: "red", marginLeft: "3px" }}>*</span>
+                                </label>
+                                <select
+                                    className="form-control"
+                                    id="city"
+                                    name="city"
+                                    required
+                                    onChange={handleInput}
+                                    value={values.city}
+                                    disabled={!values.state} // Disable city dropdown if no state is selected
+                                >
+                                    <option value="">Select City</option>
+                                    {cities.map((city) => (
+                                        <option key={city} value={city}>
+                                            {city}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div className="mt-3">
+                    <div className="mt-3 button-group">
                         {!params.id ? (
-                            <button className="btn btn-outline-primary me-3 fw-bold" type="submit">
+                            <button className="btn btn-primary me-3 fw-bold" type="submit" style={{ width: "120px" }}>
                                 Save
                             </button>
                         ) : (
-                            <button className="btn btn-outline-primary me-3 fw-bold" type="submit" onClick={handleUpdate}>
+                            <button className="btn btn-primary me-3 fw-bold" type="submit" onClick={handleUpdate} style={{ width: "120px" }}>
                                 Update
                             </button>
                         )}
-                        <button className="btn btn-outline-danger fw-bold" type="button" onClick={handleCancel}>
+                        <button className="btn btn-danger fw-bold" type="button" onClick={handleCancel} style={{ width: "120px" }}>
                             Cancel
                         </button>
                     </div>

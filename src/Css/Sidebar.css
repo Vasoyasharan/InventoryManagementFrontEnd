@@ -1,6 +1,10 @@
+html, body {
+  overflow-x: hidden !important;
+}
+
 /* Sidebar Styling */
 .sidebar {
-  width: 250px;
+  width: 246px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
@@ -137,11 +141,12 @@ hr {
 
 /* Search bar */
 .search-bar {
-  padding: 8px 12px;
+  margin-left: 370px;
   border-radius: 20px;
-  border: none;
+  border-color: white;
   width: 250px;
   margin-right: 8px;
+  background-color: transparent;
 }
 
 .search-icon {

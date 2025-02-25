@@ -1,6 +1,8 @@
+/* Dashboard.css */
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
+  background-color: #f8f9fa;
 }
 
 .dashboard-main {
@@ -8,15 +10,21 @@ body {
   background-color: #f8f9fa;
 }
 
+/* Rectangular Cards */
 .dashboard-content .card {
   border: none;
   border-radius: 12px;
-  padding: 12px;
+  padding: 16px; /* Increased padding for better spacing */
   margin-bottom: 20px;
-  position: relative; /* Important for ::before to position correctly */
+  position: relative;
   background-color: #ffffff;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden; /* Ensure the pseudo-element isn't clipped */
+  overflow: hidden;
+  width: 100%; /* Full width of the container */
+  min-height: 120px; /* Minimum height to ensure rectangular shape */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space out content evenly */
 }
 
 .dashboard-content .card:hover {
@@ -24,71 +32,58 @@ body {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
+.dashboard-content .card-body {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; Space out content horizontally */
+  flex-grow: 1; /* Allow the body to grow and fill the card */
+}
+
+.dashboard-content .card-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #343a40;
+  margin-bottom: 8px;
+}
+
 .dashboard-content .card-title {
   font-size: 1.1rem;
   font-weight: 600;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Chart Cards */
+.dashboard-content .card-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  padding: 16px;
+  border-radius: 12px 12px 0 0;
+}
+
+.dashboard-content .card-header h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
   color: #343a40;
+  margin: 0;
 }
 
-.dashboard-content .card-text {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #495057;
+.dashboard-content .card-body {
+  padding: 16px;
 }
 
-/* Pseudo-element for side color strip */
-.card-line::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 6px;
-  border-radius: 12px 0 0 12px;
-  z-index: 1;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-content .card {
+    margin-bottom: 15px;
+    min-height: 100px; /* Adjust height for smaller screens */
+  }
 
-/* Color variations for cards */
-.card-line-primary::before {
-  background-color: #097066;
-}
+  .dashboard-content .card-value {
+    font-size: 2rem;
+  }
 
-.card-line-success::before {
-  background-color: #3f4add;
-}
-
-.card-line-warning::before {
-  background-color: #c9cc1b;
-}
-
-.card-line-danger::before {
-  background-color: #df4b26;
-}
-
-.card-line-info::before {
-  background-color: #72ee72;
-}
-
-.shadow {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn-outline-secondary {
-  color: #007f72;
-  border-color: #007f72;
-}
-
-.btn-outline-secondary:hover {
-  background-color: #8ac1bb;
-  color: #ffffff;
-  border-color: #007f72;
-}
-
-.table-bordered {
-  border: 1px solid #dee2e6;
-}
-
-.table-bordered th,
-.table-bordered td {
-  border: 1px solid #dee2e6;
+  .dashboard-content .card-title {
+    font-size: 1rem;
+  }
 }

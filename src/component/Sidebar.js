@@ -70,7 +70,7 @@ const Sidebar = () => {
             </li>
             <li>
               <NavLink
-                to="/sales"
+                to="/sale"
                 className="d-flex align-items-center py-2"
               >
                 <i className="fas fa-receipt me-3"></i>
@@ -79,7 +79,7 @@ const Sidebar = () => {
             </li>
             <li>
               <NavLink
-                to="/products"
+                to="/product"
                 className="d-flex align-items-center py-2"
               >
                 <i className="fas fa-box me-3"></i>
@@ -88,7 +88,7 @@ const Sidebar = () => {
             </li>
             <li>
               <NavLink
-                to="/customers"
+                to="/customer"
                 className="d-flex align-items-center py-2"
               >
                 <i className="fas fa-users me-3"></i>
@@ -96,15 +96,24 @@ const Sidebar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/vendors" className="d-flex align-items-center py-2">
+              <NavLink to="/vendor" className="d-flex align-items-center py-2">
                 <i className="fas fa-truck me-3"></i>
                 <span>Vendors</span>
               </NavLink>
             </li>
             <li>
-              <NavLink to="/reports" className="d-flex align-items-center py-2">
+              <NavLink to="/report" className="d-flex align-items-center py-2">
                 <i className="fas fa-chart-line me-3"></i>
                 <span>Reports</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/expense-tracker"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <i className="fas fa-wallet me-3"></i>
+                <span>Expense Tracker</span>
               </NavLink>
             </li>
           </ul>

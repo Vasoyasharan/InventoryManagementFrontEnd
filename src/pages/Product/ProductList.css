@@ -1,4 +1,4 @@
-/* Custom table styling */
+/* Modern table styling */
 .custom-table {
     width: 100%;
     border-collapse: separate;
@@ -8,45 +8,173 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    background: white;
 }
 
 .custom-table thead {
-    background: linear-gradient(135deg, #003f7d 0%, #005b9b 100%);
-    color: #ffffff;
-    border-bottom: 2px solid #005b9b;
+    background: linear-gradient(135deg, #3498db, #2980b9); /* Gradient header */
+    color: white;
 }
 
 .custom-table th {
-    padding: 12px 15px;
+    padding: 15px;
     text-align: left;
-    font-weight: bold;
-    font-size: 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
 .custom-table td {
-    padding: 12px 15px;
+    padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #dee2e6;
-    position: relative;
-    overflow: hidden;
+    border-bottom: 1px solid #ecf0f1;
 }
 
 .custom-table tbody tr {
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-}
-
-.custom-table tbody tr:nth-child(even) {
-    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 .custom-table tbody tr:hover {
-    background-color: #e8e8e87d !important;
-    transform: scale(1.02);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: #f5f6fa; /* Light hover effect */
 }
 
-.custom-table tbody td:last-child {
+/* Action column styling */
+.custom-table th:nth-child(5),
+.custom-table td:nth-child(5) {
+    text-align: center; /* Center align the Action header and cells */
+}
+
+/* Action icons styling */
+.action-icons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center; /* Center icons horizontally */
+    align-items: center; /* Center icons vertically */
+    gap: 15px; /* Space between icons */
+}
+
+.action-icons a,
+.action-icons button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+
+.action-icons .view-icon {
+    color: #2ecc71; /* Green color for View icon */
+}
+
+.action-icons .view-icon:hover {
+    color: #27ae60; /* Darker green on hover */
+}
+
+.action-icons .edit-icon {
+    color: #3498db; /* Blue color for Edit icon */
+}
+
+.action-icons .edit-icon:hover {
+    color: #2980b9; /* Darker blue on hover */
+}
+
+.action-icons .delete-icon {
+    color: #e74c3c; /* Red color for Delete icon */
+}
+
+.action-icons .delete-icon:hover {
+    color: #c0392b; /* Darker red on hover */
+}
+
+/* Tooltips for icons */
+.action-icons a::after,
+.action-icons button::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    white-space: nowrap;
+}
+
+.action-icons a:hover::after,
+.action-icons button:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Fixed header for better scrolling */
+.custom-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .custom-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* Search and filter styling */
+.search-box {
+    position: relative;
+}
+
+.search-box .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+}
+
+.search-box input {
+    padding-left: 35px;
+}
+
+.entries-selector {
+    display: flex;
+    align-items: center;
     gap: 10px;
+}
+
+.entries-selector select {
+    width: auto;
+}
+
+/* Pagination styling */
+.pagination {
+    margin: 0;
+}
+
+.page-item.active .page-link {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.page-link {
+    color: #3498db;
+    border: 1px solid #ddd;
+    margin: 0 2px;
+    border-radius: 4px;
+}
+
+.page-link:hover {
+    color: #2980b9;
+    background-color: #f5f6fa;
+    border-color: #ddd;
 }

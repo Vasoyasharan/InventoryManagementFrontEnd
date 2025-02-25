@@ -5,7 +5,7 @@ import { Url, config } from "../../Url";
 import "./Dashboard.css";
 import TaskManager from "./TaskManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faCubes, faFileInvoiceDollar, faMoneyBillWave, faStore} from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faCubes, faFileInvoiceDollar, faMoneyBillWave, faStore } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
     const data = [
@@ -44,60 +44,65 @@ const Dashboard = () => {
         }
     };
 
-    
     useEffect(() => {
         fetchCounts();
     }, []);
 
     const cardData = [
         {
-            title: "Total Vendors",
+            title: "Vendors",
             value: vendorCount,
             icon: faStore,
-            className: "card-line-primary",
+            iconColor: "#097066", // Teal
         },
         {
-            title: "Total Customers",
+            title: "Customers",
             value: customerCount,
             icon: faUsers,
-            className: "card-line-success",
+            iconColor: "#3f4add", // Blue
         },
         {
-            title: "Total Products",
+            title: "Products",
             value: productCount,
             icon: faCubes,
-            className: "card-line-danger",
+            iconColor: "#df4b26", // Red
         },
         {
-            title: "Total Purchased",
+            title: "Purchased Bills",
             value: purchaseCount,
             icon: faFileInvoiceDollar,
-            className: "card-line-warning",
+            iconColor: "#c9cc1b", // Yellow
         },
         {
-            title: "Total Sale Bills",
+            title: "Sale Bills",
             value: saleCount,
             icon: faMoneyBillWave,
-            className: "card-line-info",
+            iconColor: "#72ee72", // Green
         },
     ];
 
     return (
-         <main className="dashboard-main col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <main className="dashboard-main col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 className="h2">Dashboard</h1>
             </div>
-            {/* Cards Section  */}
+
+            {/* Cards Section */}
             <section className="dashboard-content">
                 <div className="row">
                     {cardData.map((card, index) => (
                         <div key={index} className="col-12 col-md-6 col-lg-3 mb-4">
-                            <div className={`card shadow card-line ${card.className}`}>
+                            <div className="card shadow">
                                 <div className="card-body d-flex align-items-center">
-                                    <FontAwesomeIcon icon={card.icon} size="2x" className="me-3" />
+                                    <FontAwesomeIcon
+                                        icon={card.icon}
+                                        size="2x"
+                                        className="me-3"
+                                        style={{ color: card.iconColor }}
+                                    />
                                     <div>
-                                        <h5 className="card-title">{card.title}</h5>
-                                        <p className="card-text">{card.value}</p>
+                                        <h2 className="card-value">{card.value}</h2>
+                                        <p className="card-title">{card.title}</p>
                                     </div>
                                 </div>
                             </div>
@@ -111,11 +116,12 @@ const Dashboard = () => {
                         <TaskManager />
                     </div>
                 </div>
+
                 {/* Sales Overview and Product Performance */}
                 <div className="row mb-4">
                     <div className="col-md-6">
                         <div className="card shadow">
-                            <div className="card-header">
+                            <div className="card-header bg-white">
                                 <h4 className="card-title">Sales Overview</h4>
                             </div>
                             <div className="card-body">
@@ -126,8 +132,8 @@ const Dashboard = () => {
                                         <YAxis />
                                         <Tooltip />
                                         <Legend />
-                                        <Line type="monotone" dataKey="orders" stroke="#8884d8" />
-                                        <Line type="monotone" dataKey="sales" stroke="#82ca9d" />
+                                        <Line type="monotone" dataKey="orders" stroke="#8884d8" strokeWidth={2} />
+                                        <Line type="monotone" dataKey="sales" stroke="#82ca9d" strokeWidth={2} />
                                     </LineChart>
                                 </ResponsiveContainer>
                             </div>
@@ -135,7 +141,7 @@ const Dashboard = () => {
                     </div>
                     <div className="col-md-6">
                         <div className="card shadow">
-                            <div className="card-header">
+                            <div className="card-header bg-white">
                                 <h4 className="card-title">Product Performance</h4>
                             </div>
                             <div className="card-body">
@@ -154,7 +160,6 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-
             </section>
         </main>
     );

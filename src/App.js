@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Authentication/Login";
+import ForgotPassword from "./pages/Authentication/ForgotPassword";
+import ResetPassword from "./pages/Authentication/ResetPassword";
 import Signup from "./pages/Authentication/Signup";
 import { ProtectedRoute, AuthProtected } from "./Routes/route";
 import { PageRoutes } from "./Routes";
@@ -10,6 +12,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import { ToastContainer } from "react-toastify";
 import Loader from "./component/Loader";
 import 'react-toastify/dist/ReactToastify.css';
+import ExpenseTrackerTable from "./pages/ExpenseTracker/ExpenseTrackerTable";
+import ExpenseTrackerForm from "./pages/ExpenseTracker/ExpenseTrackerForm";
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
@@ -33,9 +37,12 @@ function App() {
               }
             />
 
+
             {/* Auth Page Protected */}
             <Route exact path="/login" element={<AuthProtected element={Login} />} />
             <Route exact path="/signup" element={<AuthProtected element={Signup} />} />
+            <Route exact path="/forgot-password" element={<AuthProtected element={ForgotPassword} />} />
+            <Route exact path="/reset-password" element={<AuthProtected element={ResetPassword} />} />
 
             {/* Terms and Conditions Route */}
             <Route path="/terms-conditions" element={<TermsConditions />} />
@@ -45,6 +52,10 @@ function App() {
 
             {/* Customer Care Page */}
             <Route path="/customer-care" element={<CustomerCare />} />
+
+            {/* Expense Tracker */}
+            <Route path="/expense-tracker" element={<ExpenseTrackerTable />} />
+            <Route path="/expense-tracker/add" element={<ExpenseTrackerForm />} />
 
             {/* Page Module Protected */}
             {PageRoutes.map((route, id) => (

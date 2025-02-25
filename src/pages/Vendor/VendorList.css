@@ -1,4 +1,4 @@
-/* Custom table styling */
+/* Modern table styling */
 .custom-table {
     width: 100%;
     border-collapse: separate;
@@ -8,6 +8,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    background: white;
 }
 
 .custom-table thead {
@@ -52,13 +53,114 @@
     gap: 10px;
 }
 
-.action-icons a {
-    color: #007bff;
+.action-icons a,
+.action-icons button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
     font-size: 1.1rem;
     transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
-    padding: 0.5rem;
-    border-radius: 50%;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    position: relative;
+}
+
+.action-icons .view-icon {
+    color: #2ecc71; /* Green color for View icon */
+}
+
+.action-icons .view-icon:hover {
+    color: #27ae60; /* Darker green on hover */
+}
+
+.action-icons .link-primary {
+    color: #3498db; /* Blue color for Edit icon */
+}
+
+.action-icons .link-primary:hover {
+    color: #2980b9; /* Darker blue on hover */
+}
+
+.action-icons .link-danger {
+    color: #e74c3c; /* Red color for Delete icon */
+}
+
+.action-icons .link-danger:hover {
+    color: #c0392b; /* Darker red on hover */
+}
+
+/* Tooltips for icons */
+.action-icons a::after,
+.action-icons button::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    white-space: nowrap;
+}
+
+.action-icons a:hover::after,
+.action-icons button:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Search and filter styling */
+.search-box {
+    position: relative;
+}
+
+.search-box .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+}
+
+.search-box input {
+    padding-left: 35px;
+}
+
+.entries-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.entries-selector select {
+    width: auto;
+}
+
+/* Pagination styling */
+.pagination {
+    margin: 0;
+}
+
+.page-item.active .page-link {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.page-link {
+    color: #3498db;
+    border: 1px solid #ddd;
+    margin: 0 2px;
+    border-radius: 4px;
+}
+
+.page-link:hover {
+    color: #2980b9;
+    background-color: #f5f6fa;
+    border-color: #ddd;
 }

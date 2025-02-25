@@ -130,6 +130,11 @@ const Login = () => {
                         <Link to="/signup" className="btn w-100 createACbutton">
                             Create Account
                         </Link>
+                        <div className="text-center mt-3">
+                            <Link to="/forgot-password" className="text-decoration-none">
+                                Forgot Password?
+                            </Link>
+                        </div>
                     </form>
                 </div>
             </div>
