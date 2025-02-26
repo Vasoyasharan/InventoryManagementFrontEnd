@@ -1,237 +1,311 @@
-/* SettingsPage.css */
+/* Settings Page Container */
 .settings-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 40px;
-    background: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.settings-title {
+/* Profile Picture Section */
+.profile-section {
     text-align: center;
-    color: #2c3e50;
-    margin-bottom: 30px;
-    font-size: 28px;
-    font-weight: 600;
-}
-
-.section-title {
-    font-size: 22px;
-    font-weight: 600;
-    color: #34495e;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 10px;
-}
-
-.settings-section {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
 }
 
 .profile-picture-container {
-    text-align: center;
-    margin-bottom: 25px;
     position: relative;
+    display: inline-block;
 }
 
 .profile-picture {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #3498db;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 3px solid #007bff;
 }
 
 .edit-icon-button {
-    background: #3498db;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #007bff;
+    color: white;
     border: none;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
-    margin-left: 10px;
 }
 
 .edit-icon-button:hover {
-    background: #2980b9;
+    background-color: #0056b3;
+}
+
+/* Personal Info Section */
+.personal-info-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.edit-mode-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.edit-mode-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-mode-button.cancel-button {
+    background-color: #dc3545;
+}
+
+.edit-mode-button.cancel-button:hover {
+    background-color: #c82333;
+}
+
+/* Info Fields */
+.info-fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
 }
 
 .info-field {
     display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .info-field label {
-    font-size: 16px;
-    font-weight: 600;
-    color: #34495e;
-    width: 150px;
+    font-weight: 500;
+    color: #555;
+    font-size: 0.9rem;
 }
 
-.field-value {
+.info-field input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+.info-field input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.info-field p {
+    margin: 0;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+/* Save Button */
+.save-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.save-icon-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    flex: 1;
+    gap: 8px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
 }
 
-.field-value p {
-    font-size: 16px;
-    color: #2c3e50;
-    margin: 0;
-    flex: 1;
+.save-icon-button:hover {
+    background-color: #218838;
+}
+
+/* Login & Security Section */
+.login-security-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
 }
 
 .password-section {
-    margin-bottom: 20px;
-}
-
-.password-section label {
-    font-size: 16px;
-    font-weight: 600;
-    color: #34495e;
-    margin-bottom: 10px;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .password-fields {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .settings-input {
-    width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #ffffff;
     transition: border-color 0.3s ease;
 }
 
 .settings-input:focus {
-    border-color: #3498db;
+    border-color: #007bff;
     outline: none;
 }
 
 .settings-button {
-    padding: 12px 25px;
-    background-color: #3498db;
+    background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 0.9rem;
     transition: background-color 0.3s ease;
 }
 
 .settings-button:hover {
-    background-color: #2980b9;
+    background-color: #0056b3;
 }
 
-.delete-section {
-    border-top: 1px solid #ddd;
-    padding-top: 25px;
+/* Delete Account Section */
+.delete-account-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
 }
 
 .delete-warning {
-    background: #fff3cd;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .delete-warning p {
-    margin: 0 0 15px 0;
-    font-weight: bold;
-    color: #856404;
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    color: #555;
 }
 
 .delete-warning ul {
     margin: 0;
     padding-left: 20px;
-    color: #856404;
+    font-size: 0.9rem;
+    color: #555;
 }
 
 .delete-account-button {
-    padding: 12px 25px;
-    background-color: #e74c3c;
+    background-color: #dc3545;
     color: white;
     border: none;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 0.9rem;
     transition: background-color 0.3s ease;
 }
 
 .delete-account-button:hover {
-    background-color: #c0392b;
+    background-color: #c82333;
 }
 
+/* Delete Confirmation Modal */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 100%;
     text-align: center;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .modal-actions {
-    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
 }
 
 .modal-button {
-    padding: 12px 25px;
-    margin: 0 10px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 0.9rem;
     transition: background-color 0.3s ease;
 }
 
-.confirm-button {
-    background-color: #e74c3c;
+.modal-button.confirm-button {
+    background-color: #dc3545;
     color: white;
 }
 
-.cancel-button {
-    background-color: #3498db;
+.modal-button.confirm-button:hover {
+    background-color: #c82333;
+}
+
+.modal-button.cancel-button {
+    background-color: #6c757d;
     color: white;
 }
 
-.confirm-button:hover {
-    background-color: #c0392b;
+.modal-button.cancel-button:hover {
+    background-color: #5a6268;
 }
-
-.cancel-button:hover {
-    background-color: #2980b9;
-}
-
-
-
-

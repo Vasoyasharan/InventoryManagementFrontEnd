@@ -3,13 +3,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Url, config } from "../../Url";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import "./SettingsPage.css";
 import defaultProfilePicture from "../../images/def_admin_logo.avif"; // Correct path
 
-const SettingsPage = ({ userID }) => {
+const SettingsPage = () => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -23,25 +23,23 @@ const SettingsPage = ({ userID }) => {
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [shopName, setShopName] = useState("");
-    const [isEditingEmail, setIsEditingEmail] = useState(false);
     const navigate = useNavigate();
-    const params = useParams();
-
 
     // Fetch user data on component mount
     const fetchUserData = async () => {
         try {
             const response = await axios.get(`${Url}/user`, config);
-            if (response.data.profilePicture) {
-                setProfilePicture(response.data.payload[0]); // Update profile picture if available
+            const userData = response.data.payload[0];
+            if (userData.profilePicture) {
+                setProfilePicture(userData.profilePicture); // Update profile picture if available
             }
-            setEmail(response.data.payload[0].email || "N/A");
-            setUsername(response.data.payload[0].username || "N/A");
-            setFirstName(response.data.payload[0].firstName || "N/A");
-            setLastName(response.data.payload[0].lastName || "N/A");
-            setCity(response.data.payload[0].city || "N/A");
-            setState(response.data.payload[0].state || "N/A");
-            setShopName(response.data.payload[0].shopName || "N/A");
+            setEmail(userData.email || "N/A");
+            setUsername(userData.username || "N/A");
+            setFirstName(userData.firstName || "N/A");
+            setLastName(userData.lastName || "N/A");
+            setCity(userData.city || "N/A");
+            setState(userData.state || "N/A");
+            setShopName(userData.shopName || "N/A");
         } catch (error) {
             console.error("Failed to fetch user data:", error);
             toast.error("Failed to load user data.");
@@ -76,22 +74,18 @@ const SettingsPage = ({ userID }) => {
         }
     };
 
-    // Handle email update
-    const handleUpdateEmail = async () => {
-        // event.preventDefault();
+    // Handle profile update
+    const handleUpdateProfile = async () => {
         const updatedData = { username, firstName, lastName, email, city, state, shopName };
-        if (!email || !email.includes("@")) {
-            toast.error("Please enter a valid email address.");
-            return;
-        }
 
         try {
             await axios.put(`${Url}/user/update-profile`, updatedData, config);
-            toast.success("User updated successfully!");
-            fetchUserData();
+            toast.success("Profile updated successfully!");
+            setIsEditMode(false); // Exit edit mode
+            fetchUserData(); // Refresh data
         } catch (error) {
-            console.error("Failed to update email:", error);
-            toast.error(error.response?.data?.message || "Failed to update email.");
+            console.error("Failed to update profile:", error);
+            toast.error(error.response?.data?.message || "Failed to update profile.");
         }
     };
 
@@ -144,10 +138,10 @@ const SettingsPage = ({ userID }) => {
             <h1 className="settings-title">Settings</h1>
 
             {/* Profile Picture Section */}
-            <div className="settings-section">
+            <div className="profile-section">
                 <div className="profile-picture-container">
                     <img src={profilePicture} alt="Profile" className="profile-picture" />
-                    <button className="edit-icon-button" onClick={() => document.querySelector(".profile-picture-upload").click()} >
+                    <button className="edit-icon-button" onClick={() => document.querySelector(".profile-picture-upload").click()}>
                         <FontAwesomeIcon icon={faEdit} />
                     </button>
                     <input
@@ -161,107 +155,102 @@ const SettingsPage = ({ userID }) => {
             </div>
 
             {/* Personal Info Section */}
-            <div className="settings-section">
-                <h2 className="section-title">Personal Info</h2>
-
-                {/* Toggle Edit Mode Button */}
-                <div className="edit-mode-toggle">
-                    <button
-                        className="edit-mode-button"
-                        onClick={() => setIsEditMode(!isEditMode)}
-                    >
-                        {isEditMode ? "Cancel" : "Edit Profile"}
-                    </button>
+            <div className="personal-info-section">
+                <div className="section-header">
+                    <h2 className="section-title">Personal Info</h2>
+                    {!isEditMode ? (
+                        <button
+                            className="edit-mode-button"
+                            onClick={() => setIsEditMode(true)}
+                        >
+                            <FontAwesomeIcon icon={faEdit} /> Edit Profile
+                        </button>
+                    ) : (
+                        <button
+                            className="edit-mode-button cancel-button"
+                            onClick={() => setIsEditMode(false)}
+                        >
+                            <FontAwesomeIcon icon={faTimes} /> Cancel
+                        </button>
+                    )}
                 </div>
 
-                {/* First Name and Last Name (Side by Side) */}
-                <div className="row">
+                {/* User Info Fields */}
+                <div className="info-fields">
                     <div className="info-field">
                         <label>Email</label>
-                        <div className="field-value">
+                        {isEditMode ? (
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        ) : (
                             <p>{email}</p>
-                        </div>
+                        )}
                     </div>
                     <div className="info-field">
-                        <label>User Name</label>
-                        <div className="field-value">
-                            {isEditMode ? (
-                                <input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
-                            ) : (
-                                <p>{username}</p>
-                            )}
-                        </div>
+                        <label>Username</label>
+                        {isEditMode ? (
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        ) : (
+                            <p>{username}</p>
+                        )}
                     </div>
                     <div className="info-field">
                         <label>First Name</label>
-                        <div className="field-value">
-                            {isEditMode ? (
-                                <input
-                                    type="text"
-                                    value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                />
-                            ) : (
-                                <p>{firstName}</p>
-                            )}
-                        </div>
+                        {isEditMode ? (
+                            <input
+                                type="text"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                            />
+                        ) : (
+                            <p>{firstName}</p>
+                        )}
                     </div>
                     <div className="info-field">
                         <label>Last Name</label>
-                        <div className="field-value">
-                            {isEditMode ? (
-                                <input
-                                    type="text"
-                                    value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                />
-                            ) : (
-                                <p>{lastName}</p>
-                            )}
-                        </div>
+                        {isEditMode ? (
+                            <input
+                                type="text"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                            />
+                        ) : (
+                            <p>{lastName}</p>
+                        )}
                     </div>
-                </div>
-
-                {/* City and State (Side by Side) */}
-                <div className="row">
                     <div className="info-field">
                         <label>City</label>
-                        <div className="field-value">
-                            {isEditMode ? (
-                                <input
-                                    type="text"
-                                    value={city}
-                                    onChange={(e) => setCity(e.target.value)}
-                                />
-                            ) : (
-                                <p>{city}</p>
-                            )}
-                        </div>
+                        {isEditMode ? (
+                            <input
+                                type="text"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                            />
+                        ) : (
+                            <p>{city}</p>
+                        )}
                     </div>
                     <div className="info-field">
                         <label>State</label>
-                        <div className="field-value">
-                            {isEditMode ? (
-                                <input
-                                    type="text"
-                                    value={state}
-                                    onChange={(e) => setState(e.target.value)}
-                                />
-                            ) : (
-                                <p>{state}</p>
-                            )}
-                        </div>
+                        {isEditMode ? (
+                            <input
+                                type="text"
+                                value={state}
+                                onChange={(e) => setState(e.target.value)}
+                            />
+                        ) : (
+                            <p>{state}</p>
+                        )}
                     </div>
-                </div>
-
-                {/* Shop Name (Full Width) */}
-                <div className="info-field full-width">
-                    <label>Shop Name</label>
-                    <div className="field-value">
+                    <div className="info-field full-width">
+                        <label>Shop Name</label>
                         {isEditMode ? (
                             <input
                                 type="text"
@@ -277,17 +266,15 @@ const SettingsPage = ({ userID }) => {
                 {/* Save Button (Visible only in Edit Mode) */}
                 {isEditMode && (
                     <div className="save-button">
-                        <button className="save-icon-button" onClick={handleUpdateEmail}>
+                        <button className="save-icon-button" onClick={handleUpdateProfile}>
                             <FontAwesomeIcon icon={faSave} /> Save Changes
                         </button>
                     </div>
                 )}
             </div>
 
-
-
             {/* Login & Security Section */}
-            <div className="settings-section">
+            <div className="login-security-section">
                 <h2 className="section-title">Login & Security</h2>
                 <div className="password-section">
                     <label>Change Password</label>
@@ -321,7 +308,7 @@ const SettingsPage = ({ userID }) => {
             </div>
 
             {/* Delete Account Section */}
-            <div className="settings-section delete-section">
+            <div className="delete-account-section">
                 <h2 className="section-title">Delete Account</h2>
                 <div className="delete-warning">
                     <p>What happens when you delete your account:</p>
