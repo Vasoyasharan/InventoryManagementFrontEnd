@@ -3,13 +3,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Url, config } from "../../Url";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
 import "./SettingsPage.css";
 import defaultProfilePicture from "../../images/def_admin_logo.avif"; // Correct path
 
 const SettingsPage = ({ userID }) => {
+    const [isEditMode, setIsEditMode] = useState(false);
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,30 +18,38 @@ const SettingsPage = ({ userID }) => {
     const [profilePicture, setProfilePicture] = useState(defaultProfilePicture); // Set default image
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-    const [country, setCountry] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [city, setCity] = useState("");
-    const [phone, setPhone] = useState("");
+    const [state, setState] = useState("");
+    const [shopName, setShopName] = useState("");
     const [isEditingEmail, setIsEditingEmail] = useState(false);
     const navigate = useNavigate();
+    const params = useParams();
+
 
     // Fetch user data on component mount
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get(`${Url}/user`, config);
-                if (response.data.profilePicture) {
-                    setProfilePicture(response.data.profilePicture); // Update profile picture if available
-                }
-                setUsername(response.data.username || "N/A"); // Fetch username from API
-                setEmail(response.data.email || "N/A");
-                setCountry(response.data.country || "N/A");
-                setCity(response.data.city || "N/A");
-                setPhone(response.data.phone || "N/A");
-            } catch (error) {
-                console.error("Failed to fetch user data:", error);
-                toast.error("Failed to load user data.");
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(`${Url}/user`, config);
+            if (response.data.profilePicture) {
+                setProfilePicture(response.data.payload[0]); // Update profile picture if available
             }
-        };
+            setEmail(response.data.payload[0].email || "N/A");
+            setUsername(response.data.payload[0].username || "N/A");
+            setFirstName(response.data.payload[0].firstName || "N/A");
+            setLastName(response.data.payload[0].lastName || "N/A");
+            setCity(response.data.payload[0].city || "N/A");
+            setState(response.data.payload[0].state || "N/A");
+            setShopName(response.data.payload[0].shopName || "N/A");
+        } catch (error) {
+            console.error("Failed to fetch user data:", error);
+            toast.error("Failed to load user data.");
+        }
+    };
+
+    // Call fetchUserData inside useEffect
+    useEffect(() => {
         fetchUserData();
     }, []);
 
@@ -69,18 +78,17 @@ const SettingsPage = ({ userID }) => {
 
     // Handle email update
     const handleUpdateEmail = async () => {
+        // event.preventDefault();
+        const updatedData = { username, firstName, lastName, email, city, state, shopName };
         if (!email || !email.includes("@")) {
             toast.error("Please enter a valid email address.");
             return;
         }
 
         try {
-            await axios.put(
-                `${Url}/user`,
-                { email },
-                config
-            );
-            toast.success("Email updated successfully!");
+            await axios.put(`${Url}/user/update-profile`, updatedData, config);
+            toast.success("User updated successfully!");
+            fetchUserData();
         } catch (error) {
             console.error("Failed to update email:", error);
             toast.error(error.response?.data?.message || "Failed to update email.");
@@ -138,15 +146,8 @@ const SettingsPage = ({ userID }) => {
             {/* Profile Picture Section */}
             <div className="settings-section">
                 <div className="profile-picture-container">
-                    <img
-                        src={profilePicture}
-                        alt="Profile"
-                        className="profile-picture"
-                    />
-                    <button
-                        className="edit-icon-button"
-                        onClick={() => document.querySelector(".profile-picture-upload").click()}
-                    >
+                    <img src={profilePicture} alt="Profile" className="profile-picture" />
+                    <button className="edit-icon-button" onClick={() => document.querySelector(".profile-picture-upload").click()} >
                         <FontAwesomeIcon icon={faEdit} />
                     </button>
                     <input
@@ -162,55 +163,128 @@ const SettingsPage = ({ userID }) => {
             {/* Personal Info Section */}
             <div className="settings-section">
                 <h2 className="section-title">Personal Info</h2>
-                <div className="info-field">
-                    <label>Username</label>
-                    <div className="field-value">
-                        <p>{username}</p>
-                        <button className="edit-icon-button">
-                            <FontAwesomeIcon icon={faEdit} />
-                        </button>
+
+                {/* Toggle Edit Mode Button */}
+                <div className="edit-mode-toggle">
+                    <button
+                        className="edit-mode-button"
+                        onClick={() => setIsEditMode(!isEditMode)}
+                    >
+                        {isEditMode ? "Cancel" : "Edit Profile"}
+                    </button>
+                </div>
+
+                {/* First Name and Last Name (Side by Side) */}
+                <div className="row">
+                    <div className="info-field">
+                        <label>Email</label>
+                        <div className="field-value">
+                            <p>{email}</p>
+                        </div>
+                    </div>
+                    <div className="info-field">
+                        <label>User Name</label>
+                        <div className="field-value">
+                            {isEditMode ? (
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                            ) : (
+                                <p>{username}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="info-field">
+                        <label>First Name</label>
+                        <div className="field-value">
+                            {isEditMode ? (
+                                <input
+                                    type="text"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
+                            ) : (
+                                <p>{firstName}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="info-field">
+                        <label>Last Name</label>
+                        <div className="field-value">
+                            {isEditMode ? (
+                                <input
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
+                            ) : (
+                                <p>{lastName}</p>
+                            )}
+                        </div>
                     </div>
                 </div>
-                <div className="info-field">
-                    <label>Email</label>
-                    <div className="field-value">
-                        <p>{email}</p>
-                        <button
-                            className="edit-icon-button"
-                            onClick={() => setIsEditingEmail(true)}
-                        >
-                            <FontAwesomeIcon icon={faEdit} />
-                        </button>
+
+                {/* City and State (Side by Side) */}
+                <div className="row">
+                    <div className="info-field">
+                        <label>City</label>
+                        <div className="field-value">
+                            {isEditMode ? (
+                                <input
+                                    type="text"
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                />
+                            ) : (
+                                <p>{city}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="info-field">
+                        <label>State</label>
+                        <div className="field-value">
+                            {isEditMode ? (
+                                <input
+                                    type="text"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                />
+                            ) : (
+                                <p>{state}</p>
+                            )}
+                        </div>
                     </div>
                 </div>
-                <div className="info-field">
-                    <label>Country</label>
+
+                {/* Shop Name (Full Width) */}
+                <div className="info-field full-width">
+                    <label>Shop Name</label>
                     <div className="field-value">
-                        <p>{country}</p>
-                        <button className="edit-icon-button">
-                            <FontAwesomeIcon icon={faEdit} />
-                        </button>
+                        {isEditMode ? (
+                            <input
+                                type="text"
+                                value={shopName}
+                                onChange={(e) => setShopName(e.target.value)}
+                            />
+                        ) : (
+                            <p>{shopName}</p>
+                        )}
                     </div>
                 </div>
-                <div className="info-field">
-                    <label>City</label>
-                    <div className="field-value">
-                        <p>{city}</p>
-                        <button className="edit-icon-button">
-                            <FontAwesomeIcon icon={faEdit} />
+
+                {/* Save Button (Visible only in Edit Mode) */}
+                {isEditMode && (
+                    <div className="save-button">
+                        <button className="save-icon-button" onClick={handleUpdateEmail}>
+                            <FontAwesomeIcon icon={faSave} /> Save Changes
                         </button>
                     </div>
-                </div>
-                <div className="info-field">
-                    <label>Phone</label>
-                    <div className="field-value">
-                        <p>{phone}</p>
-                        <button className="edit-icon-button">
-                            <FontAwesomeIcon icon={faEdit} />
-                        </button>
-                    </div>
-                </div>
+                )}
             </div>
+
+
 
             {/* Login & Security Section */}
             <div className="settings-section">

@@ -61,7 +61,9 @@ const Customer = (props) => {
         event.preventDefault();
         if (!params.id) return;
         try {
-            await axios.put(`${URL}/${params.id}`, values, config);
+            const { userId, _id, ...payload } = values;
+
+            await axios.put(`${URL}/${params.id}`, payload, config);
             setValues({ customerName: "", mobileNo: "", state: "", city: "" });
             navigate("/customer");
             toast.success("Customer Updated Successfully");

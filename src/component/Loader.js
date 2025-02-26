@@ -15,7 +15,7 @@ const Loader = () => {
     handleStart();
 
     // Hide loader after a delay
-    const timeout = setTimeout(() => handleComplete(), 300);
+    const timeout = setTimeout(() => handleComplete(), 100);
 
     return () => clearTimeout(timeout);
   }, [location]);

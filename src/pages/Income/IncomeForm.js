@@ -4,12 +4,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const ExpenseTrackerForm = () => {
+const IncomeForm = () => {
     const params = useParams();
     const navigate = useNavigate();
     const [values, setValues] = useState({
-        expenseName: "",
-        expenseDate: "",
+        incomeName: "",
+        incomeDate: "",
         supplierName: "",
         paymentMode: "cash",
         amount: "",
@@ -18,7 +18,7 @@ const ExpenseTrackerForm = () => {
 
     const [loading, setLoading] = useState(true);
 
-    const URL = Url + "/expense";
+    const URL = Url + "/income";
 
     const handleInput = (event) => {
         setValues((prev) => ({
@@ -31,13 +31,11 @@ const ExpenseTrackerForm = () => {
         event.preventDefault();
         try {
             await axios.post(URL + "/", values, config);
-            setValues({ expenseName: "", expenseDate: "", supplierName: "", paymentMode: "cash", amount: "", note: "" });
-            navigate("/expense-tracker");
-            toast.success("Expense Created Successfully");
+            setValues({ incomeName: "", incomeDate: "", supplierName: "", paymentMode: "cash", amount: "", note: "" });
+            navigate("/income");
+            toast.success("Income Recorded Successfully");
         } catch (error) {
-            console.log(error);
-            setValues({ productName: "", stock: "", unit: "", hsnCode: "" });
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Error recording income");
         }
     };
 
@@ -47,11 +45,11 @@ const ExpenseTrackerForm = () => {
         try {
             const { userId, _id, createdAt, updatedAt, ...payload } = values;
             await axios.put(`${URL}/${params.id}`, payload, config);
-            setValues({ expenseName: "", expenseDate: "", supplierName: "", paymentMode: "", amount: "", note: "" });
-            navigate("/expense-tracker");
-            toast.success("Expense Updated Successfully");
+            setValues({ incomeName: "", incomeDate: "", supplierName: "", paymentMode: "", amount: "", note: "" });
+            navigate("/income");
+            toast.success("Income Updated Successfully");
         } catch (error) {
-            toast.error(error.response?.data?.message || "Error updating expense");
+            toast.error(error.response?.data?.message || "Error updating income");
         }
     };
 
@@ -59,19 +57,15 @@ const ExpenseTrackerForm = () => {
         try {
             if (params.id) {
                 const response = await axios.get(`${URL}/${params.id}`, config);
-                let fetchedData = response?.data?.payload?.expense?.[0];
+                let fetchedData = response?.data?.payload?.income?.[0];
 
                 if (fetchedData) {
-                    // Convert UTC Date to YYYY-MM-DD format for the date input
-                    let formattedDate = new Date(fetchedData.expenseDate).toISOString().split("T")[0];
-
-                    setValues({ ...fetchedData, expenseDate: formattedDate });
+                    let formattedDate = new Date(fetchedData.incomeDate).toISOString().split("T")[0];
+                    setValues({ ...fetchedData, incomeDate: formattedDate });
                 }
             }
-
         } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Error fetching income data");
         } finally {
             setLoading(false);
         }
@@ -82,7 +76,7 @@ const ExpenseTrackerForm = () => {
     }, [params.id]);
 
     const handleCancel = () => {
-        navigate("/expense-tracker");
+        navigate("/income");
     };
 
     let name = params.type === "add" ? "ADD" : "UPDATE";
@@ -91,51 +85,51 @@ const ExpenseTrackerForm = () => {
         <>
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
-                    <h3 className="m-0">{name} EXPENSE </h3>
+                    <h3 className="m-0">{name} INCOME</h3>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="row mt-3">
                         <div className="col-md-6 mb-3">
-                            <label htmlFor="expenseName" className="required-star">
-                                Expense Name<span style={{ color: "red" }}>*</span>
+                            <label htmlFor="incomeName" className="required-star">
+                                Income Name<span style={{ color: "red" }}>*</span>
                             </label>
                             <input
                                 type="text"
                                 className="form-control"
-                                id="expenseName"
-                                name="expenseName"
-                                placeholder="Enter Expense Name"
+                                id="incomeName"
+                                name="incomeName"
+                                placeholder="Enter Income Name"
                                 required
                                 onChange={handleInput}
-                                value={values.expenseName}
+                                value={values.incomeName}
                             />
                         </div>
 
                         <div className="col-md-6 mb-3">
-                            <label htmlFor="expenseDate" className="required-star">
-                                Expense Date<span style={{ color: "red" }}>*</span>
+                            <label htmlFor="incomeDate" className="required-star">
+                                Income Date<span style={{ color: "red" }}>*</span>
                             </label>
                             <input
                                 type="date"
                                 className="form-control"
-                                id="expenseDate"
-                                name="expenseDate"
+                                id="incomeDate"
+                                name="incomeDate"
                                 required
                                 onChange={handleInput}
-                                value={values.expenseDate}
+                                value={values.incomeDate}
                             />
                         </div>
 
                         <div className="col-md-6 mb-3">
                             <label htmlFor="supplierName" className="required-star">
-                                Supplier Name<span style={{ color: "red" }}>*</span>
+                                Source Name<span style={{ color: "red" }}>*</span>
                             </label>
                             <input
                                 type="text"
                                 className="form-control"
                                 id="supplierName"
                                 name="supplierName"
-                                placeholder="Enter Supplier Name"
+                                placeholder="Enter Source Name"
                                 required
                                 onChange={handleInput}
                                 value={values.supplierName}
@@ -209,4 +203,4 @@ const ExpenseTrackerForm = () => {
     );
 };
 
-export default ExpenseTrackerForm;
+export default IncomeForm;

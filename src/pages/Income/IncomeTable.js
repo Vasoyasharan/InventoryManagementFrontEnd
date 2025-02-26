@@ -1,23 +1,22 @@
 import { faFileCirclePlus, faFilePen, faTrashCan, faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./ExpenseTracker.css"; // Import the CSS file
 
-const ExpenseTrackerTable = () => {
+const IncomeTable = () => {
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [recordsPerPage, setRecordsPerPage] = useState(100); // Default records per page
+    const [recordsPerPage, setRecordsPerPage] = useState(100);
     const [currentPage, setCurrentPage] = useState(1);
-    const URL = Url + "/expense";
+    const URL = Url + "/income";
 
     const fetchData = async () => {
         try {
             const response = await axios.get(URL, config);
-            setData(response.data.payload.expense);
+            setData(response.data.payload.income);
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
@@ -28,11 +27,11 @@ const ExpenseTrackerTable = () => {
         fetchData();
     }, []);
 
-    const handleDelete = async (expenseID) => {
+    const handleDelete = async (incomeID) => {
         try {
-            await axios.delete(`${URL}/${expenseID}`, config);
+            await axios.delete(`${URL}/${incomeID}`, config);
             fetchData();
-            toast.success("Expense Deleted Successfully");
+            toast.success("Income Deleted Successfully");
         } catch (error) {
             return toast.error(error.response.data.message);
         }
@@ -41,7 +40,7 @@ const ExpenseTrackerTable = () => {
     const handleDownloadCSV = async () => {
         try {
             const response = await axios.get("http://localhost:5500/api/csv", {
-                params: { type: "expense" }, // Pass type as a query parameter
+                params: { type: "income" }, // Pass type as a query parameter
                 headers: { ...config.headers }, // Include config headers (if any)
                 responseType: "blob", // Important for handling file download
             });
@@ -53,7 +52,7 @@ const ExpenseTrackerTable = () => {
             // Create a temporary link and trigger download
             const a = document.createElement("a");
             a.href = url;
-            a.download = "Expense_Bill.csv"; // File name
+            a.download = "Income_Bill.csv"; // File name
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -67,15 +66,12 @@ const ExpenseTrackerTable = () => {
         }
     };
 
-
-    // Filter data based on search query
     const filteredData = data.filter((item) =>
-        item.expenseName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.incomeName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.supplierName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.paymentMode?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // Pagination logic
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     const currentRecords = filteredData.slice(indexOfFirstRecord, indexOfLastRecord);
@@ -85,22 +81,21 @@ const ExpenseTrackerTable = () => {
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
-                <h3 className="m-0">Expense Tracker</h3>
+                <h3 className="m-0">Income</h3>
                 <div className="btn-toolbar mb-2 mb-md-0">
                     <NavLink to="add" className="btn btn-md btn-outline-dark">
-                        Add Expense
+                        Add Income
                         <FontAwesomeIcon icon={faFileCirclePlus} className="mx-2" />
                     </NavLink>
                 </div>
             </div>
 
-            {/* Search and Records Per Page */}
             <div className="row mt-3">
                 <div className="col-md-6 mb-3">
                     <input
                         type="text"
                         className="form-control"
-                        placeholder="Search by Expense Name, Vendor, or Payment Mode"
+                        placeholder="Search by Income Name, supplierName, or Payment Mode"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -126,17 +121,15 @@ const ExpenseTrackerTable = () => {
                 >
                     <FontAwesomeIcon icon={faFileExcel} className="me-2" style={{ color: "green", fontSize: "19px" }} /> Export
                 </button>
-
             </div>
 
-            {/* Table */}
             <div className="mt-3">
                 <table className="table custom-table">
                     <thead>
                         <tr>
-                            <th>Expense Date</th>
-                            <th>Expense Category</th>
-                            <th>Supplier Name</th>
+                            <th>Income Date</th>
+                            <th>Income Category</th>
+                            <th>supplierName</th>
                             <th>Payment Mode</th>
                             <th>Amount (₹)</th>
                             <th>Note</th>
@@ -146,8 +139,8 @@ const ExpenseTrackerTable = () => {
                     <tbody>
                         {currentRecords.map((item) => (
                             <tr key={item._id}>
-                                <td>{new Date(item.expenseDate).toLocaleDateString("en-GB").replace(/\//g, "-")}</td>
-                                <td>{item.expenseName}</td>
+                                <td>{new Date(item.incomeDate).toLocaleDateString("en-GB").replace(/\//g, "-")}</td>
+                                <td>{item.incomeName}</td>
                                 <td>{item.supplierName}</td>
                                 <td>{item.paymentMode}</td>
                                 <td>{item.amount}</td>
@@ -166,7 +159,6 @@ const ExpenseTrackerTable = () => {
                 </table>
             </div>
 
-            {/* Pagination */}
             <div className="d-flex justify-content-between align-items-center mt-3">
                 <div>
                     Showing {indexOfFirstRecord + 1} to {Math.min(indexOfLastRecord, filteredData.length)} of {filteredData.length} entries
@@ -187,4 +179,4 @@ const ExpenseTrackerTable = () => {
     );
 };
 
-export default ExpenseTrackerTable;
+export default IncomeTable;

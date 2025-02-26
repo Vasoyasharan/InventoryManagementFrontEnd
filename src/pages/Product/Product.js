@@ -43,7 +43,8 @@ const Product = (props) => {
         event.preventDefault();
         if (!params.id) return;
         try {
-            await axios.put(`${URL}/${params.id}`, values, config);
+            const { userId, _id, ...payload } = values;
+            await axios.put(`${URL}/${params.id}`, payload, config);
             setValues({ productName: "", stock: "", unit: "", hsnCode: "" });
             navigate("/product");
             toast.success("Product Updated Successfully");
@@ -163,19 +164,19 @@ const Product = (props) => {
                         </div>
                     </div>
                     <div className="mt-3 button-group">
-    {!params.id ? (
-        <button className="btn btn-primary me-3 fw-bold" type="submit" style={{ width: "120px" }}>
-            Save
-        </button>
-    ) : (
-        <button className="btn btn-primary me-3 fw-bold" type="submit" onClick={handleUpdate} style={{ width: "120px" }}>
-            Update
-        </button>
-    )}
-    <button className="btn btn-danger fw-bold" type="button" onClick={handleCancel} style={{ width: "120px" }}>
-        Cancel
-    </button>
-</div>
+                        {!params.id ? (
+                            <button className="btn btn-primary me-3 fw-bold" type="submit" style={{ width: "120px" }}>
+                                Save
+                            </button>
+                        ) : (
+                            <button className="btn btn-primary me-3 fw-bold" type="submit" onClick={handleUpdate} style={{ width: "120px" }}>
+                                Update
+                            </button>
+                        )}
+                        <button className="btn btn-danger fw-bold" type="button" onClick={handleCancel} style={{ width: "120px" }}>
+                            Cancel
+                        </button>
+                    </div>
                 </form>
             </main>
         </>

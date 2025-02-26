@@ -14,6 +14,8 @@ import SalesBill from "../pages/Sale/Sales";
 import setting from "../pages/setting";
 import ExpenseTrackerTable from "../pages/ExpenseTracker/ExpenseTrackerTable";
 import ExpenseTrackerForm from "../pages/ExpenseTracker/ExpenseTrackerForm";
+import IncomeForm from "../pages/Income/IncomeForm";
+import IncomeList from "../pages/Income/IncomeTable"
 
 const PageRoutes = [
     { path: "/dashboard", element: Dashboard, name: "DASHBOARD" },
@@ -31,7 +33,9 @@ const PageRoutes = [
     { path: "/setting/:type/:id?", element: setting },
     { path: "/setting", element: setting, name: "SETTING" },
     { path: "/expense-tracker", element: ExpenseTrackerTable, name: "EXPENSE TRACKER" },
-    { path: "/expense-tracker/add", element: ExpenseTrackerForm, name: "ADD EXPENSE" },
+    { path: "/expense-tracker/:type/:id?", element: ExpenseTrackerForm },
+    { path: "/income", element: IncomeList, name: "INCOME" },
+    { path: "/income/:type/:id?", element: IncomeForm },
 ];
 
 export { PageRoutes };

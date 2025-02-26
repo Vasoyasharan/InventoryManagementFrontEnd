@@ -61,7 +61,8 @@ const Vendor = (props) => {
         event.preventDefault();
         if (!params.id) return;
         try {
-            await axios.put(`${URL}/${params.id}`, values, config);
+            const { _id, ...payload } = values;
+            await axios.put(`${URL}/${params.id}`, payload, config);
             setValues({ vendorName: "", mobileNo: "", state: "", city: "" });
             navigate("/vendor");
             toast.success("Vendor Updated Successfully");

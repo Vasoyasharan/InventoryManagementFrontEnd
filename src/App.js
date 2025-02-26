@@ -12,8 +12,6 @@ import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import { ToastContainer } from "react-toastify";
 import Loader from "./component/Loader";
 import 'react-toastify/dist/ReactToastify.css';
-import ExpenseTrackerTable from "./pages/ExpenseTracker/ExpenseTrackerTable";
-import ExpenseTrackerForm from "./pages/ExpenseTracker/ExpenseTrackerForm";
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
@@ -52,10 +50,6 @@ function App() {
 
             {/* Customer Care Page */}
             <Route path="/customer-care" element={<CustomerCare />} />
-
-            {/* Expense Tracker */}
-            <Route path="/expense-tracker" element={<ExpenseTrackerTable />} />
-            <Route path="/expense-tracker/add" element={<ExpenseTrackerForm />} />
 
             {/* Page Module Protected */}
             {PageRoutes.map((route, id) => (

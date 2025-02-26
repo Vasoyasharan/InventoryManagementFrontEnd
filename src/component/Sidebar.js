@@ -102,18 +102,27 @@ const Sidebar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/report" className="d-flex align-items-center py-2">
-                <i className="fas fa-chart-line me-3"></i>
-                <span>Reports</span>
-              </NavLink>
-            </li>
-            <li>
               <NavLink
                 to="/expense-tracker"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <i className="fas fa-wallet me-3"></i>
                 <span>Expense Tracker</span>
+              </NavLink>
+            </li><li>
+              <NavLink
+                to="/income"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                {/* <i className="fas fa-money-bill me-3"></i> */}
+                <i className="fas fa-coins me-3"></i>
+                <span>Income</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/report" className="d-flex align-items-center py-2">
+                <i className="fas fa-chart-line me-3"></i>
+                <span>Reports</span>
               </NavLink>
             </li>
           </ul>

@@ -35,7 +35,6 @@ const Signup = () => {
         try {
             if (!errors.username && !errors.password && !errors.email) {
                 const res = await axios.post(URL, values);
-                console.log("response received", res);
 
                 if (res.data.success) {
                     console.log("New User Created:", res.data.payload.newUser);

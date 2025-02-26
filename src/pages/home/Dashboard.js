@@ -68,7 +68,7 @@ const Dashboard = () => {
             iconColor: "#df4b26", // Red
         },
         {
-            title: "Purchased Bills",
+            title: "Purchase Bills",
             value: purchaseCount,
             icon: faFileInvoiceDollar,
             iconColor: "#c9cc1b", // Yellow
