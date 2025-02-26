@@ -65,7 +65,7 @@
 
 .section-title {
     font-size: 1.5rem;
-    color: #333;
+    color: #181717;
     font-weight: 600;
 }
 
@@ -217,7 +217,7 @@
 
 /* Delete Account Section */
 .delete-account-section {
-    background-color: #f9f9f9;
+    background-color: #fda4a4;
     padding: 20px;
     border-radius: 12px;
 }
@@ -228,15 +228,15 @@
 
 .delete-warning p {
     margin: 0 0 12px 0;
-    font-size: 0.9rem;
-    color: #555;
+    font-size: 1.0rem;
+    color: #ffffff;
 }
 
 .delete-warning ul {
     margin: 0;
     padding-left: 20px;
-    font-size: 0.9rem;
-    color: #555;
+    font-size: 1.0rem;
+    color: #ffffff;
 }
 
 .delete-account-button {

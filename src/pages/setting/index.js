@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import "./SettingsPage.css";
-import defaultProfilePicture from "../../images/def_admin_logo.avif"; // Correct path
+import defaultProfilePicture from "../../images/def_admin_logo.avif";
 
 const SettingsPage = () => {
     const [isEditMode, setIsEditMode] = useState(false);
@@ -15,7 +15,7 @@ const SettingsPage = () => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [profilePicture, setProfilePicture] = useState(defaultProfilePicture); // Set default image
+    const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -31,7 +31,7 @@ const SettingsPage = () => {
             const response = await axios.get(`${Url}/user`, config);
             const userData = response.data.payload[0];
             if (userData.profilePicture) {
-                setProfilePicture(userData.profilePicture); // Update profile picture if available
+                setProfilePicture(userData.profilePicture);
             }
             setEmail(userData.email || "N/A");
             setUsername(userData.username || "N/A");
@@ -65,7 +65,7 @@ const SettingsPage = () => {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-                setProfilePicture(response.data.profilePicture); // Update profile picture in state
+                setProfilePicture(response.data.profilePicture);
                 toast.success("Profile picture updated successfully!");
             } catch (error) {
                 console.error("Failed to update profile picture:", error);
@@ -81,8 +81,8 @@ const SettingsPage = () => {
         try {
             await axios.put(`${Url}/user/update-profile`, updatedData, config);
             toast.success("Profile updated successfully!");
-            setIsEditMode(false); // Exit edit mode
-            fetchUserData(); // Refresh data
+            setIsEditMode(false);
+            fetchUserData();
         } catch (error) {
             console.error("Failed to update profile:", error);
             toast.error(error.response?.data?.message || "Failed to update profile.");
