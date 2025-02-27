@@ -1,267 +1,364 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Url, config } from "../../Url";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import dayjs from "dayjs";
+import axios from "axios";
+import { Url, config } from "../../Url";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
+import "./PurchaseBillList.css"; // Import the external CSS file
 
-const PurchaseBill = (props) => {
-    const params = useParams();
+const PurchaseBill = () => {
     const navigate = useNavigate();
-    const URL = Url + "/purchase";
-    const [values, setValues] = useState({
-        vendorDetail: "",
-        bill_no: "",
-        date: "",
-        productDetail: "",
-        qty: 0,
-        price: 0,
-        amount: 0,
-    });
-    console.log("values", values);
-
+    const [vendor, setVendor] = useState("");
     const [vendors, setVendors] = useState([]);
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([
+        { product: "", hsnCode: "", qty: "", unit: "Pres", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 },
+    ]);
+    const [allProducts, setAllProducts] = useState([]);
+    const [remarks, setRemarks] = useState("");
+    const [applyGST, setApplyGST] = useState(false);
+    const [billNo, setBillNo] = useState("");
+    const [billDate, setBillDate] = useState("");
 
-    const [loading, setLoading] = useState(true);
-
-    const handleInput = (event, value) => {
-        setValues((prev) => ({
-            ...prev,
-            [event.target.name]: value,
-        }));
-    };
-
-    const fetchVendors = async () => {
-        try {
-            const response = await axios.get(Url + "/vendor", config);
-            setVendors(response.data.payload.vendorData);
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        }
-    };
-
-    const fetchProducts = async () => {
-        try {
-            const response = await axios.get(Url + "/product", config);
-            setProducts(response.data.payload.productData);
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        }
-    };
-
-    const handleSubmit = async (event, values) => {
-        event.preventDefault();
-        try {
-            await axios.post(URL, values, config);
-            navigate("/purchase");
-            toast.success("Purchase Bill Created Successfully");
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        }
-    };
-
-    const handleUpdate = async (event) => {
-        event.preventDefault();
-        if (!params.id) return;
-        try {
-            await axios.put(`${URL}/${params.id}`, values, config);
-            navigate("/purchase");
-            toast.success("Purchase Bill Updated Successfully");
-        } catch (error) {
-            toast.error(error.response.data.message);
-        }
-    };
-
-    const fetchData = async () => {
-        try {
-            if (params.id) {
-                const response = await axios.get(`${URL}/${params.id}`, config);
-                const purchaseData = response.data.payload.purchaseData[0];
-                const formattedDate = new Date(purchaseData.date).toISOString().split("T")[0];
-                setValues({
-                    ...purchaseData,
-                    date: formattedDate,
-                });
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
+    // Fetch Vendors
     useEffect(() => {
-        fetchData();
+        const fetchVendors = async () => {
+            try {
+                const response = await axios.get(`${Url}/vendor`, config);
+                setVendors(response.data.payload.vendorData);
+            } catch (error) {
+                toast.error(error.response.data.message);
+            }
+        };
         fetchVendors();
+    }, []);
+
+    // Fetch Products
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get(`${Url}/product`, config);
+                setAllProducts(response.data.payload.productData);
+            } catch (error) {
+                toast.error(error.response.data.message);
+            }
+        };
         fetchProducts();
-    }, [params.id]);
+    }, []);
+
+    const handleAddProduct = () => {
+        setProducts([...products, { product: "", hsnCode: "", qty: "", unit: "Pres", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 }]);
+    };
+
+    const handleRemoveProduct = (index) => {
+        const updatedProducts = products.filter((_, i) => i !== index);
+        setProducts(updatedProducts);
+    };
+
+    const handleProductChange = (index, field, value) => {
+        const updatedProducts = [...products];
+        updatedProducts[index][field] = value;
+
+        // Calculate amount if rate or quantity changes
+        if (field === "rate" || field === "qty") {
+            const qty = parseFloat(updatedProducts[index].qty) || 0;
+            const rate = parseFloat(updatedProducts[index].rate) || 0;
+            const discount = parseFloat(updatedProducts[index].discount) || 0;
+            updatedProducts[index].amount = qty * rate - discount;
+        }
+
+        // Calculate GST Amount if GST Percentage changes
+        if (field === "GSTPercentage") {
+            const GSTPercentage = parseFloat(value) || 0;
+            updatedProducts[index].GSTAmount = (updatedProducts[index].amount * GSTPercentage) / 100;
+        }
+
+        setProducts(updatedProducts);
+    };
+
+    const handleSubmit = () => {
+        // Handle form submission
+        const purchaseBill = {
+            userId: "67bf33d26c6d875a5ffa9740", // Replace with actual user ID
+            vendorId: vendor,
+            billNo: billNo,
+            billDate: new Date(billDate).toISOString(),
+            products: products.map((product) => ({
+                productId: product.product,
+                hsnCode: product.hsnCode,
+                qty: product.qty,
+                unit: product.unit,
+                rate: product.rate,
+                discount: product.discount,
+                GSTPercentage: product.GSTPercentage,
+                GSTAmount: product.GSTAmount,
+                amount: product.amount,
+            })),
+            totalAmount: netAmount,
+            finalAmount: totalAmount,
+            isGSTBill: applyGST,
+            remarks: remarks,
+        };
+
+        console.log("Purchase Bill Data:", purchaseBill);
+        toast.success("Purchase Bill Created Successfully");
+        navigate("/purchase");
+    };
 
     const handleCancel = () => {
         navigate("/purchase");
     };
 
-    let name = "";
-    if (params.type === "add") {
-        name = "ADD";
-    } else {
-        name = "UPDATE";
-    }
+    const totalQty = products.reduce((sum, product) => sum + (parseFloat(product.qty) || 0), 0);
+    const netAmount = products.reduce((sum, product) => sum + (product.amount || 0), 0);
+    const totalGST = products.reduce((sum, product) => sum + (product.GSTAmount || 0), 0);
+    const totalAmount = netAmount + totalGST;
 
     return (
-        <>
-            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
-                    <h3 className="m-0">{name} PURCHASE BILL</h3>
+        <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ marginBottom: "100px" }}>
+            <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
+                <h3 className="m-0">Add Purchase Bill</h3>
+            </div>
+
+            {/* Vendor Section */}
+            <div className="row mt-3">
+                <div className="col-md-6 mb-3">
+                    <label htmlFor="vendor" className="form-label">
+                        Vendor <span className="text-danger">*</span>
+                    </label>
+                    <div className="input-group">
+                        <select
+                            className="form-select"
+                            id="vendor"
+                            value={vendor}
+                            onChange={(e) => setVendor(e.target.value)}
+                        >
+                            <option value="">Select Vendor</option>
+                            {vendors.map((vendor) => (
+                                <option value={vendor._id} key={vendor._id}>
+                                    {vendor.vendorName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
-                <form onSubmit={(e) => handleSubmit(e, values)}>
-                    <div className="row mt-3">
-                        <div className="col-md-6 mb-6">
-                            <div className="form-group">
-                                <label htmlFor="vendorName" className="required-star">
-                                    Vendor<span style={{ color: "red", marginLeft: "3px" }}>*</span>
-                                </label>
-                                <select className="form-select" id="vendorDetail" name="vendorDetail" onChange={(e) => handleInput(e, e.target.value)} value={values.vendorDetail}>
-                                    <option disabled value="">
-                                        Select Vendor
-                                    </option>
-                                    {vendors &&
-                                        vendors.map((item) => (
-                                            <option value={item._id} key={item._id}>
-                                                {item.vendorName}
-                                            </option>
-                                        ))}
-                                </select>
-                            </div>
-                        </div>
-                        <div className="col-md-6 mb-6">
-                            <div className="form-group">
-                                <label htmlFor="bill_no">
-                                    Bill No.<span style={{ color: "red", marginLeft: "3px" }}>*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="bill_no"
-                                    placeholder="Enter Bill No."
-                                    name="bill_no"
-                                    onChange={(e) => handleInput(e, e.target.value)}
-                                    value={values.bill_no}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-md-6 mb-6">
-                            <div className="form-group">
-                                <label htmlFor="date">
-                                    Date<span style={{ color: "red", marginLeft: "3px" }}>*</span>
-                                </label>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    id="date"
-                                    placeholder="Enter Bill Date"
-                                    name="date"
-                                    onChange={(e) => handleInput(e, new Date(e.target.value).toISOString())}
-                                    value={dayjs(values.date).format("YYYY-MM-DD")}
-                                />
-                            </div>
-                        </div>
+                <div className="col-md-6 mb-3 d-flex align-items-end">
+                    <div className="form-check">
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="applyGST"
+                            checked={applyGST}
+                            onChange={(e) => setApplyGST(e.target.checked)}
+                        />
+                        <label className="form-check-label" htmlFor="applyGST">
+                            Apply GST
+                        </label>
                     </div>
-                    <div className="row mt-3">
-                        <div className="col-md-3 mb-3">
-                            <div className="form-group">
-                                <label htmlFor="productName" className="required-star">
-                                    Product<span style={{ color: "red", marginLeft: "3px" }}>*</span>
-                                </label>
-                                <select
-                                    className="form-select"
-                                    id="productDetail"
-                                    name="productDetail"
-                                    onChange={(e) => handleInput(e, e.target.value)}
-                                    value={values.productDetail}
-                                >
-                                    <option value="" disabled>
-                                        Select Product
-                                    </option>
-                                    {products &&
-                                        products.map((item) => (
-                                            <option value={item._id} key={item._id}>
-                                                {item.productName}
-                                            </option>
-                                        ))}
-                                </select>
-                            </div>
-                        </div>
-                        <div className="col-md-3 mb-3">
-                            <div className="form-group">
-                                <label htmlFor="qty">
-                                    Qty.<span style={{ color: "red", marginLeft: "3px" }}>*</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    id="qty"
-                                    placeholder="Enter Quantity"
-                                    name="qty"
-                                    onChange={(e) => handleInput(e, Number(e.target.value))}
-                                    value={values.qty || ""}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-md-3 mb-3">
-                            <div className="form-group">
-                                <label htmlFor="price">
-                                    Price<span style={{ color: "red", marginLeft: "3px" }}>*</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    id="price"
-                                    placeholder="Enter Price"
-                                    name="price"
-                                    onChange={(e) => handleInput(e, Number(e.target.value))}
-                                    value={values.price || ""}
-                                />
-                            </div>
-                        </div>
-                        {/* <div className="col-md-3 mb-3">
-              <div className="form-group">
-                <label htmlFor="amount">
-                  Total Amount<span style={{ color: "red", marginLeft: "3px" }}>*</span>
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  pattern="[0-9]*"
-                  placeholder="Enter Price"
-                  name="amount"
-                  onChange={(e) => handleInput(e, Number(e.target.value))}
-                  value={values.amount}
-                />
-              </div>
-            </div> */}
-                    </div>
-                    <div className="mt-3">
-                        {!params.id ? (
-                            <button className="btn btn-outline-primary me-3 fw-bold" type="submit">
-                                Save
-                            </button>
-                        ) : (
-                            <button className="btn btn-outline-primary me-3 fw-bold" type="submit" onClick={handleUpdate}>
-                                Update
-                            </button>
-                        )}
-                        <button className="btn btn-outline-danger fw-bold" type="button" onClick={handleCancel}>
-                            Cancel
+                </div>
+            </div>
+
+            {/* Bill No and Bill Date Section */}
+            <div className="row mt-3">
+                <div className="col-md-6 mb-3">
+                    <label htmlFor="billNo" className="form-label">
+                        Bill No <span className="text-danger">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="billNo"
+                        value={billNo}
+                        onChange={(e) => setBillNo(e.target.value)}
+                    />
+                </div>
+                <div className="col-md-6 mb-3">
+                    <label htmlFor="billDate" className="form-label">
+                        Bill Date <span className="text-danger">*</span>
+                    </label>
+                    <input
+                        type="date"
+                        className="form-control"
+                        id="billDate"
+                        value={billDate}
+                        onChange={(e) => setBillDate(e.target.value)}
+                    />
+                </div>
+            </div>
+
+            {/* Products Section */}
+            <div className="row mt-3">
+                <div className="col-12">
+                    <h5>Products</h5>
+                    <table className="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Product <span className="text-danger">*</span></th>
+                                <th>HSN Code</th>
+                                <th>Qty <span className="text-danger">*</span></th>
+                                <th>Unit <span className="text-danger">*</span></th>
+                                <th>Rate (₹) <span className="text-danger">*</span></th>
+                                {applyGST && (
+                                    <>
+                                        <th>GST %</th>
+                                        <th>GST Amount</th>
+                                    </>
+                                )}
+                                <th>Amount (₹)</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map((product, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <select
+                                            className="form-select"
+                                            value={product.product}
+                                            onChange={(e) => handleProductChange(index, "product", e.target.value)}
+                                        >
+                                            <option value="">Select Product</option>
+                                            {allProducts.map((prod) => (
+                                                <option value={prod._id} key={prod._id}>
+                                                    {prod.productName}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={product.hsnCode}
+                                            onChange={(e) => handleProductChange(index, "hsnCode", e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            value={product.qty}
+                                            onChange={(e) => handleProductChange(index, "qty", e.target.value)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <select
+                                            className="form-select"
+                                            value={product.unit}
+                                            onChange={(e) => handleProductChange(index, "unit", e.target.value)}
+                                        >
+                                            <option value="Pres">Pcs</option>
+                                            <option value="kg">kg</option>
+                                            <option value="pcs">Mtr</option>
+                                            <option value="litre">Ltr</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            value={product.rate}
+                                            onChange={(e) => handleProductChange(index, "rate", e.target.value)}
+                                        />
+                                    </td>
+                                    {applyGST && (
+                                        <>
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    value={product.GSTPercentage}
+                                                    onChange={(e) => handleProductChange(index, "GSTPercentage", e.target.value)}
+                                                />
+                                            </td>
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    value={product.GSTAmount.toFixed(2)}
+                                                    readOnly
+                                                />
+                                            </td>
+                                        </>
+                                    )}
+                                    <td>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            value={product.amount.toFixed(2)}
+                                            readOnly
+                                        />
+                                    </td>
+                                    <td>
+                                        <button
+                                            className="btn btn-link text-danger"
+                                            onClick={() => handleRemoveProduct(index)}
+                                        >
+                                            <FontAwesomeIcon icon={faMinusCircle} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="d-flex justify-content-end">
+                        <button className="btn add-product-btn" onClick={handleAddProduct}>
+                            + ADD PRODUCT
                         </button>
                     </div>
-                </form>
-            </main>
-        </>
+                </div>
+            </div>
+
+            {/* Remarks and Summary Section (Side by Side) */}
+            <div className="row mt-3">
+                <div className="col-md-6">
+                    <label htmlFor="remarks" className="form-label">
+                        Remark
+                    </label>
+                    <textarea
+                        className="form-control"
+                        id="remarks"
+                        rows="2"
+                        value={remarks}
+                        onChange={(e) => setRemarks(e.target.value)}
+                    />
+                </div>
+                <div className="col-md-6">
+                    <div className="p-3 bg-light rounded">
+                        <div className="d-flex justify-content-between">
+                            <span>Total Qty:</span>
+                            <span>{totalQty}</span>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <span>Net Amount:</span>
+                            <span>₹ {netAmount.toFixed(2)}</span>
+                        </div>
+                        {applyGST && (
+                            <div className="d-flex justify-content-between">
+                                <span>Total GST:</span>
+                                <span>₹ {totalGST.toFixed(2)}</span>
+                            </div>
+                        )}
+                        <div className="d-flex justify-content-between">
+                            <span>Total Amount:</span>
+                            <span className="total-amount">₹ {totalAmount.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Action Buttons (Fixed Width and Spacing) */}
+            <div className="row mt-3">
+                <div className="col-md-12 d-flex justify-content-end">
+                    <button className="btn cancel-btn me-2" onClick={handleCancel}>
+                        Cancel
+                    </button>
+                    <button className="btn submit-btn" onClick={handleSubmit}>
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </main>
     );
 };
 

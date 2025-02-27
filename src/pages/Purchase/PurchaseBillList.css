@@ -83,3 +83,71 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     outline: none;
 }
+
+/* Custom CSS for the "Add Product" button */
+.add-product-btn {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #007bff !important ;
+    color: white !important ;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-product-btn:hover {
+    background-color: #0056b3 !important ;
+}
+
+.add-product-btn:active {
+    background-color: #004080 !important ;
+}
+
+/* Custom CSS for the Total Amount */
+.total-amount {
+    font-weight: bold;
+    border-top: 2px solid #000;
+    padding-bottom: 2px;
+}
+
+/* Custom CSS for the Cancel and Submit buttons */
+.cancel-btn, .submit-btn {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Cancel Button */
+.cancel-btn {
+    background-color: #6c757d !important ;
+    color: white !important ;
+    border: none;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268 !important ;
+}
+
+.cancel-btn:active {
+    background-color: #4a5257 !important ;
+}
+
+/* Submit Button */
+.submit-btn {
+    background-color: #007bff !important ;
+    color: white !important ;
+    border: none;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3 !important ;
+}
+
+.submit-btn:active {
+    background-color: #004080 !important ;
+}

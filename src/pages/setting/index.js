@@ -136,9 +136,7 @@ const SettingsPage = () => {
             {/* Profile Picture Section */}
             <div className="profile-section">
                 <div className="profile-picture-container">
-                    {/* <img src={profilePicture} alt="Profile" className="profile-picture" /> */}
                     <img src={`${profilePicture}`} alt="Profile" className="profile-picture" />
-
                     <button className="edit-icon-button" onClick={() => document.querySelector(".profile-picture-upload").click()}>
                         <FontAwesomeIcon icon={faEdit} />
                     </button>
@@ -338,7 +336,6 @@ const SettingsPage = () => {
                     </div>
                 </div>
             )}
-
 
             {/* Toast Notification Container */}
             <ToastContainer />

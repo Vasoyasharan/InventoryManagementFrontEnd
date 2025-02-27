@@ -1,4 +1,4 @@
-import { faFileCirclePlus, faFilePen, faTrashCan, faEye, } from "@fortawesome/free-solid-svg-icons";
+import { faFileCirclePlus, faFilePen, faTrashCan, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -9,6 +9,7 @@ import "./PurchaseBillList.css"; // Import the CSS file
 
 const PurchaseBillList = (props) => {
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true); // Loading state
     const [searchQuery, setSearchQuery] = useState("");
     const [recordsPerPage, setRecordsPerPage] = useState(10); // Default records per page
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,10 +18,17 @@ const PurchaseBillList = (props) => {
     const fetchData = async () => {
         try {
             const response = await axios.get(URL, config);
-            setData(response.data.payload.purchaseData);
+            if (response.data.payload && response.data.payload.purchaseData) {
+                setData(response.data.payload.purchaseData);
+            } else {
+                toast.error("Invalid data format received from the server");
+                setData([]); // Set data to an empty array to avoid errors
+            }
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
+        } finally {
+            setLoading(false); // Set loading to false after the API call completes
         }
     };
 
@@ -39,7 +47,7 @@ const PurchaseBillList = (props) => {
     };
 
     // Filter data based on search query
-    const filteredData = data.filter((item) =>
+    const filteredData = (data || []).filter((item) =>
         item.bill_no.toString().includes(searchQuery) ||
         (item.vendorDetail?.vendorName?.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (item.productDetail?.productName?.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -51,6 +59,10 @@ const PurchaseBillList = (props) => {
     const currentRecords = filteredData.slice(indexOfFirstRecord, indexOfLastRecord);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    if (loading) {
+        return <div>Loading...</div>; // Show loading message while data is being fetched
+    }
 
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
