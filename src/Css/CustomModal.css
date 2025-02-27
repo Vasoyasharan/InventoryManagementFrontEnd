@@ -74,7 +74,7 @@
 
 /* Navbar styles */
 .navbar {
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   left: 250px; /* Adjusted to match the sidebar width */
   width: calc(100% - 250px); /* Fill remaining space */
