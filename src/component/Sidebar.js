@@ -1,11 +1,32 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Url, config } from "../Url"
 import { NavLink } from "react-router-dom";
-import defaultImage from "../images/def_admin_logo.avif";
+import defaultProfilePicture from "../images/def_admin_logo.avif"
 
 const Sidebar = () => {
+  const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
+
   const userName = (localStorage.getItem("username") || "null").toUpperCase();
 
-  // Retrieve the user image from localStorage or use the default image
-  const userImage = localStorage.getItem("userImage") || defaultImage;
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(`${Url}/user`, config);
+      const userData = response.data.payload[0];
+      if (userData?.profileImage) {
+        setProfilePicture(`http://localhost:5500${userData.profileImage}`);
+      } else {
+        setProfilePicture(defaultProfilePicture)
+      }
+
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   return (
     <div className="theme-cyan">
@@ -34,7 +55,7 @@ const Sidebar = () => {
           <div className="image">
             <NavLink to="/profile">
               <img
-                src={userImage}
+                src={`${profilePicture}`}
                 alt="User"
                 style={{
                   borderRadius: "50%",
