@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./ResetPassword.css";
 
@@ -7,8 +7,6 @@ const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
-    const location = useLocation();
-    const { email } = location.state || {};
     const navigate = useNavigate();
 
     const handleResetPassword = async () => {
