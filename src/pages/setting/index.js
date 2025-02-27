@@ -15,7 +15,7 @@ const SettingsPage = () => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
+    const [profilePicture, setProfilePicture] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -30,9 +30,9 @@ const SettingsPage = () => {
         try {
             const response = await axios.get(`${Url}/user`, config);
             const userData = response.data.payload[0];
-            if (userData.profilePicture) {
-                setProfilePicture(userData.profilePicture);
-            }
+            if (userData.profileImage) {
+                setProfilePicture(`http://localhost:5500${userData.profileImage}`);
+            } else setProfilePicture(defaultProfilePicture);
             setEmail(userData.email || "N/A");
             setUsername(userData.username || "N/A");
             setFirstName(userData.firstName || "N/A");
@@ -56,17 +56,17 @@ const SettingsPage = () => {
         const file = e.target.files[0];
         if (file) {
             const formData = new FormData();
-            formData.append("profilePicture", file);
+            formData.append("profileImage", file);
 
             try {
-                const response = await axios.put(`${Url}/user/profile-picture`, formData, {
+                await axios.put(`${Url}/user/update-profile`, formData, {
                     headers: {
                         ...config.headers,
                         "Content-Type": "multipart/form-data",
                     },
                 });
-                setProfilePicture(response.data.profilePicture);
                 toast.success("Profile picture updated successfully!");
+                fetchUserData();
             } catch (error) {
                 console.error("Failed to update profile picture:", error);
                 toast.error("Failed to update profile picture.");
@@ -91,8 +91,8 @@ const SettingsPage = () => {
 
     // Handle password change
     const handleChangePassword = async () => {
-        if (newPassword.length < 5) {
-            toast.error("Password must be at least 5 characters long.");
+        if (newPassword.length < 3) {
+            toast.error("Password must be at least 3 characters long.");
             return;
         }
         if (newPassword !== confirmPassword) {
@@ -101,11 +101,7 @@ const SettingsPage = () => {
         }
 
         try {
-            await axios.put(
-                `${Url}/user`,
-                { currentPassword, newPassword },
-                config
-            );
+            await axios.put(`${Url}/user/change-password`, { password: currentPassword, newPassword }, config);
             toast.success("Password updated successfully!");
             setCurrentPassword("");
             setNewPassword("");
@@ -140,7 +136,9 @@ const SettingsPage = () => {
             {/* Profile Picture Section */}
             <div className="profile-section">
                 <div className="profile-picture-container">
-                    <img src={profilePicture} alt="Profile" className="profile-picture" />
+                    {/* <img src={profilePicture} alt="Profile" className="profile-picture" /> */}
+                    <img src={`${profilePicture}`} alt="Profile" className="profile-picture" />
+
                     <button className="edit-icon-button" onClick={() => document.querySelector(".profile-picture-upload").click()}>
                         <FontAwesomeIcon icon={faEdit} />
                     </button>
@@ -340,6 +338,7 @@ const SettingsPage = () => {
                     </div>
                 </div>
             )}
+
 
             {/* Toast Notification Container */}
             <ToastContainer />
