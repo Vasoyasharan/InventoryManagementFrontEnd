@@ -51,7 +51,7 @@ const Sidebar = () => {
         </NavLink>
 
         {/* User Info */}
-        <div className="user-info text-center my-3">
+        {/* <div className="user-info text-center my-3">
           <div className="image">
             <NavLink to="/profile">
               <img
@@ -69,7 +69,7 @@ const Sidebar = () => {
           <div className="detail mt-2">
             <h4><u>{userName}</u></h4>
           </div>
-        </div>
+        </div> */}
 
         {/* Menu */}
         <div className="menu">

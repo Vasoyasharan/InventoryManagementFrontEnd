@@ -1,0 +1,20 @@
+.profile-picture-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 12px; /* Space between last icon and image */
+}
+
+.profile-picture {
+    width: 40px;  /* Adjust size */
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #007bff; /* Optional border */
+    transition: transform 0.2s ease-in-out;
+}
+
+.profile-picture:hover {
+    transform: scale(1.1); /* Slight zoom effect */
+}
