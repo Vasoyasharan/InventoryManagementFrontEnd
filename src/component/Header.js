@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faFileAlt, faShieldAlt, faHeadset, faSignOutAlt, faCog, faSearch, faUser, } from "@fortawesome/free-solid-svg-icons";
-import defaultProfilePicture from "../images/def_admin_logo.avif"
+import {
+  faBell,
+  faFileAlt,
+  faShieldAlt,
+  faHeadset,
+  faUser,
+  faBars,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
+import defaultProfilePicture from "../images/def_admin_logo.avif";
 import { useNavigate } from "react-router-dom";
 import "../Css/CustomModal.css";
-// import "../Css/Header.css"
-import { Url, config } from "../Url"
+import "../Css/Sidebar.css";
+import { Url, config } from "../Url";
 
-// Username fetching from api
+// Username fetching from API
 const userName = (localStorage.getItem("username") || "null").toUpperCase();
+
 const Header = () => {
   const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
   const [greeting, setGreeting] = useState("");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,7 +55,7 @@ const Header = () => {
     };
 
     fetchUserData();
-  }, []); // Runs once on component mount
+  }, []);
 
   // Handle logout functionality
   const handleLogout = () => {
@@ -52,51 +64,79 @@ const Header = () => {
     setShowLogoutModal(false);
   };
 
+  // Toggle mobile menu
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <div className="navbar">
+      {/* Mobile Menu Toggle */}
+      <div className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+        <FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} />
+      </div>
+
+      {/* Navbar Left (Greeting) */}
       <div className="navbar-left">
-        {/* Greeting */}
         <div className="greeting">
           <FontAwesomeIcon icon={faUser} className="user-icon" />
-          <span>{greeting} {userName}</span>
+          <span>
+            {greeting} {userName}
+          </span>
         </div>
       </div>
-      {/* Search Bar */}
-      {/* <div className="navbar-center">
-        <input type="text" className="search-bar" placeholder="Search..." />
-        <FontAwesomeIcon icon={faSearch} className="search-icon" />
-      </div> */}
-      {/* Navbar Icons */}
-      <div className="navbar-right">
-        <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
-        <FontAwesomeIcon icon={faFileAlt} className="navbar-icon" title="Terms & Conditions" onClick={() => navigate("/terms-conditions")} />
-        <FontAwesomeIcon icon={faShieldAlt} className="navbar-icon" title="Privacy Policy" onClick={() => navigate("/privacy-policy")} />
-        <FontAwesomeIcon icon={faHeadset} className="navbar-icon" title="Customer Care" onClick={() => navigate("/customer-care")} />
-        <FontAwesomeIcon icon={faSignOutAlt} className="navbar-icon" title="Sign Out" onClick={() => setShowLogoutModal(true)} />
-        <FontAwesomeIcon icon={faCog} className="navbar-icon spin-icon" title="Settings" onClick={() => navigate("/setting")} />
+
+      {/* Navbar Right (Icons and Profile) */}
+      <div className={`navbar-right ${isMobileMenuOpen ? "open" : ""}`}>
+        <div className="navbar-icon-container" onClick={() => setShowNotifications(!showNotifications)}>
+          <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
+          {showNotifications && (
+            <div className="notifications-dropdown">
+              <p>No new notifications</p>
+            </div>
+          )}
+        </div>
+        <FontAwesomeIcon
+          icon={faFileAlt}
+          className="navbar-icon"
+          title="Terms & Conditions"
+          onClick={() => navigate("/terms-conditions")}
+        />
+        <FontAwesomeIcon
+          icon={faShieldAlt}
+          className="navbar-icon"
+          title="Privacy Policy"
+          onClick={() => navigate("/privacy-policy")}
+        />
+        <FontAwesomeIcon
+          icon={faHeadset}
+          className="navbar-icon"
+          title="Customer Care"
+          onClick={() => navigate("/customer-care")}
+        />
+        {/* <FontAwesomeIcon
+          icon={faCog}
+          className="navbar-icon spin-icon"
+          title="Settings"
+          onClick={() => navigate("/setting")}
+        /> */}
         <div
           className="profile-picture-container"
-          onClick={() => navigate("/setting")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            marginLeft: "12px", // Space between last icon and image
-          }}
+          onClick={() => setShowDropdown(!showDropdown)}
         >
           <img
             src={profilePicture}
             alt="Profile"
             className="profile-picture"
-            style={{
-              width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", border: "2px solid #007bff", transition: "transform 0.2s ease-in-out",
-            }}
-            onMouseOver={(e) => (e.target.style.transform = "scale(1.1)")}
-            onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
           />
+          {showDropdown && (
+            <div className="profile-dropdown">
+              {/* <div onClick={() => navigate("/profile")}>Profile</div> */}
+              <div onClick={() => navigate("/setting")}>Settings</div>
+              <div onClick={() => setShowLogoutModal(true)}>Logout</div>
+            </div>
+          )}
         </div>
-
       </div>
 
       {/* Logout Modal */}
@@ -110,15 +150,12 @@ const Header = () => {
               <p>Are you sure you want to logout?</p>
             </div>
             <div className="modal-footer">
-              <button
-                className="btn btn-primary"
-                onClick={handleLogout} // Handle logout
-              >
+              <button className="btn btn-primary" onClick={handleLogout}>
                 Logout
               </button>
               <button
                 className="btn btn-outline-secondary"
-                onClick={() => setShowLogoutModal(false)} // Close the modal
+                onClick={() => setShowLogoutModal(false)}
               >
                 Cancel
               </button>

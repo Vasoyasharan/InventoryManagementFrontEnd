@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Url, config } from "../Url"
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import { Url, config } from "../Url"
 import { NavLink } from "react-router-dom";
-import defaultProfilePicture from "../images/def_admin_logo.avif"
+// import defaultProfilePicture from "../images/def_admin_logo.avif"
 
 const Sidebar = () => {
-  const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
+  // const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
 
-  const userName = (localStorage.getItem("username") || "null").toUpperCase();
+  // const userName = (localStorage.getItem("username") || "null").toUpperCase();
 
-  const fetchUserData = async () => {
-    try {
-      const response = await axios.get(`${Url}/user`, config);
-      const userData = response.data.payload[0];
-      if (userData?.profileImage) {
-        setProfilePicture(`http://localhost:5500${userData.profileImage}`);
-      } else {
-        setProfilePicture(defaultProfilePicture)
-      }
+  // const fetchUserData = async () => {
+  //   try {
+  //     const response = await axios.get(`${Url}/user`, config);
+  //     const userData = response.data.payload[0];
+  //     if (userData?.profileImage) {
+  //       setProfilePicture(`http://localhost:5500${userData.profileImage}`);
+  //     } else {
+  //       setProfilePicture(defaultProfilePicture)
+  //     }
 
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
-    }
-  };
+  //   } catch (error) {
+  //     console.error("Failed to fetch user data:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  // useEffect(() => {
+  //   fetchUserData();
+  // }, []);
 
   return (
     <div className="theme-cyan">
