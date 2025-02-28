@@ -114,24 +114,17 @@ const Header = () => {
           title="Customer Care"
           onClick={() => navigate("/customer-care")}
         />
-        {/* <FontAwesomeIcon
-          icon={faCog}
-          className="navbar-icon spin-icon"
-          title="Settings"
-          onClick={() => navigate("/setting")}
-        /> */}
         <div
-          className="profile-picture-container"
+          className="navbar-profile-picture-container"
           onClick={() => setShowDropdown(!showDropdown)}
         >
           <img
             src={profilePicture}
             alt="Profile"
-            className="profile-picture"
+            className="navbar-profile-picture"
           />
           {showDropdown && (
             <div className="profile-dropdown">
-              {/* <div onClick={() => navigate("/profile")}>Profile</div> */}
               <div onClick={() => navigate("/setting")}>Settings</div>
               <div onClick={() => setShowLogoutModal(true)}>Logout</div>
             </div>
