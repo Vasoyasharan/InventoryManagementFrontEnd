@@ -146,6 +146,12 @@ const Sidebar = () => {
                 <span>Reports</span>
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/setting" className="d-flex align-items-center py-2">
+                <i className="fas fa-cogs me-3"></i>
+                <span>Settings</span>
+              </NavLink>
+            </li>
           </ul>
         </div>
       </aside>
