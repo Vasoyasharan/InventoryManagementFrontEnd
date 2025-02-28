@@ -5,9 +5,12 @@ import { Url, config } from "../../Url";
 import "./Dashboard.css";
 import TaskManager from "./TaskManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faCubes, faFileInvoiceDollar, faMoneyBillWave, faStore } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faCubes, faFileInvoiceDollar, faMoneyBillWave, faStore, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import Chatbot from "../../component/Chatbot";
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     const data = [
         { name: "Jan", orders: 2100, sales: 2500 },
         { name: "Feb", orders: 2000, sales: 2200 },
@@ -54,30 +57,35 @@ const Dashboard = () => {
             value: vendorCount,
             icon: faStore,
             iconColor: "#097066", // Teal
+            addRoute: "/vendor/add", // Route for adding a vendor
         },
         {
             title: "Customers",
             value: customerCount,
             icon: faUsers,
             iconColor: "#3f4add", // Blue
+            addRoute: "/customer/add", // Route for adding a customer
         },
         {
             title: "Products",
             value: productCount,
             icon: faCubes,
             iconColor: "#df4b26", // Red
+            addRoute: "/product/add", // Route for adding a product
         },
         {
             title: "Purchase Bills",
             value: purchaseCount,
             icon: faFileInvoiceDollar,
             iconColor: "#c9cc1b", // Yellow
+            addRoute: "/purchase/add", // Route for adding a purchase bill
         },
         {
             title: "Sale Bills",
             value: saleCount,
             icon: faMoneyBillWave,
             iconColor: "#72ee72", // Green
+            addRoute: "/sale/add", // Route for adding a sale bill
         },
     ];
 
@@ -92,7 +100,12 @@ const Dashboard = () => {
                 <div className="row">
                     {cardData.map((card, index) => (
                         <div key={index} className="col-12 col-md-6 col-lg-3 mb-4">
-                            <div className="card shadow">
+                            <div className="card shadow position-relative">
+                               {/* "+" Icon */}
+<div className="add-icon" onClick={() => navigate(card.addRoute)} title={`Add ${card.title}`}>
+    <FontAwesomeIcon icon={faPlus} />
+</div>
+
                                 <div className="card-body d-flex align-items-center">
                                     <FontAwesomeIcon
                                         icon={card.icon}
@@ -161,6 +174,7 @@ const Dashboard = () => {
                     </div>
                 </div>
             </section>
+            <Chatbot />
         </main>
     );
 };

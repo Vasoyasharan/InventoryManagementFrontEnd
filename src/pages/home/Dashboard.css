@@ -1,4 +1,3 @@
-/* Dashboard.css */
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
@@ -10,47 +9,73 @@ body {
   background-color: #f8f9fa;
 }
 
-/* Rectangular Cards */
+/* DASHBOARD CARDS */
 .dashboard-content .card {
-  border: none;
-  border-radius: 12px;
-  padding: 16px; /* Increased padding for better spacing */
-  margin-bottom: 20px;
-  position: relative;
-  background-color: #ffffff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
-  width: 100%; /* Full width of the container */
-  min-height: 120px; /* Minimum height to ensure rectangular shape */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Space out content evenly */
+    border: none;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
 }
 
 .dashboard-content .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Card Body */
 .dashboard-content .card-body {
-  display: flex;
-  align-items: center;
-  /* justify-content: space-between; Space out content horizontally */
-  flex-grow: 1; /* Allow the body to grow and fill the card */
+    display: flex;
+    align-items: center;
+    padding: 20px;
 }
 
 .dashboard-content .card-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #343a40;
-  margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
 }
 
 .dashboard-content .card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #6c757d;
-  margin: 0;
+    font-size: 14px;
+    color: #777;
+    font-weight: 500;
+}
+
+/* ✨ "+ ADD" BUTTON STYLING */
+.dashboard-content .card .add-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 123, 255, 0.1);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+.dashboard-content .card .add-icon:hover {
+    background: rgba(0, 123, 255, 0.2);
+    box-shadow: 0px 4px 12px rgba(0, 123, 255, 0.4);
+    transform: scale(1.1);
+}
+
+/* FontAwesome "+" Icon Styling */
+.dashboard-content .card .add-icon svg {
+    font-size: 16px;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.dashboard-content .card .add-icon:hover svg {
+    color: #0056b3;
 }
 
 /* Chart Cards */
@@ -76,7 +101,7 @@ body {
 @media (max-width: 768px) {
   .dashboard-content .card {
     margin-bottom: 15px;
-    min-height: 100px; /* Adjust height for smaller screens */
+    min-height: 100px;
   }
 
   .dashboard-content .card-value {
