@@ -1,7 +1,6 @@
 const Url = "http://localhost:5500/api";
 
 let token = localStorage.getItem("token");
-console.log('token::: ', token);
 
 const headers = {
     "ngrok-skip-browser-warning": true,
