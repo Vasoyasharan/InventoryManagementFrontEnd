@@ -9,6 +9,7 @@ import "./PurchaseBillList.css"; // Import the CSS file
 
 const PurchaseBillList = (props) => {
     const [data, setData] = useState([]);
+    console.log('setData::: ', setData);
     const [loading, setLoading] = useState(true); // Loading state
     const [searchQuery, setSearchQuery] = useState("");
     const [recordsPerPage, setRecordsPerPage] = useState(10); // Default records per page
@@ -18,8 +19,8 @@ const PurchaseBillList = (props) => {
     const fetchData = async () => {
         try {
             const response = await axios.get(URL, config);
-            if (response.data.payload && response.data.payload.purchaseData) {
-                setData(response.data.payload.purchaseData);
+            if (response.data.payload && response.data.payload.purchaseBills) {
+                setData(response.data.payload.purchaseBills);
             } else {
                 toast.error("Invalid data format received from the server");
                 setData([]); // Set data to an empty array to avoid errors
@@ -48,9 +49,9 @@ const PurchaseBillList = (props) => {
 
     // Filter data based on search query
     const filteredData = (data || []).filter((item) =>
-        item.bill_no.toString().includes(searchQuery) ||
-        (item.vendorDetail?.vendorName?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (item.productDetail?.productName?.toLowerCase().includes(searchQuery.toLowerCase()))
+        item.billNo.toString().includes(searchQuery) ||
+        (item.vendorId?.vendorName?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (item.productId?.productName?.toLowerCase().includes(searchQuery.toLowerCase()))
     );
 
     // Pagination logic
@@ -106,28 +107,31 @@ const PurchaseBillList = (props) => {
                 <table className="table custom-table">
                     <thead>
                         <tr>
+                            <th>Bill Date</th>
                             <th>Bill No.</th>
                             <th>Vendor Name</th>
-                            <th>Date</th>
-                            <th>Product</th>
-                            <th>Qty.</th>
-                            <th>Price (₹)</th>
+                            <th>Bill Type</th>
                             <th>Amount (₹)</th>
+                            <th>GST (%)</th>
+                            <th>GST (₹)</th>
+                            <th>Taxable Amount (₹)</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentRecords.map((item) => {
-                            const date = new Date(item.date).toISOString().split("T")[0];
+
+
                             return (
                                 <tr key={item._id}>
-                                    <td>{item.bill_no}</td>
-                                    <td>{item.vendorDetail ? item.vendorDetail.vendorName : <em>Unavailable Vendor</em>}</td>
-                                    <td>{date}</td>
-                                    <td>{item.productDetail ? item.productDetail.productName : <em>Unavailable Product</em>}</td>
-                                    <td>{item.qty}</td>
-                                    <td>{item.price}</td>
-                                    <td>{item.amount}</td>
+                                    <td>{new Date(item.billDate).toLocaleDateString("en-GB").replace(/\//g, "-")}</td>
+                                    <td>{item.billNo}</td>
+                                    <td>{item.vendorId ? item.vendorId.vendorName : <em>Unavailable Vendor</em>}</td>
+                                    <td>{item.isGSTBill ? "With GST" : "Without GST"}</td>
+                                    <td>{item.totalAmount}</td>
+                                    <td>{item.isGSTBill ? `${parseFloat(item.GSTPercentage).toFixed(2)}%` : "-"}</td>
+                                    <td>{item.isGSTBill ? `${(item.GSTAmount)}` : "-"}</td>
+                                    <td>{item.finalAmount}</td>
                                     <td className="action-icons">
                                         <button
                                             className="view-icon"
