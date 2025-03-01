@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { faFileCirclePlus, faFilePen, faTrashCan, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
@@ -129,6 +130,9 @@ const SaleBillList = (props) => {
                                 <td className="text-center">{item.isGSTBill ? `${item.GSTAmount}` : "-"}</td>
                                 <td className="text-center">{item.finalAmount}</td>
                                 <td className="text-center action-icons">
+                                    <button className="view-icon">
+                                        <FontAwesomeIcon icon={faEye} />
+                                    </button>
                                     <NavLink to={{ pathname: `/update/${item._id}` }} state={item} className="link-primary mx-2">
                                         <FontAwesomeIcon icon={faFilePen} />
                                     </NavLink>
@@ -140,6 +144,23 @@ const SaleBillList = (props) => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+            {/* Pagination */}
+            <div className="d-flex justify-content-between align-items-center mt-3">
+                <div>
+                    Showing {indexOfFirstRecord + 1} to {Math.min(indexOfLastRecord, filteredData.length)} of {filteredData.length} entries
+                </div>
+                <nav>
+                    <ul className="pagination">
+                        {Array.from({ length: Math.ceil(filteredData.length / recordsPerPage) }, (_, i) => (
+                            <li key={i + 1} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
+                                <button className="page-link" onClick={() => paginate(i + 1)}>
+                                    {i + 1}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
             </div>
         </main>
     );

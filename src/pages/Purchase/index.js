@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { faFileCirclePlus, faFilePen, faTrashCan, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
@@ -41,7 +42,7 @@ const PurchaseBillList = (props) => {
 
     useEffect(() => {
         fetchData(filter);
-    }, [filter]);
+    }, [fetchData, filter]);
 
     const handleDelete = async (purchaseID) => {
         try {

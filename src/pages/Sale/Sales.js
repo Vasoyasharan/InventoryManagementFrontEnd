@@ -203,7 +203,7 @@ const SalesBill = () => {
                                     </>
                                 )}
                                 <th>Amount (₹)</th>
-                                <th>Taxable Ammount</th>
+                                <th>Taxable Amount</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
