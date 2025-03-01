@@ -79,24 +79,31 @@ hr {
 /* Navbar styles */
 .navbar {
   top: 0;
-  left: 250px;
+  left: 249px;
   width: calc(100% - 250px);
-  height: 60px;
-  background: linear-gradient(135deg, #02b5b5, #007bff);
+  height: 70px;
+  background: linear-gradient(135deg, #232333, #2a2a3a);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 25px;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 /* Mobile Menu Toggle */
 .mobile-menu-toggle {
   display: none;
-  font-size: 24px;
+  font-size: 26px;
   color: white;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.mobile-menu-toggle:hover {
+  transform: scale(1.1);
 }
 
 /* Navbar sections */
@@ -104,93 +111,67 @@ hr {
 .navbar-right {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
 
-/* Greeting */
-.greeting {
+/* Shop Name */
+.shop-name {
   display: flex;
   align-items: center;
+  left: 18px;
   color: white;
-  font-size: 16px;
-  font-weight: 600;
-  padding-left: 4px;
-}
-
-.greeting .user-icon {
-  margin-right: 10px;
   font-size: 20px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  padding-left: 8px;
 }
 
-/* Navbar icons */
-.navbar-icon {
-  font-size: 18px;
+.shop-name .user-icon {
+  margin-right: 12px;
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Today's Date */
+.today-date {
+  font-size: 14px;
+  font-weight: 500;
   color: white;
-  margin-left: 15px;
+  font-family: 'Poppins', sans-serif;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+.today-date:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.today-date::before {
+  content: "📅";
+  font-size: 16px;
+}
+
+/* Notification Icon */
+.navbar-icon-container {
+  position: relative;
   cursor: pointer;
-  transition: transform 0.3s ease;
+}
+
+.navbar-icon {
+  font-size: 20px;
+  color: white;
+  transition: all 0.3s ease;
 }
 
 .navbar-icon:hover {
+  color: #ffdd57;
   transform: scale(1.1);
-}
-
-.spin-icon {
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Profile Picture */
-.navbar-profile-picture-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin-left: 12px;
-}
-
-.navbar-profile-picture {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid white;
-  transition: transform 0.2s ease-in-out;
-}
-
-.navbar-profile-picture:hover {
-  transform: scale(1.1);
-}
-
-/* Profile Dropdown */
-.profile-dropdown {
-  position: absolute;
-  top: 50px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.profile-dropdown div {
-  padding: 10px 20px;
-  cursor: pointer;
-  color: #333;
-  transition: background-color 0.3s ease;
-}
-
-.profile-dropdown div:hover {
-  background-color: #f1f1f1;
 }
 
 /* Notifications Dropdown */
@@ -200,11 +181,114 @@ hr {
   right: 0;
   background-color: white;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
-  padding: 10px;
-  width: 200px;
+  padding: 15px;
+  width: 250px;
+}
+
+.notifications-dropdown p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Profile Picture */
+.navbar-profile-picture-container {
+  position: relative;
+  cursor: pointer;
+  margin-left: 15px;
+  right: 11px;
+}
+
+.navbar-profile-picture {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  transition: all 0.3s ease;
+}
+
+.navbar-profile-picture:hover {
+  transform: scale(1.1);
+  border-color: #ffdd57;
+}
+
+/* Profile Dropdown */
+.profile-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 7px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  min-width: 200px;
+  z-index: 1000;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Dropdown Items */
+.profile-dropdown div {
+  padding: 12px 20px;
+  cursor: pointer;
+  color: #333;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.profile-dropdown div:hover {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #007bff;
+}
+
+/* Icons in Dropdown */
+.profile-dropdown div i {
+  font-size: 16px;
+  color: #007bff;
+  transition: transform 0.3s ease;
+}
+
+.profile-dropdown div:hover i {
+  transform: scale(1.1);
+}
+
+/* Smooth Dropdown Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Notifications Dropdown */
+.notifications-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 15px;
+  width: 250px;
+}
+
+.notifications-dropdown p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
 }
 
 /* Mobile Responsive Styles */
@@ -212,7 +296,7 @@ hr {
   .navbar {
     left: 0;
     width: 100%;
-    padding: 0 10px;
+    padding: 0 15px;
   }
 
   .mobile-menu-toggle {
@@ -221,11 +305,11 @@ hr {
 
   .navbar-right {
     position: fixed;
-    top: 60px;
+    top: 70px;
     right: 0;
-    width: 200px;
-    height: calc(100vh - 60px);
-    background-color: #02b5b5;
+    width: 250px;
+    height: calc(100vh - 70px);
+    background: linear-gradient(135deg, #02b5b5, #007bff);
     flex-direction: column;
     align-items: flex-start;
     padding: 20px;
@@ -238,10 +322,11 @@ hr {
   }
 
   .navbar-icon {
-    margin: 10px 0;
+    margin: 15px 0;
+    font-size: 22px;
   }
 
   .navbar-profile-picture-container {
-    margin: 10px 0;
+    margin: 15px 0;
   }
 }

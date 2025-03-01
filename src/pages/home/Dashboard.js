@@ -11,30 +11,14 @@ import Chatbot from "../../component/Chatbot";
 
 const Dashboard = () => {
     const navigate = useNavigate();
-    const data = [
-        { name: "Jan", orders: 2100, sales: 2500 },
-        { name: "Feb", orders: 2000, sales: 2200 },
-        { name: "Mar", orders: 2200, sales: 2400 },
-        { name: "Apr", orders: 2300, sales: 2600 },
-        { name: "May", orders: 2400, sales: 2700 },
-        { name: "Jun", orders: 2500, sales: 2900 },
-    ];
-
-    const productPerformance = [
-        { name: "Pencil", uv: 3000, pv: 2400 },
-        { name: "Notebook", uv: 2000, pv: 2000 },
-        { name: "Pen", uv: 4000, pv: 2400 },
-        { name: "Glue Stick", uv: 3000, pv: 2200 },
-        { name: "Stapler", uv: 2000, pv: 1500 },
-        { name: "Piano", uv: 1000, pv: 1200 },
-    ];
-
     const [customerCount, setCustomerCount] = useState(0);
     const [vendorCount, setVendorCount] = useState(0);
     const [productCount, setProductCount] = useState(0);
     const [purchaseCount, setPurchaseCount] = useState(0);
     const [saleCount, setSaleCount] = useState(0);
+    const [transactionData, setTransactionData] = useState([]); // Real transaction data for charts
 
+    // Fetch counts for cards
     const fetchCounts = async () => {
         try {
             setCustomerCount((await axios.get(`${Url}/customer`, config)).data.count);
@@ -47,8 +31,35 @@ const Dashboard = () => {
         }
     };
 
+    // Fetch transaction data for charts
+    const fetchTransactionData = async () => {
+        try {
+            const response = await axios.get(`${Url}/reports`, config);
+            const data = response.data.payload.transactionData;
+
+            // Prepare data for the charts
+            const barData = data.reduce((acc, transaction) => {
+                const date = new Date(transaction.billDate).toLocaleDateString();
+                if (!acc[date]) {
+                    acc[date] = { date, purchase: 0, sale: 0 };
+                }
+                if (transaction.transaction_type === "purchase") {
+                    acc[date].purchase += transaction.amount;
+                } else {
+                    acc[date].sale += transaction.amount;
+                }
+                return acc;
+            }, {});
+
+            setTransactionData(Object.values(barData));
+        } catch (error) {
+            console.error("Error fetching transaction data:", error);
+        }
+    };
+
     useEffect(() => {
         fetchCounts();
+        fetchTransactionData();
     }, []);
 
     const cardData = [
@@ -139,14 +150,14 @@ const Dashboard = () => {
                             </div>
                             <div className="card-body">
                                 <ResponsiveContainer width="100%" height={300}>
-                                    <LineChart data={data}>
+                                    <LineChart data={transactionData}>
                                         <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="name" />
+                                        <XAxis dataKey="date" />
                                         <YAxis />
                                         <Tooltip />
                                         <Legend />
-                                        <Line type="monotone" dataKey="orders" stroke="#8884d8" strokeWidth={2} />
-                                        <Line type="monotone" dataKey="sales" stroke="#82ca9d" strokeWidth={2} />
+                                        <Line type="monotone" dataKey="purchase" stroke="#8884d8" strokeWidth={2} />
+                                        <Line type="monotone" dataKey="sale" stroke="#82ca9d" strokeWidth={2} />
                                     </LineChart>
                                 </ResponsiveContainer>
                             </div>
@@ -155,18 +166,18 @@ const Dashboard = () => {
                     <div className="col-md-6">
                         <div className="card shadow">
                             <div className="card-header bg-white">
-                                <h4 className="card-title">Product Performance</h4>
+                                <h4 className="card-title">Transactions Overview</h4>
                             </div>
                             <div className="card-body">
                                 <ResponsiveContainer width="100%" height={300}>
-                                    <BarChart data={productPerformance}>
+                                    <BarChart data={transactionData}>
                                         <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="name" />
+                                        <XAxis dataKey="date" />
                                         <YAxis />
                                         <Tooltip />
                                         <Legend />
-                                        <Bar dataKey="uv" fill="#8884d8" />
-                                        <Bar dataKey="pv" fill="#82ca9d" />
+                                        <Bar dataKey="purchase" fill="#8884d8" />
+                                        <Bar dataKey="sale" fill="#82ca9d" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>

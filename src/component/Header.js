@@ -6,7 +6,9 @@ import {
   faFileAlt,
   faShieldAlt,
   faHeadset,
-  faUser,
+  faCog,
+  faSignOutAlt,
+  faShop,
   faBars,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
@@ -16,28 +18,27 @@ import "../Css/CustomModal.css";
 import "../Css/Sidebar.css";
 import { Url, config } from "../Url";
 
-// Username fetching from API
-const userName = (localStorage.getItem("username") || "null").toUpperCase();
-
 const Header = () => {
   const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
-  const [greeting, setGreeting] = useState("");
+  const [shopName, setShopName] = useState("Company Name"); // Default shop name
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [todayDate, setTodayDate] = useState(""); // State for today's date
   const navigate = useNavigate();
 
+
   useEffect(() => {
-    // Set greeting based on time
-    const currentHour = new Date().getHours();
-    if (currentHour < 12) {
-      setGreeting("Good Morning,");
-    } else if (currentHour < 18) {
-      setGreeting("Good Afternoon,");
-    } else {
-      setGreeting("Good Evening,");
-    }
+    // Set today's date
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    setTodayDate(formattedDate);
 
     // Fetch user data
     const fetchUserData = async () => {
@@ -46,8 +47,9 @@ const Header = () => {
         const userData = response.data.payload[0];
         if (userData?.profileImage) {
           setProfilePicture(`http://localhost:5500${userData.profileImage}`);
-        } else {
-          setProfilePicture(defaultProfilePicture);
+        }
+        if (userData?.shopName) {
+          setShopName(userData.shopName);
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -76,18 +78,22 @@ const Header = () => {
         <FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} />
       </div>
 
-      {/* Navbar Left (Greeting) */}
+      {/* Navbar Left (Shop Name) */}
       <div className="navbar-left">
-        <div className="greeting">
-          <FontAwesomeIcon icon={faUser} className="user-icon" />
-          <span>
-            {greeting} {userName}
-          </span>
+        <div className="shop-name">
+          <FontAwesomeIcon icon={faShop} className="user-icon" />
+          <span>{shopName}</span>
         </div>
       </div>
 
       {/* Navbar Right (Icons and Profile) */}
       <div className={`navbar-right ${isMobileMenuOpen ? "open" : ""}`}>
+        {/* Today's Date */}
+        <div className="today-date">
+          <span>{todayDate}</span>
+        </div>
+
+        {/* Notification Icon */}
         <div className="navbar-icon-container" onClick={() => setShowNotifications(!showNotifications)}>
           <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
           {showNotifications && (
@@ -96,6 +102,8 @@ const Header = () => {
             </div>
           )}
         </div>
+
+        {/* Other Icons */}
         <FontAwesomeIcon
           icon={faFileAlt}
           className="navbar-icon"
@@ -114,6 +122,8 @@ const Header = () => {
           title="Customer Care"
           onClick={() => navigate("/customer-care")}
         />
+
+        {/* Profile Picture */}
         <div
           className="navbar-profile-picture-container"
           onClick={() => setShowDropdown(!showDropdown)}
@@ -125,8 +135,14 @@ const Header = () => {
           />
           {showDropdown && (
             <div className="profile-dropdown">
-              <div onClick={() => navigate("/setting")}>Settings</div>
-              <div onClick={() => setShowLogoutModal(true)}>Logout</div>
+              <div onClick={() => navigate("/setting")}>
+                <FontAwesomeIcon icon={faCog} className="dropdown-icon" />
+                Settings
+              </div>
+              <div onClick={() => setShowLogoutModal(true)}>
+                <FontAwesomeIcon icon={faSignOutAlt} className="dropdown-icon" />
+                Logout
+              </div>
             </div>
           )}
         </div>
