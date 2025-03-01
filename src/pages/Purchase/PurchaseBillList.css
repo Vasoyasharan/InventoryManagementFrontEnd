@@ -1,3 +1,52 @@
+
+/* FIlter Container styling */
+.row.mt-3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Search Input */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Dropdown Select */
+select.form-control {
+    appearance: none;
+    background: #fff url('data:image/svg+xml;utf8,<svg fill=\"%23007bff\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5H7z\"/></svg>') no-repeat right 15px center;
+    background-size: 16px;
+    padding-right: 40px;
+    cursor: pointer;
+}
+
+/* On Hover */
+.form-control:hover {
+    border-color: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .row.mt-3 {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .col-md-6, .col-md-3 {
+        width: 100%;
+    }
+}
+
 /* Custom table styling */
 .custom-table {
     width: 100%;

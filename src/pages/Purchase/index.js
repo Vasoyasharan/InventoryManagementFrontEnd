@@ -5,20 +5,26 @@ import { NavLink } from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./PurchaseBillList.css"; // Import the CSS file
+import "./PurchaseBillList.css";
 
 const PurchaseBillList = (props) => {
     const [data, setData] = useState([]);
-    console.log('setData::: ', setData);
     const [loading, setLoading] = useState(true); // Loading state
     const [searchQuery, setSearchQuery] = useState("");
     const [recordsPerPage, setRecordsPerPage] = useState(10); // Default records per page
     const [currentPage, setCurrentPage] = useState(1);
+    const [filter, setFilter] = useState("all"); // State for filter
     const URL = Url + "/purchase";
 
-    const fetchData = async () => {
+    const fetchData = async (filterType = "all") => {
         try {
-            const response = await axios.get(URL, config);
+            let apiUrl = URL;
+            if (filterType === "withGST") {
+                apiUrl += "?isGSTBill=true";
+            } else if (filterType === "withoutGST") {
+                apiUrl += "?isGSTBill=false";
+            }
+            const response = await axios.get(apiUrl, config);
             if (response.data.payload && response.data.payload.purchaseBills) {
                 setData(response.data.payload.purchaseBills);
             } else {
@@ -34,13 +40,13 @@ const PurchaseBillList = (props) => {
     };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(filter);
+    }, [filter]);
 
     const handleDelete = async (purchaseID) => {
         try {
             await axios.delete(`${URL}/${purchaseID}`, config);
-            fetchData();
+            fetchData(filter);
             toast.success("Purchase Bill Deleted Successfully");
         } catch (error) {
             return toast.error(error.response.data.message);
@@ -77,6 +83,30 @@ const PurchaseBillList = (props) => {
                 </div>
             </div>
 
+            {/* GST Filter Buttons */}
+            <div className="row mt-3">
+                <div className="col-md-12 d-flex justify-content-between mb-3">
+                    <button
+                        className={`btn flex-fill mx-1 ${filter === "all" ? "btn-primary" : "btn-outline-primary"}`}
+                        onClick={() => setFilter("all")}
+                    >
+                        All
+                    </button>
+                    <button
+                        className={`btn flex-fill mx-1 ${filter === "withGST" ? "btn-primary" : "btn-outline-primary"}`}
+                        onClick={() => setFilter("withGST")}
+                    >
+                        With GST
+                    </button>
+                    <button
+                        className={`btn flex-fill mx-1 ${filter === "withoutGST" ? "btn-primary" : "btn-outline-primary"}`}
+                        onClick={() => setFilter("withoutGST")}
+                    >
+                        Without GST
+                    </button>
+                </div>
+            </div>
+
             {/* Search and Records Per Page */}
             <div className="row mt-3">
                 <div className="col-md-6 mb-3">
@@ -106,48 +136,42 @@ const PurchaseBillList = (props) => {
             <div className="mt-3">
                 <table className="table custom-table">
                     <thead>
-                        <tr>
-                            <th>Bill Date</th>
-                            <th>Bill No.</th>
-                            <th>Vendor Name</th>
-                            <th>Bill Type</th>
-                            <th>Amount (₹)</th>
-                            <th>GST (%)</th>
-                            <th>GST (₹)</th>
-                            <th>Taxable Amount (₹)</th>
-                            <th>Actions</th>
+                        <tr className="text-center">
+                            <th className="text-center">Bill Date</th>
+                            <th className="text-center">Bill No.</th>
+                            <th className="text-center">Vendor Name</th>
+                            <th className="text-center">Bill Type</th>
+                            <th className="text-center">Amount (₹)</th>
+                            <th className="text-center">GST (%)</th>
+                            <th className="text-center">GST (₹)</th>
+                            <th className="text-center">Taxable Amount (₹)</th>
+                            <th className="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {currentRecords.map((item) => {
-
-
-                            return (
-                                <tr key={item._id}>
-                                    <td>{new Date(item.billDate).toLocaleDateString("en-GB").replace(/\//g, "-")}</td>
-                                    <td>{item.billNo}</td>
-                                    <td>{item.vendorId ? item.vendorId.vendorName : <em>Unavailable Vendor</em>}</td>
-                                    <td>{item.isGSTBill ? "With GST" : "Without GST"}</td>
-                                    <td>{item.totalAmount}</td>
-                                    <td>{item.isGSTBill ? `${parseFloat(item.GSTPercentage).toFixed(2)}%` : "-"}</td>
-                                    <td>{item.isGSTBill ? `${(item.GSTAmount)}` : "-"}</td>
-                                    <td>{item.finalAmount}</td>
-                                    <td className="action-icons">
-                                        <button
-                                            className="view-icon"
-                                        >
-                                            <FontAwesomeIcon icon={faEye} />
-                                        </button>
-                                        <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2">
-                                            <FontAwesomeIcon icon={faFilePen} />
-                                        </NavLink>
-                                        <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
-                                            <FontAwesomeIcon icon={faTrashCan} />
-                                        </NavLink>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                        {currentRecords.map((item) => (
+                            <tr key={item._id}>
+                                <td className="text-center">{new Date(item.billDate).toLocaleDateString("en-GB").replace(/\//g, "-")}</td>
+                                <td className="text-center">{item.billNo}</td>
+                                <td className="text-center">{item.vendorId ? item.vendorId.vendorName : <em>Unavailable Vendor</em>}</td>
+                                <td className="text-center">{item.isGSTBill ? "With GST" : "Without GST"}</td>
+                                <td className="text-center">{item.totalAmount}</td>
+                                <td className="text-center">{item.isGSTBill ? `${parseFloat(item.GSTPercentage).toFixed(2)}%` : "-"}</td>
+                                <td className="text-center">{item.isGSTBill ? `${(item.GSTAmount)}` : "-"}</td>
+                                <td className="text-center">{item.finalAmount}</td>
+                                <td className="action-icons text-center">
+                                    <button className="view-icon">
+                                        <FontAwesomeIcon icon={faEye} />
+                                    </button>
+                                    <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2">
+                                        <FontAwesomeIcon icon={faFilePen} />
+                                    </NavLink>
+                                    <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                    </NavLink>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
