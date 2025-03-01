@@ -177,7 +177,6 @@
   border-bottom: 1px solid #ddd;
 }
 
-/* Hover Effect */
 .bill-table tbody tr:hover {
   background: #e3f2fd;
   transition: background 0.3s ease-in-out;
