@@ -1,0 +1,238 @@
+/* Main Container */
+.bill-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-left: 280px;
+}
+
+/* Back Arrow */
+.back-arrow {
+  cursor: pointer;
+  font-size: 18px;
+  color: #6c757d;
+  transition: color 0.3s ease-in-out;
+}
+
+.back-arrow:hover {
+  color: #007bff;
+}
+
+/* Title */
+.summary-title {
+  /* display: flex; */
+  align-items: center;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Bill & Vendor Section */
+.bill-vendor-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+/* Vendor Info */
+.vendor-info {
+  flex: 1;
+}
+
+.vendor-label {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.vendor-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.vendor-name-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.vendor-icon {
+  font-size: 18px;
+  color: #007bff;
+}
+
+.vendor-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.vendor-info p {
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+/* Icons */
+.detail-icon {
+  font-size: 14px;
+  margin-right: 8px;
+  color: #6c757d;
+}
+
+
+/* Bill Info */
+.bill-info {
+  flex: 1;
+  text-align: right;
+}
+
+/* Bill No. is on Top */
+.bill-info p {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+/* Bill Date & Bill Type in One Row */
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+}
+
+/* Individual Fields */
+.bill-field {
+  text-align: left;
+}
+
+.bill-no {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.bill-date {
+  font-weight: bold;
+  color: #000;
+}
+
+.bill-type {
+  font-weight: bold;
+  color: #28a745;
+}
+/* Table Container */
+.table-container {
+  overflow-x: auto;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Product Table */
+.bill-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Table Header */
+.bill-table thead {
+  background: #007bff;
+  color: white;
+}
+
+.bill-table th {
+  padding: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Table Body */
+.bill-table tbody tr {
+  background: #ffffff;
+  transition: background 0.3s ease-in-out;
+}
+
+/* Alternate Row Colors */
+.bill-table tbody tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+/* Table Cells */
+.bill-table td {
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Hover Effect */
+.bill-table tbody tr:hover {
+  background: #e3f2fd;
+  transition: background 0.3s ease-in-out;
+}
+
+/* Amount Styling */
+.bill-table td:last-child {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Bill Summary Alignment */
+.bill-summary {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+
+/* Bill Summary Container */
+.bill-summary {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+
+/* Summary Details Alignment */
+.summary-details {
+  text-align: right;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Common Styling for Values */
+.summary-value,
+.tax-value,
+.final-value {
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+/* Tax Styling */
+.tax-value {
+  color: #28a745; /* Green */
+}
+
+/* Total Amount Styling */
+.total-amount {
+  border-top: 2px solid #000;
+  padding-top: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.final-value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
