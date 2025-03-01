@@ -101,11 +101,11 @@ const SalesBill = () => {
 
         console.log("Sales Bill Data:", salesBill);
         toast.success("Sales Bill Created Successfully");
-        navigate("/sales");
+        navigate("/sale");
     };
 
     const handleCancel = () => {
-        navigate("/sales");
+        navigate("/sale");
     };
 
     const totalQty = products.reduce((sum, product) => sum + (parseFloat(product.qty) || 0), 0);
