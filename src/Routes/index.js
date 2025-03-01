@@ -9,6 +9,7 @@ import ProductList from "../pages/Product";
 import Product from "../pages/Product/Product";
 import PurchaseBillList from "../pages/Purchase";
 import PurchaseBill from "../pages/Purchase/Purchase";
+import PurchaseData from "../pages/Purchase/PurchaseData"
 import SaleBillList from "../pages/Sale";
 import SalesBill from "../pages/Sale/Sales";
 import setting from "../pages/setting";
@@ -20,6 +21,7 @@ import IncomeList from "../pages/Income/IncomeTable"
 const PageRoutes = [
     { path: "/dashboard", element: Dashboard, name: "DASHBOARD" },
     { path: "/purchase", element: PurchaseBillList, name: "PURCHASE BILL" },
+    { path: "/purchase-bill/:id?", element: PurchaseData, name: "PURCHASE BILL" },
     { path: "/purchase/:type/:id?", element: PurchaseBill, name: "PURCHASE BILL" },
     { path: "/sale", element: SaleBillList, name: "SALES BILL" },
     { path: "/sale/:type/:id?", element: SalesBill, name: "SALES BILL" },

@@ -35,8 +35,8 @@ const ForgotPassword = () => {
     };
 
     const handleVerifyOtp = async () => {
-        if (!otp || otp.length !== 6) {
-            setErrors({ otp: "Please enter a valid 6-digit OTP." });
+        if (!otp || otp.length !== 4) {
+            setErrors({ otp: "Please enter a valid 4-digit OTP." });
             return;
         }
 
