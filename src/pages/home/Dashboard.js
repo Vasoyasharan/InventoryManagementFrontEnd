@@ -101,10 +101,10 @@ const Dashboard = () => {
                     {cardData.map((card, index) => (
                         <div key={index} className="col-12 col-md-6 col-lg-3 mb-4">
                             <div className="card shadow position-relative">
-                               {/* "+" Icon */}
-<div className="add-icon" onClick={() => navigate(card.addRoute)} title={`Add ${card.title}`}>
-    <FontAwesomeIcon icon={faPlus} />
-</div>
+                                {/* "+" Icon */}
+                                <div className="add-icon" onClick={() => navigate(card.addRoute)} title={`Add ${card.title}`}>
+                                    <FontAwesomeIcon icon={faPlus} />
+                                </div>
 
                                 <div className="card-body d-flex align-items-center">
                                     <FontAwesomeIcon

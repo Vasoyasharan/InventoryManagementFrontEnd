@@ -92,7 +92,7 @@ select.form-control {
 
 .custom-table tbody td:last-child {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center !important;
     gap: 10px;
 }
 
@@ -176,6 +176,7 @@ select.form-control {
     background-color: #6c757d !important ;
     color: white !important ;
     border: none;
+    width: 200px;
 }
 
 .cancel-btn:hover {
@@ -191,6 +192,7 @@ select.form-control {
     background-color: #007bff !important ;
     color: white !important ;
     border: none;
+    width: 200px;
 }
 
 .submit-btn:hover {

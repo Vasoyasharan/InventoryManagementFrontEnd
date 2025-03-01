@@ -112,17 +112,16 @@ const PurchaseBill = () => {
         try {
             const response = await axios.get(`${URL}/${id}`, config);
             const data = response.data.payload.purchaseBills[0];
-    
-            setVendor(data.vendorId._id);
+
+            setVendor(data.vendorId?.id ?? null);
             setBillNo(data.billNo);
             setBillDate(new Date(data.billDate).toISOString().split("T")[0]);
             setApplyGST(data.isGSTBill);
             setRemarks(data.remarks);
-    
+
             // Ensure products are set only after `allProducts` is fetched
             if (allProducts.length > 0) {
                 const updatedProducts = data.purchaseItems.map((item) => {
-                    console.log('item::: ', item);
                     const foundProduct = allProducts.find(prod => prod._id === item.productId._id);
                     return {
                         product: foundProduct || "",  // Ensure a valid product object
@@ -134,7 +133,7 @@ const PurchaseBill = () => {
                         amount: item.amount + item.GSTAmount,
                     };
                 });
-    
+
                 setProducts(updatedProducts);
             }
         } catch (error) {
@@ -142,7 +141,7 @@ const PurchaseBill = () => {
             toast.error("Failed to fetch purchase bill details");
         }
     };
-    
+
 
 
     const handleSubmit = async () => {
@@ -151,7 +150,7 @@ const PurchaseBill = () => {
 
         const purchaseBill = {
             billNo,
-            vendorId: vendor,
+            vendorId: vendor ? vendor : null,
             billDate: new Date(billDate),
             isGSTBill: applyGST,
             totalAmount: netAmount,
@@ -204,7 +203,7 @@ const PurchaseBill = () => {
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ marginBottom: "100px" }}>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
-                <h3 className="m-0">{name} Purchase Bill</h3>
+                <h3 className="m-0">{name} PURCHASE BILL</h3>
             </div>
 
             {/* Vendor Section */}
