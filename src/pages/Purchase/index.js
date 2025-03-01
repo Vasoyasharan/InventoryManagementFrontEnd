@@ -2,7 +2,7 @@
 import { faFileCirclePlus, faFilePen, faTrashCan, faEye, faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -16,6 +16,7 @@ const PurchaseBillList = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState("all");
     const URL = Url + "/purchase";
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,7 +46,10 @@ const PurchaseBillList = (props) => {
         fetchData();
     }, [filter]); // Only runs when `filter` changes
 
-
+    // Function to handle row click
+    const handleRowClick = (item) => {
+        navigate(`/purchase-bill/${item._id}`, { state: item }); // Navigate to details page with data
+    };
     const handleDownloadCSV = async () => {
         try {
             const response = await axios.get("http://localhost:5500/api/csv", {
@@ -190,7 +194,7 @@ const PurchaseBillList = (props) => {
                     </thead>
                     <tbody>
                         {currentRecords.map((item) => (
-                            <tr key={item._id}>
+                            <tr key={item._id} onClick={() => handleRowClick(item)} style={{ cursor: "pointer" }}>
                                 <td className="text-center">
                                     {new Date(item.billDate).toLocaleDateString("en-GB").replace(/\//g, "-")}
                                 </td>

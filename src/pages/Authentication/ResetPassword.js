@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Url } from "../../Url";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./ResetPassword.css";
 
@@ -7,11 +9,21 @@ const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
+
     const navigate = useNavigate();
+    const location = useLocation();
+    const email = location.state?.email || ""; // Get email from ForgotPassword.js
 
     const handleResetPassword = async () => {
-        if (newPassword.length < 5) {
-            setErrors({ newPassword: "Password must be at least 5 characters long." });
+        // Check if email exists
+        if (!email) {
+            toast.error("Error: No email provided.");
+            return;
+        }
+
+        // Validate passwords
+        if (newPassword.length < 3) {
+            setErrors({ newPassword: "Password must be at least 3 characters long." });
             return;
         }
         if (newPassword !== confirmPassword) {
@@ -19,18 +31,30 @@ const ResetPassword = () => {
             return;
         }
 
-        // Simulate password reset
-        toast.success("Password reset successfully.");
-        navigate("/login");
+        try {
+            // Send password reset request
+            const response = await axios.put(`${Url}/user/reset-password`, {
+                email,
+                password: newPassword
+            });
+
+            if (response.data.success) {
+                toast.success("Password reset successfully.");
+                navigate("/login");
+            } else {
+                toast.error(response.data.message || "Failed to reset password.");
+            }
+        } catch (error) {
+            console.error("Error resetting password:", error);
+            toast.error("Error resetting password. Try again.");
+        }
     };
 
     return (
         <div className="reset-password-container">
             <div className="reset-password-card">
                 <h2>Reset Password</h2>
-                <p className="instruction-text">
-                    Enter your new password below.
-                </p>
+                <p className="instruction-text">Enter your new password below.</p>
 
                 <div className="form-group">
                     <label htmlFor="newPassword">New Password</label>
