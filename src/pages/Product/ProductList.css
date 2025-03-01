@@ -65,55 +65,6 @@
     position: relative;
 }
 
-.action-icons .view-icon {
-    color: #2ecc71; /* Green color for View icon */
-}
-
-.action-icons .view-icon:hover {
-    color: #27ae60; /* Darker green on hover */
-}
-
-.action-icons .edit-icon {
-    color: #3498db; /* Blue color for Edit icon */
-}
-
-.action-icons .edit-icon:hover {
-    color: #2980b9; /* Darker blue on hover */
-}
-
-.action-icons .delete-icon {
-    color: #e74c3c; /* Red color for Delete icon */
-}
-
-.action-icons .delete-icon:hover {
-    color: #c0392b; /* Darker red on hover */
-}
-
-/* Tooltips for icons */
-.action-icons a::after,
-.action-icons button::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    white-space: nowrap;
-}
-
-.action-icons a:hover::after,
-.action-icons button:hover::after {
-    opacity: 1;
-    visibility: visible;
-}
-
 /* Fixed header for better scrolling */
 .custom-table thead {
     position: sticky;

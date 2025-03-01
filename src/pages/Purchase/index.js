@@ -1,76 +1,88 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { faFileCirclePlus, faFilePen, faTrashCan, faEye, faFileExcel } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileCirclePlus, faFilePen, faTrashCan, faEye, faFileExcel, faFilter, faTimes } from "@fortawesome/free-solid-svg-icons";
 import "./PurchaseBillList.css";
 
 const PurchaseBillList = (props) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState("");
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState("all");
+    const [isFilterBoxOpen, setIsFilterBoxOpen] = useState(false);
+    const [vendors, setVendors] = useState([]); // State to store vendors
+    const [vendorFilter, setVendorFilter] = useState("");
+    const [dateFilter, setDateFilter] = useState("");
+    const [billNoFilter, setBillNoFilter] = useState("");
+    const [sortBy, setSortBy] = useState("");
+    const [appliedFilters, setAppliedFilters] = useState({}); // Track applied filters
     const URL = Url + "/purchase";
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                let apiUrl = URL;
-                if (filter === "withGST") {
-                    apiUrl += "?isGSTBill=true";
-                } else if (filter === "withoutGST") {
-                    apiUrl += "?isGSTBill=false";
-                }
-                const response = await axios.get(apiUrl, config);
-                if (response.data.payload && response.data.payload.purchaseBills) {
-                    setData(response.data.payload.purchaseBills);
-                } else {
-                    toast.error("Invalid data format received from the server");
-                    setData([]);
-                }
-            } catch (error) {
-                console.log(error);
-                toast.error(error.response?.data?.message || "Error fetching data");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [filter]); // Only runs when `filter` changes
-
-    // Function to handle row click
-    const handleRowClick = (item) => {
-        navigate(`/purchase-bill/${item._id}`, { state: item }); // Navigate to details page with data
+    // Fetch vendors from the backend
+    const fetchVendors = async () => {
+        try {
+            const response = await axios.get(`${Url}/vendor`, config);
+            setVendors(response.data.payload.vendorData);
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Error fetching vendors");
+        }
     };
+
+    // Fetch purchase bills data
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            let apiUrl = URL;
+            if (filter === "withGST") {
+                apiUrl += "?isGSTBill=true";
+            } else if (filter === "withoutGST") {
+                apiUrl += "?isGSTBill=false";
+            }
+            const response = await axios.get(apiUrl, config);
+            if (response.data.payload && response.data.payload.purchaseBills) {
+                setData(response.data.payload.purchaseBills);
+            } else {
+                toast.error("Invalid data format received from the server");
+                setData([]);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response?.data?.message || "Error fetching data");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+        fetchVendors(); // Fetch vendors when the component mounts
+    }, [filter]);
+
+    const handleRowClick = (item) => {
+        navigate(`/purchase-bill/${item._id}`, { state: item });
+    };
+
     const handleDownloadCSV = async () => {
         try {
             const response = await axios.get("http://localhost:5500/api/csv", {
-                params: { type: "purchase" }, // Pass type as a query parameter
-                headers: { ...config.headers }, // Include config headers (if any)
-                responseType: "blob", // Important for handling file download
+                params: { type: "purchase" },
+                headers: { ...config.headers },
+                responseType: "blob",
             });
 
-            // Create a Blob URL for the file
             const blob = new Blob([response.data], { type: "text/csv" });
             const url = window.URL.createObjectURL(blob);
-
-            // Create a temporary link and trigger download
             const a = document.createElement("a");
             a.href = url;
-            a.download = "Purchase_Bill.csv"; // File name
+            a.download = "Purchase_Bill.csv";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-
-            // Cleanup the blob URL
             window.URL.revokeObjectURL(url);
 
             toast.success("CSV Downloaded Successfully");
@@ -83,22 +95,51 @@ const PurchaseBillList = (props) => {
         try {
             await axios.delete(`${URL}/${purchaseID}`, config);
             toast.success("Purchase Bill Deleted Successfully");
-            setData((prevData) => prevData.filter((item) => item._id !== purchaseID)); // Update state without API call
+            setData((prevData) => prevData.filter((item) => item._id !== purchaseID));
         } catch (error) {
             toast.error(error.response?.data?.message || "Error deleting bill");
         }
     };
 
+    const applyFilters = () => {
+        setAppliedFilters({
+            vendor: vendorFilter,
+            date: dateFilter,
+            billNo: billNoFilter,
+            sortBy: sortBy,
+        });
+        setIsFilterBoxOpen(false); // Close the filter box after applying filters
+    };
+
+    const resetFilters = () => {
+        setVendorFilter("");
+        setDateFilter("");
+        setBillNoFilter("");
+        setSortBy("");
+        setAppliedFilters({}); // Clear applied filters
+    };
+
     const filteredData = (data || []).filter(
         (item) =>
-            item.billNo.toString().includes(searchQuery) ||
-            (item.vendorId?.vendorName?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-            (item.productId?.productName?.toLowerCase().includes(searchQuery.toLowerCase()))
+            item.billNo.toString().includes(appliedFilters.billNo || "") &&
+            (item.vendorId?.vendorName?.toLowerCase().includes((appliedFilters.vendor || "").toLowerCase())) &&
+            (item.billDate.includes(appliedFilters.date || ""))
     );
+
+    const sortedData = filteredData.sort((a, b) => {
+        if (appliedFilters.sortBy === "date") {
+            return new Date(a.billDate) - new Date(b.billDate);
+        } else if (appliedFilters.sortBy === "amount") {
+            return a.totalAmount - b.totalAmount;
+        } else if (appliedFilters.sortBy === "billNo") {
+            return a.billNo.localeCompare(b.billNo);
+        }
+        return 0;
+    });
 
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = filteredData.slice(indexOfFirstRecord, indexOfLastRecord);
+    const currentRecords = sortedData.slice(indexOfFirstRecord, indexOfLastRecord);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -148,33 +189,106 @@ const PurchaseBillList = (props) => {
                         value={recordsPerPage}
                         onChange={(e) => setRecordsPerPage(Number(e.target.value))}
                     >
-                        <option value={100}>Show 100</option>
-                        <option value={50}>Show 50</option>
-                        <option value={40}>Show 40</option>
-                        <option value={30}>Show 30</option>
-                        <option value={20}>Show  20</option>
                         <option value={10}>Show 10</option>
+                        <option value={20}>Show 20</option>
+                        <option value={30}>Show 30</option>
+                        <option value={40}>Show 40</option>
+                        <option value={50}>Show 50</option>
+                        <option value={100}>Show 100</option>
                     </select>
                 </div>
-                <div className="col-md-3 mb-3">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search by Bill No, Vendor"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
+                <div className="col-md-8"></div> {/* Spacer to push buttons to the right */}
+                <div className="col-md-2 d-flex justify-content-end">
+                    <div className="position-relative me-2">
+                        <div
+                            className="filter-icon"
+                            onClick={() => setIsFilterBoxOpen(!isFilterBoxOpen)}
+                            style={{
+                                border: "1px solid #ddd", // Slight grey border
+                                borderRadius: "8px",
+                                height: "48px",
+                                padding: "6px 12px",
+                                cursor: "pointer",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faFilter} style={{ color: "blue", fontSize: "19px" }} />
+                            {Object.keys(appliedFilters).length > 0 && (
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    className="ms-2"
+                                    style={{ color: "red", cursor: "pointer" }}
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent dropdown toggle
+                                        resetFilters();
+                                    }}
+                                />
+                            )}
+                        </div>
+                        <div className={`filter-box position-absolute bg-white p-3 shadow rounded mt-2 ${isFilterBoxOpen ? "open" : ""}`}>
+                            <div className="form-group mb-3">
+                                <label>Vendor</label>
+                                <select
+                                    className="form-control"
+                                    value={vendorFilter}
+                                    onChange={(e) => setVendorFilter(e.target.value)}
+                                >
+                                    <option value="">Select Vendor</option>
+                                    {vendors.map((vendor) => (
+                                        <option key={vendor._id} value={vendor.vendorName}>
+                                            {vendor.vendorName}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group mb-3">
+                                <label>Date</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    value={dateFilter}
+                                    onChange={(e) => setDateFilter(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group mb-3">
+                                <label>Bill No.</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Bill No"
+                                    value={billNoFilter}
+                                    onChange={(e) => setBillNoFilter(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group mb-3">
+                                <label>Sort By</label>
+                                <select
+                                    className="form-control"
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value)}
+                                >
+                                    <option value="">Select Sort By</option>
+                                    <option value="date">Date</option>
+                                    <option value="amount">Amount</option>
+                                    <option value="billNo">Bill No.</option>
+                                </select>
+                            </div>
+                            <div className="d-flex justify-content-end">
+                                <button className="btn btn-secondary me-2" onClick={resetFilters}>Reset</button>
+                                <button className="btn btn-primary" onClick={applyFilters}>Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        className="btn"
+                        onClick={handleDownloadCSV}
+                        style={{ border: "2px solid blue", borderRadius: "8px", padding: "6px 12px", fontWeight: "bold" }}
+                    >
+                        <FontAwesomeIcon icon={faFileExcel} className="me-2" style={{ color: "green", fontSize: "19px" }} /> Export
+                    </button>
                 </div>
-                <button
-                    className="col-md-1 mb-3 btn"
-                    onClick={handleDownloadCSV}
-                    style={{ border: "2px solid blue", borderRadius: "8px", padding: "6px 12px", fontWeight: "bold" }}
-                >
-                    <FontAwesomeIcon icon={faFileExcel} className="me-2" style={{ color: "green", fontSize: "19px" }} /> Export
-                </button>
-
-
-
             </div>
 
             <div className="mt-3">
@@ -205,15 +319,34 @@ const PurchaseBillList = (props) => {
                                 <td className="text-center">{item.isGSTBill ? `${parseFloat(item.GSTPercentage).toFixed(2)}%` : "-"}</td>
                                 <td className="text-center">{item.isGSTBill ? `${item.GSTAmount}` : "-"}</td>
                                 <td className="text-center">{item.finalAmount}</td>
-                                <td className="action-icons text-center" >
-                                    <button className="view-icon">
-                                        <FontAwesomeIcon icon={faEye} />
+                                <td className="action-icons text-center">
+                                    <button
+                                        className="view-icon"
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px", fontSize: "1.3rem" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
+                                    >
+                                        <FontAwesomeIcon icon={faEye} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </button>
-                                    <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2" onClick={(e) => e.stopPropagation()}>
-                                        <FontAwesomeIcon icon={faFilePen} />
+                                    <NavLink
+                                        to={{ pathname: `update/${item._id}` }}
+                                        state={item}
+                                        className="link-primary mx-2"
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
+                                    >
+                                        <FontAwesomeIcon icon={faFilePen} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </NavLink>
-                                    <NavLink className="link-danger mx-2" onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}>
-                                        <FontAwesomeIcon icon={faTrashCan} />
+                                    <NavLink
+                                        className="link-danger mx-2"
+                                        onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
+                                    >
+                                        <FontAwesomeIcon icon={faTrashCan} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </NavLink>
                                 </td>
                             </tr>

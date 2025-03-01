@@ -129,15 +129,34 @@ const SaleBillList = (props) => {
                                 <td className="text-center">{item.isGSTBill ? `${parseFloat(item.GSTPercentage).toFixed(2)}%` : "-"}</td>
                                 <td className="text-center">{item.isGSTBill ? `${item.GSTAmount}` : "-"}</td>
                                 <td className="text-center">{item.finalAmount}</td>
-                                <td className="text-center action-icons">
-                                    <button className="view-icon">
-                                        <FontAwesomeIcon icon={faEye} />
+                                <td className="action-icons text-center">
+                                    <button
+                                        className="view-icon"
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px", fontSize: "1.3rem" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
+                                    >
+                                        <FontAwesomeIcon icon={faEye} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </button>
-                                    <NavLink to={{ pathname: `/update/${item._id}` }} state={item} className="link-primary mx-2">
-                                        <FontAwesomeIcon icon={faFilePen} />
+                                    <NavLink
+                                        to={{ pathname: `update/${item._id}` }}
+                                        state={item}
+                                        className="link-primary mx-2"
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
+                                    >
+                                        <FontAwesomeIcon icon={faFilePen} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </NavLink>
-                                    <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
-                                        <FontAwesomeIcon icon={faTrashCan} />
+                                    <NavLink
+                                        className="link-danger mx-2"
+                                        onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
+                                    >
+                                        <FontAwesomeIcon icon={faTrashCan} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </NavLink>
                                 </td>
                             </tr>

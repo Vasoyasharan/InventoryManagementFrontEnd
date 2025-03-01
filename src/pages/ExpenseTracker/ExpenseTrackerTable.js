@@ -152,12 +152,26 @@ const ExpenseTrackerTable = () => {
                                 <td>{item.paymentMode}</td>
                                 <td>{item.amount}</td>
                                 <td className="truncate-text">{item.note}</td>
-                                <td className="action-icons">
-                                    <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2">
-                                        <FontAwesomeIcon icon={faFilePen} />
+                                <td className="action-icons text-center">
+                                    <NavLink
+                                        to={{ pathname: `update/${item._id}` }}
+                                        state={item}
+                                        className="link-primary mx-2"
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px", fontSize: "1.3rem" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
+                                    >
+                                        <FontAwesomeIcon icon={faFilePen} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </NavLink>
-                                    <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
-                                        <FontAwesomeIcon icon={faTrashCan} />
+                                    <NavLink
+                                        className="link-danger mx-2"
+                                        onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
+                                    >
+                                        <FontAwesomeIcon icon={faTrashCan} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </NavLink>
                                 </td>
                             </tr>

@@ -4,7 +4,7 @@ import { Url, config } from "../../Url";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPen, faUserPlus, faUserSlash, faEye, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faUserPen, faUserPlus, faUserSlash, faEye, faFilePen , faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./VendorList.css";
 
 const VendorList = (props) => {
@@ -123,25 +123,35 @@ const VendorList = (props) => {
                                 <td>{item.mobileNo}</td>
                                 <td>{item.city || "-"}</td>
                                 <td>{item.state || "-"}</td>
-                                <td className="action-icons">
+                                <td className="action-icons text-center">
                                     <button
                                         className="view-icon"
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px", fontSize: "1.3rem" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
                                     >
-                                        <FontAwesomeIcon icon={faEye} />
+                                        <FontAwesomeIcon icon={faEye} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </button>
                                     <NavLink
                                         to={{ pathname: `update/${item._id}` }}
                                         state={item}
                                         className="link-primary mx-2"
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
                                     >
-                                        <FontAwesomeIcon icon={faUserPen} />
+                                        <FontAwesomeIcon icon={faFilePen} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </NavLink>
-                                    <div
+                                    <NavLink
                                         className="link-danger mx-2"
-                                        onClick={() => handleDelete(item._id)}
+                                        onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
                                     >
-                                        <FontAwesomeIcon icon={faUserSlash} />
-                                    </div>
+                                        <FontAwesomeIcon icon={faUserSlash} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
+                                    </NavLink>
                                 </td>
                             </tr>
                         ))}

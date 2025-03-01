@@ -4,7 +4,7 @@ import { Url, config } from "../../Url";
 import { ToastContainer, toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileCirclePlus, faEllipsisVertical, faPen, faTrash, faSearch, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faFileCirclePlus, faEllipsisVertical, faFilePen, faTrashCan, faSearch, faEye } from "@fortawesome/free-solid-svg-icons";
 import "./ProductList.css"; // Import the CSS file
 
 const ProductList = (props) => {
@@ -129,25 +129,35 @@ const ProductList = (props) => {
                                 <td>{item.stock || "-"}</td>
                                 <td>{item.unit || "-"}</td>
                                 <td>{item.hsnCode || "-"}</td>
-                                <td className="action-icons">
+                                <td className="action-icons text-center">
                                     <button
                                         className="view-icon"
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px", fontSize: "1.3rem" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
                                     >
-                                        <FontAwesomeIcon icon={faEye} />
+                                        <FontAwesomeIcon icon={faEye} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </button>
                                     <NavLink
                                         to={{ pathname: `update/${item._id}` }}
                                         state={item}
-                                        className="edit-icon"
+                                        className="link-primary mx-2"
+                                        onClick={(e) => e.stopPropagation()}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
                                     >
-                                        <FontAwesomeIcon icon={faPen} />
+                                        <FontAwesomeIcon icon={faFilePen} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </NavLink>
-                                    <button
-                                        className="delete-icon"
-                                        onClick={() => handleDelete(item._id)}
+                                    <NavLink
+                                        className="link-danger mx-2"
+                                        onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
                                     >
-                                        <FontAwesomeIcon icon={faTrash} />
-                                    </button>
+                                        <FontAwesomeIcon icon={faTrashCan} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
+                                    </NavLink>
                                 </td>
                             </tr>
                         ))}

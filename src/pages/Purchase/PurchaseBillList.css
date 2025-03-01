@@ -7,20 +7,6 @@
     flex-wrap: wrap;
 }
 
-/* Search Input */
-.form-control {
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    padding: 10px 15px;
-    font-size: 16px;
-    transition: all 0.3s ease-in-out;
-}
-
-.form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
-}
-
 /* Dropdown Select */
 select.form-control {
     appearance: none;
@@ -201,4 +187,52 @@ select.form-control {
 
 .submit-btn:active {
     background-color: #004080 !important ;
+}
+
+
+.filter-box {
+    z-index: 1000;
+    width: 400px;
+    right: 0;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.filter-box.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.filter-box .form-group {
+    margin-bottom: 15px;
+}
+
+.filter-box label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.filter-box .form-control {
+    width: 100%;
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.filter-box .btn {
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.filter-icon {
+    border: 1px solid #ddd; /* Slight grey border */
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }

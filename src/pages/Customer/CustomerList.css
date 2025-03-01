@@ -54,7 +54,7 @@
 }
 
 .action-icons a {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
     border-radius: 50%;
     display: inline-flex;
@@ -63,21 +63,6 @@
 }
 
 .action-icons a:hover {
-    transform: scale(1.2);
-    background-color: rgba(0, 123, 255, 0.1);
-}
-
-.link-danger {
-    font-size: 1.1rem;
-    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
-    padding: 0.5rem;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.link-danger:hover {
     transform: scale(1.2);
     background-color: rgba(0, 123, 255, 0.1);
 }
