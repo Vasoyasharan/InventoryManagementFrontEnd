@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { faFileCirclePlus, faFilePen, faTrashCan, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faFileCirclePlus, faFilePen, faTrashCan, faEye, faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -10,58 +10,88 @@ import "./PurchaseBillList.css";
 
 const PurchaseBillList = (props) => {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true); // Loading state
+    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
-    const [recordsPerPage, setRecordsPerPage] = useState(10); // Default records per page
+    const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
-    const [filter, setFilter] = useState("all"); // State for filter
+    const [filter, setFilter] = useState("all");
     const URL = Url + "/purchase";
 
-    const fetchData = async (filterType = "all") => {
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                let apiUrl = URL;
+                if (filter === "withGST") {
+                    apiUrl += "?isGSTBill=true";
+                } else if (filter === "withoutGST") {
+                    apiUrl += "?isGSTBill=false";
+                }
+                const response = await axios.get(apiUrl, config);
+                if (response.data.payload && response.data.payload.purchaseBills) {
+                    setData(response.data.payload.purchaseBills);
+                } else {
+                    toast.error("Invalid data format received from the server");
+                    setData([]);
+                }
+            } catch (error) {
+                console.log(error);
+                toast.error(error.response?.data?.message || "Error fetching data");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [filter]); // Only runs when `filter` changes
+
+
+    const handleDownloadCSV = async () => {
         try {
-            let apiUrl = URL;
-            if (filterType === "withGST") {
-                apiUrl += "?isGSTBill=true";
-            } else if (filterType === "withoutGST") {
-                apiUrl += "?isGSTBill=false";
-            }
-            const response = await axios.get(apiUrl, config);
-            if (response.data.payload && response.data.payload.purchaseBills) {
-                setData(response.data.payload.purchaseBills);
-            } else {
-                toast.error("Invalid data format received from the server");
-                setData([]); // Set data to an empty array to avoid errors
-            }
+            const response = await axios.get("http://localhost:5500/api/csv", {
+                params: { type: "purchase" }, // Pass type as a query parameter
+                headers: { ...config.headers }, // Include config headers (if any)
+                responseType: "blob", // Important for handling file download
+            });
+
+            // Create a Blob URL for the file
+            const blob = new Blob([response.data], { type: "text/csv" });
+            const url = window.URL.createObjectURL(blob);
+
+            // Create a temporary link and trigger download
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Purchase_Bill.csv"; // File name
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Cleanup the blob URL
+            window.URL.revokeObjectURL(url);
+
+            toast.success("CSV Downloaded Successfully");
         } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        } finally {
-            setLoading(false); // Set loading to false after the API call completes
+            toast.error("Error downloading CSV");
         }
     };
-
-    useEffect(() => {
-        fetchData(filter);
-    }, [fetchData, filter]);
 
     const handleDelete = async (purchaseID) => {
         try {
             await axios.delete(`${URL}/${purchaseID}`, config);
-            fetchData(filter);
             toast.success("Purchase Bill Deleted Successfully");
+            setData((prevData) => prevData.filter((item) => item._id !== purchaseID)); // Update state without API call
         } catch (error) {
-            return toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Error deleting bill");
         }
     };
 
-    // Filter data based on search query
-    const filteredData = (data || []).filter((item) =>
-        item.billNo.toString().includes(searchQuery) ||
-        (item.vendorId?.vendorName?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (item.productId?.productName?.toLowerCase().includes(searchQuery.toLowerCase()))
+    const filteredData = (data || []).filter(
+        (item) =>
+            item.billNo.toString().includes(searchQuery) ||
+            (item.vendorId?.vendorName?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (item.productId?.productName?.toLowerCase().includes(searchQuery.toLowerCase()))
     );
 
-    // Pagination logic
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     const currentRecords = filteredData.slice(indexOfFirstRecord, indexOfLastRecord);
@@ -69,7 +99,7 @@ const PurchaseBillList = (props) => {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     if (loading) {
-        return <div>Loading...</div>; // Show loading message while data is being fetched
+        return <div>Loading...</div>;
     }
 
     return (
@@ -84,7 +114,6 @@ const PurchaseBillList = (props) => {
                 </div>
             </div>
 
-            {/* GST Filter Buttons */}
             <div className="row mt-3">
                 <div className="col-md-12 d-flex justify-content-between mb-3">
                     <button
@@ -108,32 +137,42 @@ const PurchaseBillList = (props) => {
                 </div>
             </div>
 
-            {/* Search and Records Per Page */}
-            <div className="row mt-3">
-                <div className="col-md-6 mb-3">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search by Bill No, Vendor, or Product"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                </div>
-                <div className="col-md-3 mb-3">
+            <div className="row">
+                <div className="col-md-2 mb-1">
                     <select
                         className="form-control"
                         value={recordsPerPage}
                         onChange={(e) => setRecordsPerPage(Number(e.target.value))}
                     >
-                        <option value={10}>10 records</option>
-                        <option value={20}>20 records</option>
-                        <option value={30}>30 records</option>
-                        <option value={40}>40 records</option>
+                        <option value={100}>Show 100</option>
+                        <option value={50}>Show 50</option>
+                        <option value={40}>Show 40</option>
+                        <option value={30}>Show 30</option>
+                        <option value={20}>Show  20</option>
+                        <option value={10}>Show 10</option>
                     </select>
                 </div>
+                <div className="col-md-3 mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search by Bill No, Vendor"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </div>
+                <button
+                    className="col-md-1 mb-3 btn"
+                    onClick={handleDownloadCSV}
+                    style={{ border: "2px solid blue", borderRadius: "8px", padding: "6px 12px", fontWeight: "bold" }}
+                >
+                    <FontAwesomeIcon icon={faFileExcel} className="me-2" style={{ color: "green", fontSize: "19px" }} /> Export
+                </button>
+
+
+
             </div>
 
-            {/* Table */}
             <div className="mt-3">
                 <table className="table custom-table">
                     <thead>
@@ -152,13 +191,15 @@ const PurchaseBillList = (props) => {
                     <tbody>
                         {currentRecords.map((item) => (
                             <tr key={item._id}>
-                                <td className="text-center">{new Date(item.billDate).toLocaleDateString("en-GB").replace(/\//g, "-")}</td>
+                                <td className="text-center">
+                                    {new Date(item.billDate).toLocaleDateString("en-GB").replace(/\//g, "-")}
+                                </td>
                                 <td className="text-center">{item.billNo}</td>
                                 <td className="text-center">{item.vendorId ? item.vendorId.vendorName : <em>Unavailable Vendor</em>}</td>
                                 <td className="text-center">{item.isGSTBill ? "With GST" : "Without GST"}</td>
                                 <td className="text-center">{item.totalAmount}</td>
                                 <td className="text-center">{item.isGSTBill ? `${parseFloat(item.GSTPercentage).toFixed(2)}%` : "-"}</td>
-                                <td className="text-center">{item.isGSTBill ? `${(item.GSTAmount)}` : "-"}</td>
+                                <td className="text-center">{item.isGSTBill ? `${item.GSTAmount}` : "-"}</td>
                                 <td className="text-center">{item.finalAmount}</td>
                                 <td className="action-icons text-center">
                                     <button className="view-icon">
@@ -177,7 +218,6 @@ const PurchaseBillList = (props) => {
                 </table>
             </div>
 
-            {/* Pagination */}
             <div className="d-flex justify-content-between align-items-center mt-3">
                 <div>
                     Showing {indexOfFirstRecord + 1} to {Math.min(indexOfLastRecord, filteredData.length)} of {filteredData.length} entries
