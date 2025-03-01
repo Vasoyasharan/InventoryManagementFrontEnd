@@ -1,5 +1,104 @@
-.card {
-    margin: 16px;
-    border-radius: 8px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.30);
+/* Summary Cards Container */
+.summary-card {
+  border: none;
+  border-radius: 12px;
+  padding: 2px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Effect */
+.summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Header - Icon & Title */
+.summary-card .d-flex {
+  display: flex;
+  align-items: center;
+}
+
+/* Icon Styling */
+.icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 123, 255, 0.1);
+}
+
+/* Icons */
+.summary-icon {
+  font-size: 22px;
+  color: #007bff;
+}
+
+/* Card Titles */
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* Card Values */
+.card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* Card Type-Specific Colors */
+.purchase-card .icon-container {
+  background: rgba(40, 167, 69, 0.1);
+}
+
+.purchase-card .summary-icon {
+  color: #28a745;
+}
+
+.sale-card .icon-container {
+  background: rgba(255, 193, 7, 0.1);
+}
+
+.sale-card .summary-icon {
+  color: #ffc107;
+}
+
+.gst-card .icon-container {
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.gst-card .summary-icon {
+  color: #dc3545;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .summary-card {
+    padding: 15px;
+  }
+
+  .icon-container {
+    width: 45px;
+    height: 45px;
+  }
+
+  .summary-icon {
+    font-size: 20px;
+  }
+
+  .card-title {
+    font-size: 16px;
+  }
+
+  .card-value {
+    font-size: 18px;
+  }
 }

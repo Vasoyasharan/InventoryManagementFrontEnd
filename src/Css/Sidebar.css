@@ -155,6 +155,7 @@ hr {
   justify-content: center;
   cursor: pointer;
   margin-left: 12px;
+  right: 7px;
 }
 
 .navbar-profile-picture {
@@ -174,23 +175,57 @@ hr {
 .profile-dropdown {
   position: absolute;
   top: 50px;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  right: 6px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  min-width: 180px;
   z-index: 1000;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Dropdown Items */
 .profile-dropdown div {
-  padding: 10px 20px;
+  padding: 12px 20px;
   cursor: pointer;
   color: #333;
-  transition: background-color 0.3s ease;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
 }
 
+/* Add Hover Effect */
 .profile-dropdown div:hover {
-  background-color: #f1f1f1;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #007bff;
+}
+
+/* Add Icons to Menu Items */
+.profile-dropdown div i {
+  font-size: 16px;
+  color: #007bff;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect on Icons */
+.profile-dropdown div:hover i {
+  transform: scale(1.1);
+}
+
+/* Smooth Dropdown Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Notifications Dropdown */
