@@ -205,14 +205,14 @@ const PurchaseBillList = (props) => {
                                 <td className="text-center">{item.isGSTBill ? `${parseFloat(item.GSTPercentage).toFixed(2)}%` : "-"}</td>
                                 <td className="text-center">{item.isGSTBill ? `${item.GSTAmount}` : "-"}</td>
                                 <td className="text-center">{item.finalAmount}</td>
-                                <td className="action-icons text-center">
+                                <td className="action-icons text-center" >
                                     <button className="view-icon">
                                         <FontAwesomeIcon icon={faEye} />
                                     </button>
-                                    <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2">
+                                    <NavLink to={{ pathname: `update/${item._id}` }} state={item} className="link-primary mx-2" onClick={(e) => e.stopPropagation()}>
                                         <FontAwesomeIcon icon={faFilePen} />
                                     </NavLink>
-                                    <NavLink className="link-danger mx-2" onClick={() => handleDelete(item._id)}>
+                                    <NavLink className="link-danger mx-2" onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}>
                                         <FontAwesomeIcon icon={faTrashCan} />
                                     </NavLink>
                                 </td>

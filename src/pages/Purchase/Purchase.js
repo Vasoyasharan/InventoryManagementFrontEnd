@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Url, config } from "../../Url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
-import "./PurchaseBillList.css"; // Import the external CSS file
+import { faMinusCircle, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import "./PurchaseBillList.css";
 
 const PurchaseBill = () => {
     const params = useParams();
@@ -203,7 +203,15 @@ const PurchaseBill = () => {
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ marginBottom: "100px" }}>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
-                <h3 className="m-0">{name} PURCHASE BILL</h3>
+                <h3 className="m-0">
+                    <FontAwesomeIcon
+                        icon={faArrowLeft}
+                        className="me-2 fa-sm text-secondary"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => navigate("/purchase")}
+                    />
+                    {name} PURCHASE BILL
+                </h3>
             </div>
 
             {/* Vendor Section */}
