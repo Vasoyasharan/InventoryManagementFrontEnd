@@ -20,14 +20,14 @@ import { Url, config } from "../Url";
 
 const Header = () => {
   const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
-  const [shopName, setShopName] = useState("Company Name"); // Default shop name
+  const [shopName, setShopName] = useState("Company Name");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [todayDate, setTodayDate] = useState(""); // State for today's date
+  const [todayDate, setTodayDate] = useState("");
+  const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     // Set today's date
@@ -56,7 +56,24 @@ const Header = () => {
       }
     };
 
+    // Fetch low stock notifications
+    const fetchLowStockNotifications = async () => {
+      try {
+        const response = await axios.get(`${Url}/product`, config);
+        const lowStockNotifications = response.data.payload.productData
+          .filter((item) => item.stock <= 5)
+          .map((item) => ({
+            message: `Low stock for ${item.productName}. Current stock: ${item.stock}. Please reorder!`,
+            productId: item._id,
+          }));
+        setNotifications(lowStockNotifications);
+      } catch (error) {
+        console.error("Failed to fetch low stock notifications:", error);
+      }
+    };
+
     fetchUserData();
+    fetchLowStockNotifications();
   }, []);
 
   // Handle logout functionality
@@ -78,7 +95,7 @@ const Header = () => {
         <FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} />
       </div>
 
-      {/* Navbar Left (Shop Name) */}
+      {/* Navbar Left */}
       <div className="navbar-left">
         <div className="shop-name">
           <FontAwesomeIcon icon={faShop} className="user-icon" />
@@ -86,7 +103,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Navbar Right (Icons and Profile) */}
+      {/* Navbar Right */}
       <div className={`navbar-right ${isMobileMenuOpen ? "open" : ""}`}>
         {/* Today's Date */}
         <div className="today-date">
@@ -95,13 +112,31 @@ const Header = () => {
 
         {/* Notification Icon */}
         <div className="navbar-icon-container" onClick={() => setShowNotifications(!showNotifications)}>
-          <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
-          {showNotifications && (
-            <div className="notifications-dropdown">
-              <p>No new notifications</p>
+    <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
+    {notifications.length > 0 && ( 
+        <span className="notification-badge">{notifications.length}</span>
+    )}
+    {showNotifications && (
+        <div className="notifications-dropdown">
+            <div className="notifications-header">
+                Notifications
             </div>
-          )}
+
+            {/* Notification Items */}
+            {notifications.length > 0 ? (
+                notifications.map((notification, index) => (
+                    <div key={index} className="notification-item">
+                        <p>{notification.message}</p>
+                    </div>
+                ))
+            ) : (
+                <div className="notification-item">
+                    <p>No new notifications</p>
+                </div>
+            )}
         </div>
+    )}
+</div>
 
         {/* Other Icons */}
         <FontAwesomeIcon

@@ -10,7 +10,7 @@ import "./ProductList.css"; // Import the CSS file
 const ProductList = (props) => {
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [recordsPerPage, setRecordsPerPage] = useState(100);
+    const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const URL = Url + "/product";
 
@@ -18,15 +18,6 @@ const ProductList = (props) => {
         try {
             const response = await axios.get(URL, config);
             setData(response.data.payload.productData);
-
-            // Check for low stock and show a warning toast
-            response.data.payload.productData.forEach((item) => {
-                if (item.stock <= 5) {
-                    toast.warning(`Low stock for ${item.productName}. Current stock: ${item.stock}. Please reorder!`, {
-                        autoClose: 5000,
-                    });
-                }
-            });
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
