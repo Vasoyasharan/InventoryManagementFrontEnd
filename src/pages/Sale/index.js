@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { faFileCirclePlus, faFilePen, faTrashCan, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faFileCirclePlus, faFilePen, faTrashCan, faEye, faFileExcel, faFilter, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -11,18 +11,37 @@ import "../Purchase/PurchaseBillList.css";
 const SaleBillList = (props) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState("");
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState("all");
+    const [isFilterBoxOpen, setIsFilterBoxOpen] = useState(false);
+    const [customers, setCustomers] = useState([]); // State to store customers
+    const [customerFilter, setCustomerFilter] = useState("");
+    const [dateFilter, setDateFilter] = useState("");
+    const [billNoFilter, setBillNoFilter] = useState("");
+    const [sortBy, setSortBy] = useState("");
+    const [appliedFilters, setAppliedFilters] = useState({}); // Track applied filters
     const URL = Url + "/sale";
+    const navigate = useNavigate();
 
-    const fetchData = async (filterType = "all") => {
+    // Fetch customers from the backend
+    const fetchCustomers = async () => {
+        try {
+            const response = await axios.get(`${Url}/customer`, config);
+            setCustomers(response.data.payload.customerData);
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Error fetching customers");
+        }
+    };
+
+    // Fetch sale bills data
+    const fetchData = async () => {
+        setLoading(true);
         try {
             let apiUrl = URL;
-            if (filterType === "withGST") {
+            if (filter === "withGST") {
                 apiUrl += "?isGSTBill=true";
-            } else if (filterType === "withoutGST") {
+            } else if (filter === "withoutGST") {
                 apiUrl += "?isGSTBill=false";
             }
             const response = await axios.get(apiUrl, config);
@@ -41,27 +60,87 @@ const SaleBillList = (props) => {
     };
 
     useEffect(() => {
-        fetchData(filter);
+        fetchData();
+        fetchCustomers(); // Fetch customers when the component mounts
     }, [filter]);
+
+    const handleRowClick = (item) => {
+        navigate(`/sale-bill/${item._id}`, { state: item });
+    };
+
+    const handleDownloadCSV = async () => {
+        try {
+            const response = await axios.get("http://localhost:5500/api/csv", {
+                params: { type: "sale" },
+                headers: { ...config.headers },
+                responseType: "blob",
+            });
+
+            const blob = new Blob([response.data], { type: "text/csv" });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Sale_Bill.csv";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            toast.success("CSV Downloaded Successfully");
+        } catch (error) {
+            toast.error("Error downloading CSV");
+        }
+    };
 
     const handleDelete = async (saleID) => {
         try {
             await axios.delete(`${URL}/${saleID}`, config);
-            fetchData(filter);
             toast.success("Sale Bill Deleted Successfully");
+            setData((prevData) => prevData.filter((item) => item._id !== saleID));
         } catch (error) {
-            return toast.error(error.response?.data?.message || "Error deleting sale bill");
+            toast.error(error.response?.data?.message || "Error deleting bill");
         }
     };
 
-    const filteredData = (data || []).filter((item) =>
-        item.billNo.toString().includes(searchQuery) ||
-        (item.customerId?.customerName?.toLowerCase().includes(searchQuery.toLowerCase()))
+    const applyFilters = () => {
+        setAppliedFilters({
+            customer: customerFilter,
+            date: dateFilter,
+            billNo: billNoFilter,
+            sortBy: sortBy,
+        });
+        setIsFilterBoxOpen(false); // Close the filter box after applying filters
+    };
+
+    const resetFilters = () => {
+        setCustomerFilter("");
+        setDateFilter("");
+        setBillNoFilter("");
+        setSortBy("");
+        setAppliedFilters({}); // Clear applied filters
+    };
+
+    const filteredData = (data || []).filter(
+        (item) =>
+            item.billNo.toString().includes(appliedFilters.billNo || "") &&
+            (item.customerId?.customerName?.toLowerCase().includes((appliedFilters.customer || "").toLowerCase())) &&
+            (item.billDate.includes(appliedFilters.date || ""))
     );
+
+    const sortedData = filteredData.sort((a, b) => {
+        if (appliedFilters.sortBy === "date") {
+            return new Date(a.billDate) - new Date(b.billDate);
+        } else if (appliedFilters.sortBy === "amount") {
+            return a.totalAmount - b.totalAmount;
+        } else if (appliedFilters.sortBy === "billNo") {
+            return a.billNo.localeCompare(b.billNo);
+        }
+        return 0;
+    });
 
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = filteredData.slice(indexOfFirstRecord, indexOfLastRecord);
+    const currentRecords = sortedData.slice(indexOfFirstRecord, indexOfLastRecord);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -83,23 +162,133 @@ const SaleBillList = (props) => {
 
             <div className="row mt-3">
                 <div className="col-md-12 d-flex justify-content-between mb-3">
-                    <button className={`btn flex-fill mx-1 ${filter === "all" ? "btn-primary" : "btn-outline-primary"}`} onClick={() => setFilter("all")}>All</button>
-                    <button className={`btn flex-fill mx-1 ${filter === "withGST" ? "btn-primary" : "btn-outline-primary"}`} onClick={() => setFilter("withGST")}>With GST</button>
-                    <button className={`btn flex-fill mx-1 ${filter === "withoutGST" ? "btn-primary" : "btn-outline-primary"}`} onClick={() => setFilter("withoutGST")}>Without GST</button>
+                    <button
+                        className={`btn flex-fill mx-1 ${filter === "all" ? "btn-primary" : "btn-outline-primary"}`}
+                        onClick={() => setFilter("all")}
+                    >
+                        All
+                    </button>
+                    <button
+                        className={`btn flex-fill mx-1 ${filter === "withGST" ? "btn-primary" : "btn-outline-primary"}`}
+                        onClick={() => setFilter("withGST")}
+                    >
+                        With GST
+                    </button>
+                    <button
+                        className={`btn flex-fill mx-1 ${filter === "withoutGST" ? "btn-primary" : "btn-outline-primary"}`}
+                        onClick={() => setFilter("withoutGST")}
+                    >
+                        Without GST
+                    </button>
                 </div>
             </div>
 
-            <div className="row mt-3">
-                <div className="col-md-6 mb-3">
-                    <input type="text" className="form-control" placeholder="Search by Bill No, Customer, or Product" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-                </div>
-                <div className="col-md-3 mb-3">
-                    <select className="form-control" value={recordsPerPage} onChange={(e) => setRecordsPerPage(Number(e.target.value))}>
-                        <option value={10}>10 records</option>
-                        <option value={20}>20 records</option>
-                        <option value={30}>30 records</option>
-                        <option value={40}>40 records</option>
+            <div className="row">
+                <div className="col-md-2 mb-1">
+                    <select
+                        className="form-control"
+                        value={recordsPerPage}
+                        onChange={(e) => setRecordsPerPage(Number(e.target.value))}
+                    >
+                        <option value={10}>Show 10</option>
+                        <option value={20}>Show 20</option>
+                        <option value={30}>Show 30</option>
+                        <option value={40}>Show 40</option>
+                        <option value={50}>Show 50</option>
+                        <option value={100}>Show 100</option>
                     </select>
+                </div>
+                <div className="col-md-8"></div> {/* Spacer to push buttons to the right */}
+                <div className="col-md-2 d-flex justify-content-end">
+                    <div className="position-relative me-2">
+                        <div
+                            className="filter-icon"
+                            onClick={() => setIsFilterBoxOpen(!isFilterBoxOpen)}
+                            style={{
+                                border: "1px solid #ddd", // Slight grey border
+                                borderRadius: "8px",
+                                height: "48px",
+                                padding: "6px 12px",
+                                cursor: "pointer",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faFilter} style={{ color: "blue", fontSize: "19px" }} />
+                            {Object.keys(appliedFilters).length > 0 && (
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    className="ms-2"
+                                    style={{ color: "red", cursor: "pointer" }}
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent dropdown toggle
+                                        resetFilters();
+                                    }}
+                                />
+                            )}
+                        </div>
+                        <div className={`filter-box position-absolute bg-white p-3 shadow rounded mt-2 ${isFilterBoxOpen ? "open" : ""}`}>
+                            <div className="form-group mb-3">
+                                <label>Customer</label>
+                                <select
+                                    className="form-control"
+                                    value={customerFilter}
+                                    onChange={(e) => setCustomerFilter(e.target.value)}
+                                >
+                                    <option value="">Select Customer</option>
+                                    {customers.map((customer) => (
+                                        <option key={customer._id} value={customer.customerName}>
+                                            {customer.customerName}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group mb-3">
+                                <label>Date</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    value={dateFilter}
+                                    onChange={(e) => setDateFilter(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group mb-3">
+                                <label>Bill No.</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Bill No"
+                                    value={billNoFilter}
+                                    onChange={(e) => setBillNoFilter(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group mb-3">
+                                <label>Sort By</label>
+                                <select
+                                    className="form-control"
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value)}
+                                >
+                                    <option value="">Select Sort By</option>
+                                    <option value="date">Date</option>
+                                    <option value="amount">Amount</option>
+                                    <option value="billNo">Bill No.</option>
+                                </select>
+                            </div>
+                            <div className="d-flex justify-content-end">
+                                <button className="btn btn-secondary me-2" onClick={resetFilters}>Reset</button>
+                                <button className="btn btn-primary" onClick={applyFilters}>Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        className="btn"
+                        onClick={handleDownloadCSV}
+                        style={{ border: "2px solid blue", borderRadius: "8px", padding: "6px 12px", fontWeight: "bold" }}
+                    >
+                        <FontAwesomeIcon icon={faFileExcel} className="me-2" style={{ color: "green", fontSize: "19px" }} /> Export
+                    </button>
                 </div>
             </div>
 
@@ -107,23 +296,25 @@ const SaleBillList = (props) => {
                 <table className="table custom-table">
                     <thead>
                         <tr className="text-center">
-                            <th>Bill Date</th>
-                            <th>Bill No.</th>
-                            <th>Customer Name</th>
-                            <th>Bill Type</th>
-                            <th>Amount (₹)</th>
-                            <th>GST (%)</th>
-                            <th>GST (₹)</th>
-                            <th>Taxable Amount (₹)</th>
-                            <th>Actions</th>
+                            <th className="text-center">Bill Date</th>
+                            <th className="text-center">Bill No.</th>
+                            <th className="text-center">Customer Name</th>
+                            <th className="text-center">Bill Type</th>
+                            <th className="text-center">Amount (₹)</th>
+                            <th className="text-center">GST (%)</th>
+                            <th className="text-center">GST (₹)</th>
+                            <th className="text-center">Taxable Amount (₹)</th>
+                            <th className="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentRecords.map((item) => (
-                            <tr key={item._id}>
-                                <td className="text-center">{new Date(item.billDate).toLocaleDateString("en-GB").replace(/\//g, "-")}</td>
+                            <tr key={item._id} onClick={() => handleRowClick(item)} style={{ cursor: "pointer" }}>
+                                <td className="text-center">
+                                    {new Date(item.billDate).toLocaleDateString("en-GB").replace(/\//g, "-")}
+                                </td>
                                 <td className="text-center">{item.billNo}</td>
-                                <td className="text-center">{item.customerId?.customerName || <em>Unavailable</em>}</td>
+                                <td className="text-center">{item.customerId ? item.customerId.customerName : <em>Unavailable Customer</em>}</td>
                                 <td className="text-center">{item.isGSTBill ? "With GST" : "Without GST"}</td>
                                 <td className="text-center">{item.totalAmount}</td>
                                 <td className="text-center">{item.isGSTBill ? `${parseFloat(item.GSTPercentage).toFixed(2)}%` : "-"}</td>
@@ -164,7 +355,7 @@ const SaleBillList = (props) => {
                     </tbody>
                 </table>
             </div>
-            {/* Pagination */}
+
             <div className="d-flex justify-content-between align-items-center mt-3">
                 <div>
                     Showing {indexOfFirstRecord + 1} to {Math.min(indexOfLastRecord, filteredData.length)} of {filteredData.length} entries

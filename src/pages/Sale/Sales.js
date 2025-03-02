@@ -4,14 +4,15 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Url, config } from "../../Url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faMinusCircle, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import "../Purchase/PurchaseBillList.css"; // Reuse the same CSS as PurchaseBill
 
 const SalesBill = () => {
     const navigate = useNavigate();
     const [customer, setCustomer] = useState("");
     const [customers, setCustomers] = useState([]);
     const [products, setProducts] = useState([
-        { product: "", hsnCode: "", qty: "", unit: "Pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 },
+        { product: "", qty: "", unit: "Pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 },
     ]);
     const [allProducts, setAllProducts] = useState([]);
     const [remarks, setRemarks] = useState("");
@@ -46,7 +47,7 @@ const SalesBill = () => {
     }, []);
 
     const handleAddProduct = () => {
-        setProducts([...products, { product: "", hsnCode: "", qty: "", unit: "Pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 }]);
+        setProducts([...products, { product: "", qty: "", unit: "Pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 }]);
     };
 
     const handleRemoveProduct = (index) => {
@@ -56,7 +57,19 @@ const SalesBill = () => {
 
     const handleProductChange = (index, field, value) => {
         const updatedProducts = [...products];
-        updatedProducts[index][field] = value;
+
+        if (field === "product") {
+            // Find the selected product from allProducts
+            const selectedProduct = allProducts.find(prod => prod._id === value);
+            if (selectedProduct) {
+                updatedProducts[index] = {
+                    ...updatedProducts[index],
+                    product: selectedProduct,  // Store the entire product object
+                };
+            }
+        } else {
+            updatedProducts[index][field] = value;
+        }
 
         // Calculate amount if rate or quantity changes
         if (field === "rate" || field === "qty") {
@@ -75,33 +88,39 @@ const SalesBill = () => {
         setProducts(updatedProducts);
     };
 
-    const handleSubmit = () => {
-        // Handle form submission
+    const handleSubmit = async () => {
+        const totalGSTAmount = products.reduce((acc, product) => acc + product.GSTAmount, 0);
+        const GSTPercentage = products.reduce((acc, product) => acc + Number(product.GSTPercentage), 0);
+
         const salesBill = {
-            userId: "67bf33d26c6d875a5ffa9740", // Replace with actual user ID
-            customerId: customer,
-            billNo: billNo,
-            billDate: new Date(billDate).toISOString(),
-            products: products.map((product) => ({
-                productId: product.product,
-                hsnCode: product.hsnCode,
+            billNo,
+            customerId: customer ? customer : null,
+            billDate: new Date(billDate),
+            isGSTBill: applyGST,
+            GSTPercentage,
+            GSTAmount: totalGSTAmount,
+            totalAmount: netAmount,
+            finalAmount: totalAmount,
+            remarks,
+            saleBillItems: products.map(product => ({
+                productId: product.product?._id || "",
                 qty: product.qty,
                 unit: product.unit,
                 rate: product.rate,
-                discount: product.discount,
                 GSTPercentage: product.GSTPercentage,
                 GSTAmount: product.GSTAmount,
-                amount: product.amount,
+                totalAmount: product.amount,
             })),
-            totalAmount: netAmount,
-            finalAmount: totalAmount,
-            isGSTBill: applyGST,
-            remarks: remarks,
         };
 
-        console.log("Sales Bill Data:", salesBill);
-        toast.success("Sales Bill Created Successfully");
-        navigate("/sale");
+        try {
+            await axios.post(`${Url}/sale`, salesBill, config);
+            toast.success("Sales Bill Created Successfully");
+            navigate("/sale");
+        } catch (error) {
+            console.error("Error creating sales bill:", error);
+            toast.error(error.response?.data?.message || "Failed to create sales bill");
+        }
     };
 
     const handleCancel = () => {
@@ -116,7 +135,15 @@ const SalesBill = () => {
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ marginBottom: "100px" }}>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
-                <h3 className="m-0">Add Sales Bill</h3>
+                <h3 className="m-0">
+                    <FontAwesomeIcon
+                        icon={faArrowLeft}
+                        className="me-2 fa-sm text-secondary"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => navigate("/sale")}
+                    />
+                    ADD SALES BILL
+                </h3>
             </div>
 
             {/* Customer Section */}
@@ -213,10 +240,10 @@ const SalesBill = () => {
                                     <td>
                                         <select
                                             className="form-select"
-                                            value={product.product}
+                                            value={product.product ? product.product._id : ""}
                                             onChange={(e) => handleProductChange(index, "product", e.target.value)}
                                         >
-                                            <option value="">Select Product</option>
+                                            <option value="" disabled>Select Product</option>
                                             {allProducts.map((prod) => (
                                                 <option value={prod._id} key={prod._id}>
                                                     {prod.productName}
@@ -224,14 +251,6 @@ const SalesBill = () => {
                                             ))}
                                         </select>
                                     </td>
-                                    {/* <td>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            value={product.hsnCode}
-                                            onChange={(e) => handleProductChange(index, "hsnCode", e.target.value)}
-                                        />
-                                    </td> */}
                                     <td>
                                         <input
                                             type="number"
@@ -268,8 +287,7 @@ const SalesBill = () => {
                                                     value={product.GSTPercentage}
                                                     onChange={(e) => handleProductChange(index, "GSTPercentage", e.target.value)}
                                                 >
-                                                    <option value="" disabled selected>Select GST Percentage</option>
-                                                    <option value="0.00">GST 0.00%</option>
+                                                    <option value="" disabled>Select GST Percentage</option>
                                                     <option value="0.25">GST 0.25%</option>
                                                     <option value="1">GST 1%</option>
                                                     <option value="1.50">GST 1.50%</option>
@@ -301,13 +319,13 @@ const SalesBill = () => {
                                         />
                                     </td>
                                     <td>
-    <input
-        type="number"
-        className="form-control"
-        value={(product.amount + (applyGST ? product.GSTAmount : 0)).toFixed(2)}
-        readOnly
-    />
-</td>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            value={(product.amount + (applyGST ? product.GSTAmount : 0)).toFixed(2)}
+                                            readOnly
+                                        />
+                                    </td>
                                     <td>
                                         <button
                                             className="btn btn-link text-danger"
@@ -328,6 +346,7 @@ const SalesBill = () => {
                 </div>
             </div>
 
+            {/* Remarks and Summary Section */}
             <div className="row mt-3">
                 <div className="col-md-6">
                     <label htmlFor="remarks" className="form-label">
@@ -365,7 +384,7 @@ const SalesBill = () => {
                 </div>
             </div>
 
-            {/* Action Buttons (Fixed Width and Spacing) */}
+            {/* Action Buttons */}
             <div className="row mt-3">
                 <div className="col-md-12 d-flex justify-content-end">
                     <button className="btn cancel-btn me-2" onClick={handleCancel}>

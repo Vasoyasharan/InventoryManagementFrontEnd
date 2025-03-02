@@ -12,6 +12,7 @@ import PurchaseBill from "../pages/Purchase/Purchase";
 import PurchaseData from "../pages/Purchase/PurchaseData"
 import SaleBillList from "../pages/Sale";
 import SalesBill from "../pages/Sale/Sales";
+import SaleBillDetails from "../pages/Sale/SaleBillDetails"
 import setting from "../pages/setting";
 import ExpenseTrackerTable from "../pages/ExpenseTracker/ExpenseTrackerTable";
 import ExpenseTrackerForm from "../pages/ExpenseTracker/ExpenseTrackerForm";
@@ -25,6 +26,7 @@ const PageRoutes = [
     { path: "/purchase/:type/:id?", element: PurchaseBill, name: "PURCHASE BILL" },
     { path: "/sale", element: SaleBillList, name: "SALES BILL" },
     { path: "/sale/:type/:id?", element: SalesBill, name: "SALES BILL" },
+    { path: "/sale-bill/:id", element: SaleBillDetails, name: "SALES BILL DETAILS" },
     { path: "/product", element: ProductList, name: "PRODUCT" },
     { path: "/product/:type/:id?", element: Product },
     { path: "/customer", element: CustomerList, name: "CUSTOMER" },
