@@ -2,7 +2,7 @@
 .chatbot-icon {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    right: 10px;
     background-color: #007bff;
     color: white;
     padding: 12px;
@@ -10,6 +10,7 @@
     cursor: pointer;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out;
+    z-index: 1000;
 }
 
 .chatbot-icon:hover {
@@ -20,17 +21,19 @@
 .chatbot-window {
     position: fixed;
     bottom: 80px;
-    right: 20px;
-    width: 300px;
+    right: 10px;
+    width: 320px;
+    max-width: 90%;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    z-index: 1000;
 }
 
-/* Header */
+/* Chatbot Header */
 .chatbot-header {
     background-color: #007bff;
     color: white;
@@ -39,10 +42,36 @@
     justify-content: space-between;
     align-items: center;
     font-size: 16px;
+    position: relative;
 }
 
-.close-icon {
+/* Header Buttons */
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Clear Chat Icon */
+.clear-icon {
     cursor: pointer;
+    color: white;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.clear-icon:hover {
+    color: #ffcccb;
+}
+
+/* Auto-Scroll Fix */
+.chatbot-messages {
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
 }
 
 /* Messages */
@@ -78,6 +107,7 @@
     display: flex;
     padding: 8px;
     border-top: 1px solid #ddd;
+    align-items: center;
 }
 
 .chatbot-input input {
@@ -87,10 +117,29 @@
     outline: none;
 }
 
+/* Send Button */
 .chatbot-input button {
     background-color: #007bff;
     color: white;
     border: none;
     padding: 8px 12px;
     cursor: pointer;
+}
+
+/* Clear Chat Button */
+.clear-chat {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 4px;
+    margin: 5px auto;
+    width: 90%;
+    text-align: center;
+}
+
+.clear-chat:hover {
+    background-color: #c82333;
 }
