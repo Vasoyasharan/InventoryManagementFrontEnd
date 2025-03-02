@@ -17,7 +17,6 @@ const TaskManager = () => {
     const [editMode, setEditMode] = useState(false);
     const [currentTaskId, setCurrentTaskId] = useState(null);
     const [filterPriority, setFilterPriority] = useState("All"); // Filter by priority
-    const [showDeadlinePopup, setShowDeadlinePopup] = useState(false); // Deadline popup state
 
     const URL = Url + "/task";
 
@@ -105,28 +104,6 @@ const TaskManager = () => {
         return task.status === filterPriority;
     });
 
-    // Check for tasks with deadlines in 1-2 days
-    useEffect(() => {
-        const now = new Date();
-        const nearDeadlineTasks = tasks.filter((task) => {
-            const taskDate = new Date(task.date);
-            const timeDiff = taskDate - now;
-            const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-            return daysDiff >= 1 && daysDiff <= 2;
-        });
-
-        if (nearDeadlineTasks.length > 0) {
-            setShowDeadlinePopup(true);
-        } else {
-            setShowDeadlinePopup(false);
-        }
-    }, [tasks]);
-
-    // Close deadline popup
-    const closeDeadlinePopup = () => {
-        setShowDeadlinePopup(false);
-    };
-
     // Determine the form action name based on mode
     let actionName = editMode ? "Update" : "Add";
 
@@ -193,13 +170,13 @@ const TaskManager = () => {
                         </div>
                     </div>
                     <div className="mt-3 button-group">
-    <button className="btn btn-primary fw-bold" type="submit" style={{ width: "120px" }}>
-        {actionName}
-    </button>
-    <button className="btn btn-danger fw-bold" type="button" onClick={handleCancel} style={{ width: "120px" }}>
-        Cancel
-    </button>
-</div>
+                        <button className="btn btn-primary fw-bold" type="submit" style={{ width: "120px" }}>
+                            {actionName}
+                        </button>
+                        <button className="btn btn-danger fw-bold" type="button" onClick={handleCancel} style={{ width: "120px" }}>
+                            Cancel
+                        </button>
+                    </div>
                 </form>
 
                 {/* Task List Section */}
@@ -257,34 +234,6 @@ const TaskManager = () => {
                         })}
                     </ul>
                 </div>
-
-                {/* Deadline Popup */}
-                {showDeadlinePopup && (
-                    <div className="deadline-popup">
-                        <div className="popup-content">
-                            <h4>Upcoming Deadlines</h4>
-                            <ul>
-                                {tasks
-                                    .filter((task) => {
-                                        const taskDate = new Date(task.date);
-                                        const now = new Date();
-                                        const timeDiff = taskDate - now;
-                                        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-                                        return daysDiff >= 1 && daysDiff <= 2;
-                                    })
-                                    .map((task) => (
-                                        <li key={task._id}>
-                                            <strong>{task.taskName}</strong> - Due in{" "}
-                                            {Math.ceil((new Date(task.date) - new Date()) / (1000 * 60 * 60 * 24))} days
-                                        </li>
-                                    ))}
-                            </ul>
-                            <button className="btn btn-primary" onClick={closeDeadlinePopup}>
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                )}
             </main>
         </>
     );

@@ -27,6 +27,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [todayDate, setTodayDate] = useState("");
   const [notifications, setNotifications] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,8 +73,19 @@ const Header = () => {
       }
     };
 
+    // Fetch tasks for deadline notifications
+    const fetchTasks = async () => {
+      try {
+        const response = await axios.get(`${Url}/task`, config);
+        setTasks(response.data.payload.taskData);
+      } catch (error) {
+        console.error("Failed to fetch tasks:", error);
+      }
+    };
+
     fetchUserData();
     fetchLowStockNotifications();
+    fetchTasks();
   }, []);
 
   // Handle logout functionality
@@ -87,6 +99,30 @@ const Header = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  // Get deadline notifications
+  const getDeadlineNotifications = () => {
+    const now = new Date();
+    const nearDeadlineTasks = tasks.filter((task) => {
+      const taskDate = new Date(task.date);
+      const timeDiff = taskDate - now;
+      const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+      return daysDiff >= 1 && daysDiff <= 2;
+    });
+
+    return nearDeadlineTasks.map((task) => {
+      const taskDate = new Date(task.date);
+      const timeDiff = taskDate - now;
+      const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+      return {
+        message: `Task "${task.taskName}" is due in ${daysDiff} days.`,
+        taskId: task._id,
+      };
+    });
+  };
+
+  // Combine low stock and deadline notifications
+  const allNotifications = [...notifications, ...getDeadlineNotifications()];
 
   return (
     <div className="navbar">
@@ -112,31 +148,31 @@ const Header = () => {
 
         {/* Notification Icon */}
         <div className="navbar-icon-container" onClick={() => setShowNotifications(!showNotifications)}>
-    <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
-    {notifications.length > 0 && ( 
-        <span className="notification-badge">{notifications.length}</span>
-    )}
-    {showNotifications && (
-        <div className="notifications-dropdown">
-            <div className="notifications-header">
+          <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
+          {allNotifications.length > 0 && (
+            <span className="notification-badge">{allNotifications.length}</span>
+          )}
+          {showNotifications && (
+            <div className="notifications-dropdown">
+              <div className="notifications-header">
                 Notifications
-            </div>
+              </div>
 
-            {/* Notification Items */}
-            {notifications.length > 0 ? (
-                notifications.map((notification, index) => (
-                    <div key={index} className="notification-item">
-                        <p>{notification.message}</p>
-                    </div>
+              {/* Notification Items */}
+              {allNotifications.length > 0 ? (
+                allNotifications.map((notification, index) => (
+                  <div key={index} className="notification-item">
+                    <p>{notification.message}</p>
+                  </div>
                 ))
-            ) : (
+              ) : (
                 <div className="notification-item">
-                    <p>No new notifications</p>
+                  <p>No new notifications</p>
                 </div>
-            )}
+              )}
+            </div>
+          )}
         </div>
-    )}
-</div>
 
         {/* Other Icons */}
         <FontAwesomeIcon
