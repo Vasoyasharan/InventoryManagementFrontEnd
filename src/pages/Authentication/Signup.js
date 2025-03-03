@@ -4,6 +4,9 @@ import Validation from "./SignupValidation";
 import { Url } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import "./Form.css";
 import signUpImage from "../../images/SignupImage.png";
 
 const Signup = () => {
@@ -15,6 +18,7 @@ const Signup = () => {
 
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(false); // State for checkbox
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const navigate = useNavigate();
     const URL = Url + "/user/signup";
 
@@ -27,6 +31,10 @@ const Signup = () => {
 
     const handleCheckboxChange = (event) => {
         setIsChecked(event.target.checked); // Track checkbox state
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
     const handleSubmit = async (event) => {
@@ -53,101 +61,105 @@ const Signup = () => {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100">
-            <div className="bg-white p-4 rounded d-flex container shadow-lg">
-                <div className="w-50 d-flex justify-content-center align-items-center pe-4">
+        <div className="signup-container">
+            <div className="signup-box">
+                <div className="signup-image">
                     <img
                         src={signUpImage}
                         alt="Signup Illustration"
                         className="img-fluid"
                     />
                 </div>
-                <div className="w-50 ps-4">
+                <div className="signup-form">
                     <form onSubmit={handleSubmit}>
                         <h6>Join the Revolution – It All Starts with You!</h6>
-                        <div className="mb-3">
-                            <h2 style={{ color: "rgb(21 151 35)" }}>Sign-Up</h2>
-                            <hr />
-                            <label htmlFor="username">
-                                <strong>Username</strong>
-                            </label>
+                        <h2>Sign-Up</h2>
+                        <hr />
+
+                        {/* Username Input */}
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
                             <input
                                 type="text"
                                 placeholder="Enter Username"
                                 name="username"
-                                className="form-control rounded-2"
+                                className="form-control"
                                 onChange={handleInput}
                                 value={values.username}
                             />
                             {errors.username && (
-                                <span className="text-danger">
-                                    {errors.username}
-                                </span>
+                                <span className="error-message">{errors.username}</span>
                             )}
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="email">
-                                <strong>Email</strong>
-                            </label>
+
+                        {/* Email Input */}
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
                             <input
                                 type="email"
                                 placeholder="Enter Email"
                                 name="email"
-                                className="form-control rounded-2"
+                                className="form-control"
                                 onChange={handleInput}
                                 value={values.email}
                             />
                             {errors.email && (
-                                <span className="text-danger">
-                                    {errors.email}
-                                </span>
+                                <span className="error-message">{errors.email}</span>
                             )}
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="password">
-                                <strong>Password</strong>
-                            </label>
-                            <input
-                                type="password"
-                                placeholder="Enter Password"
-                                name="password"
-                                className="form-control rounded-2"
-                                onChange={handleInput}
-                                value={values.password}
-                            />
+
+                        {/* Password Input */}
+                        <div className="form-group password-group">
+                            <label htmlFor="password">Password</label>
+                            <div className="password-input-container">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Enter Password"
+                                    name="password"
+                                    className="form-control"
+                                    onChange={handleInput}
+                                    value={values.password}
+                                />
+                                <button
+                                    type="button"
+                                    className="toggle-password"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    <FontAwesomeIcon
+                                        icon={showPassword ? faEyeSlash : faEye}
+                                    />
+                                </button>
+                            </div>
                             {errors.password && (
-                                <span className="text-danger">
-                                    {errors.password}
-                                </span>
+                                <span className="error-message">{errors.password}</span>
                             )}
                         </div>
-                        <div className="form-check mb-3">
+
+                        {/* Terms and Conditions Checkbox */}
+                        <div className="form-check">
                             <input
                                 type="checkbox"
-                                className="form-check-input"
                                 id="terms"
                                 checked={isChecked}
                                 onChange={handleCheckboxChange}
                             />
-                            <label
-                                className="form-check-label"
-                                htmlFor="terms"
-                            >
+                            <label htmlFor="terms">
                                 I agree to the terms and conditions
                             </label>
                         </div>
+
+                        {/* Sign Up Button */}
                         <button
                             type="submit"
-                            className="btn btn-outline-success w-100 rounded-1 mb-3"
-                            disabled={!isChecked} // Disable button if not checked
+                            className="btn-signup"
+                            disabled={!isChecked}
                         >
-                            <strong>Sign Up</strong>
+                            Sign Up
                         </button>
-                        <Link
-                            to="/"
-                            className="btn w-100 loginButton text-decoration-none"
-                        >
-                            Login
+
+                        {/* Login Link */}
+                        <Link to="/" className="btn-login-link">
+                            Already have an account? Login
                         </Link>
                     </form>
                 </div>

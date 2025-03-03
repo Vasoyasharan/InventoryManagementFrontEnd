@@ -1,25 +1,341 @@
-.container {
-    height: 90%;
-    width: 75%;
+/* General Styles */
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
 }
 
-.createACbutton, .loginButton {
-    padding: 10px 20px;
+.login-box {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+}
+
+.login-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    padding: 20px;
+}
+
+.login-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.login-form {
+    flex: 1;
+    padding: 40px;
+}
+
+.login-form h6 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.login-form h2 {
+    font-size: 24px;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.login-form hr {
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.form-group .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group .form-control:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Password Input Container */
+.password-group .password-input-container {
+    position: relative;
+}
+
+.password-group .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    background-color: #007bff !important;
-    color: white !important;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    color: #6c757d;
+    padding: 0;
 }
 
-.createACbutton:hover,
-.loginButton:hover {
-    background-color: #c6c6c6 !important;
-    transform: translateY(-2px);
-    color: black !important;
+.password-group .toggle-password:hover {
+    color: #007bff;
+}
+
+/* Error Message */
+.error-message {
+    font-size: 12px;
+    color: #dc3545;
+    margin-top: 5px;
+}
+
+/* Checkbox Styles */
+.form-check {
+    margin-bottom: 20px;
+}
+
+.form-check input {
+    margin-right: 10px;
+}
+
+.form-check label {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Button Styles */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-login:disabled {
+    background: #c6c6c6;
+    cursor: not-allowed;
+}
+
+.btn-login:hover:not(:disabled) {
+    background: #0056b3;
+}
+
+.btn-create-account {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-create-account:hover {
+    background: #218838;
+}
+
+/* Forgot Password Link */
+.forgot-password {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* General Styles */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.signup-box {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+}
+
+.signup-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #28a745, #218838);
+    padding: 20px;
+}
+
+.signup-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.signup-form {
+    flex: 1;
+    padding: 40px;
+}
+
+.signup-form h6 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.signup-form h2 {
+    font-size: 24px;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.signup-form hr {
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.form-group .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group .form-control:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+/* Password Input Container */
+.password-group .password-input-container {
+    position: relative;
+}
+
+.password-group .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #6c757d;
+    padding: 0;
+}
+
+.password-group .toggle-password:hover {
+    color: #28a745;
+}
+
+/* Error Message */
+.error-message {
+    font-size: 12px;
+    color: #dc3545;
+    margin-top: 5px;
+}
+
+/* Checkbox Styles */
+.form-check {
+    margin-bottom: 20px;
+}
+
+.form-check input {
+    margin-right: 10px;
+}
+
+.form-check label {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Button Styles */
+.btn-signup {
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-signup:disabled {
+    background: #c6c6c6;
+    cursor: not-allowed;
+}
+
+.btn-signup:hover:not(:disabled) {
+    background: #218838;
+}
+
+.btn-login-link {
+    display: block;
+    text-align: center;
+    color: #28a745;
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.btn-login-link:hover {
+    text-decoration: underline;
 }

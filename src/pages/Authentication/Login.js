@@ -4,6 +4,8 @@ import Validation from "./LoginValidation";
 import axios from "axios";
 import { Url } from "../../Url";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./Form.css";
 import loginImage from "../../images/loginImage.png";
 
@@ -15,6 +17,7 @@ const Login = () => {
 
     const [isChecked, setIsChecked] = useState(false); // Checkbox state
     const [errors, setErrors] = useState({});
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const navigate = useNavigate();
 
     const URL = Url + "/user/signin";
@@ -28,6 +31,10 @@ const Login = () => {
 
     const handleCheckboxChange = (event) => {
         setIsChecked(event.target.checked);
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
     const handleSubmit = async (event) => {
@@ -54,86 +61,94 @@ const Login = () => {
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center bg-white vh-100">
-            <div className="bg-white p-4 rounded d-flex container shadow-lg">
-                <div className="w-50 d-flex justify-content-center align-items-center pe-4">
+        <div className="login-container">
+            <div className="login-box">
+                <div className="login-image">
                     <img
                         src={loginImage}
                         alt="Login Illustration"
                         className="img-fluid"
                     />
                 </div>
-                <div className="w-50 ps-4">
-                    <form action="" onSubmit={handleSubmit}>
+                <div className="login-form">
+                    <form onSubmit={handleSubmit}>
                         <h6>Welcome back !!</h6>
-                        <div className="mb-3">
-                            <h2 style={{ color: "rgb(53 53 186)" }}>
-                                Login on Stock Tracker
-                            </h2>
-                            <hr />
-                            <label htmlFor="username">
-                                <strong>User Name</strong>
-                            </label>
+                        <h2>Login on Stock Tracker</h2>
+                        <hr />
+
+                        {/* Username Input */}
+                        <div className="form-group">
+                            <label htmlFor="username">User Name</label>
                             <input
                                 type="text"
                                 placeholder="Enter User Name"
                                 name="username"
-                                className="form-control rounded-2 input-username"
+                                className="form-control"
                                 onChange={handleInput}
                                 value={values.username}
                             />
                             {errors.username && (
-                                <span className="text-danger">
-                                    {errors.username}
-                                </span>
-                            )}
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="password">
-                                <strong>Password</strong>
-                            </label>
-                            <input
-                                type="password"
-                                placeholder="Enter Password"
-                                name="password"
-                                className="form-control rounded-2"
-                                onChange={handleInput}
-                                value={values.password}
-                            />
-                            {errors.password && (
-                                <span className="text-danger">
-                                    {errors.password}
-                                </span>
+                                <span className="error-message">{errors.username}</span>
                             )}
                         </div>
 
-                        <div className="form-check mb-3">
+                        {/* Password Input */}
+                        <div className="form-group password-group">
+                            <label htmlFor="password">Password</label>
+                            <div className="password-input-container">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Enter Password"
+                                    name="password"
+                                    className="form-control"
+                                    onChange={handleInput}
+                                    value={values.password}
+                                />
+                                <button
+                                    type="button"
+                                    className="toggle-password"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    <FontAwesomeIcon
+                                        icon={showPassword ? faEyeSlash : faEye}
+                                    />
+                                </button>
+                            </div>
+                            {errors.password && (
+                                <span className="error-message">{errors.password}</span>
+                            )}
+                        </div>
+
+                        {/* Terms and Conditions Checkbox */}
+                        <div className="form-check">
                             <input
-                                className="form-check-input"
                                 type="checkbox"
                                 id="agreeTerms"
                                 checked={isChecked}
                                 onChange={handleCheckboxChange}
                             />
-                            <label className="form-check-label" htmlFor="agreeTerms">
+                            <label htmlFor="agreeTerms">
                                 I agree to the terms and conditions
                             </label>
                         </div>
 
+                        {/* Login Button */}
                         <button
                             type="submit"
-                            className="btn btn-outline-success w-100 rounded-1 mb-3"
-                            disabled={!isChecked} // Disable button if not checked
+                            className="btn-login"
+                            disabled={!isChecked}
                         >
-                            <strong>Log in</strong>
+                            Log in
                         </button>
-                        <Link to="/signup" className="btn w-100 createACbutton">
+
+                        {/* Create Account Link */}
+                        <Link to="/signup" className="btn-create-account">
                             Create Account
                         </Link>
-                        <div className="text-center mt-3">
-                            <Link to="/forgot-password" className="text-decoration-none">
-                                Forgot Password?
-                            </Link>
+
+                        {/* Forgot Password Link */}
+                        <div className="forgot-password">
+                            <Link to="/forgot-password">Forgot Password?</Link>
                         </div>
                     </form>
                 </div>
