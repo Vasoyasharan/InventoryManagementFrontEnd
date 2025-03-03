@@ -11,9 +11,12 @@ import {
   faShop,
   faBars,
   faTimes,
+  faCalendarAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import defaultProfilePicture from "../images/def_admin_logo.avif";
 import { useNavigate } from "react-router-dom";
+import Calendar from "react-calendar"; // Import the calendar component
+import "react-calendar/dist/Calendar.css"; // Import the default calendar styles
 import "../Css/CustomModal.css";
 import "../Css/Sidebar.css";
 import { Url, config } from "../Url";
@@ -28,6 +31,7 @@ const Header = () => {
   const [todayDate, setTodayDate] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [showCalendarDropdown, setShowCalendarDropdown] = useState(false); // State for calendar dropdown
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +45,7 @@ const Header = () => {
     });
     setTodayDate(formattedDate);
 
-    // Fetch user data
+    // Fetch user data, notifications, and tasks (same as before)
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`${Url}/user`, config);
@@ -57,7 +61,6 @@ const Header = () => {
       }
     };
 
-    // Fetch low stock notifications
     const fetchLowStockNotifications = async () => {
       try {
         const response = await axios.get(`${Url}/product`, config);
@@ -73,7 +76,6 @@ const Header = () => {
       }
     };
 
-    // Fetch tasks for deadline notifications
     const fetchTasks = async () => {
       try {
         const response = await axios.get(`${Url}/task`, config);
@@ -124,6 +126,12 @@ const Header = () => {
   // Combine low stock and deadline notifications
   const allNotifications = [...notifications, ...getDeadlineNotifications()];
 
+  // Handle calendar date change
+  const handleCalendarChange = (date) => {
+    console.log("Selected Date:", date);
+    setShowCalendarDropdown(false); // Close the dropdown after selecting a date
+  };
+
   return (
     <div className="navbar">
       {/* Mobile Menu Toggle */}
@@ -141,9 +149,23 @@ const Header = () => {
 
       {/* Navbar Right */}
       <div className={`navbar-right ${isMobileMenuOpen ? "open" : ""}`}>
-        {/* Today's Date */}
-        <div className="today-date">
-          <span>{todayDate}</span>
+        {/* Today's Date with Calendar Dropdown */}
+        <div className="today-date-container">
+          <div
+            className="today-date"
+            onClick={() => setShowCalendarDropdown(!showCalendarDropdown)}
+          >
+            <span>{todayDate}</span>
+          </div>
+          {showCalendarDropdown && (
+            <div className="calendar-dropdown">
+              <Calendar
+                onChange={handleCalendarChange}
+                value={new Date()}
+                className="custom-calendar"
+              />
+            </div>
+          )}
         </div>
 
         {/* Notification Icon */}
@@ -154,11 +176,7 @@ const Header = () => {
           )}
           {showNotifications && (
             <div className="notifications-dropdown">
-              <div className="notifications-header">
-                Notifications
-              </div>
-
-              {/* Notification Items */}
+              <div className="notifications-header">Notifications</div>
               {allNotifications.length > 0 ? (
                 allNotifications.map((notification, index) => (
                   <div key={index} className="notification-item">

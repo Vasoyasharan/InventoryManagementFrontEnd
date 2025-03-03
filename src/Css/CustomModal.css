@@ -173,3 +173,167 @@
     color: #333;
     line-height: 1.5;
 }
+
+/* Calendar Dropdown */
+.today-date-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.today-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: #f5f5f5;
+  transition: background 0.3s ease;
+}
+
+.today-date:hover {
+  background: #e0e0e0;
+}
+
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* Custom Calendar Styling */
+.custom-calendar {
+  width: 300px;
+  max-width: 100%;
+  border: none;
+  border-radius: 12px;
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(135deg, #ffffff, #f9f9f9);
+  padding: 16px;
+}
+
+.custom-calendar .react-calendar__navigation {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border-radius: 12px 12px 0 0;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-calendar .react-calendar__navigation button {
+  color: white;
+  min-width: 44px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.custom-calendar .react-calendar__navigation button:enabled:hover,
+.custom-calendar .react-calendar__navigation button:enabled:focus {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.custom-calendar .react-calendar__navigation button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+  color: #007bff;
+  margin: 12px 0;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+  padding: 8px;
+}
+
+.custom-calendar .react-calendar__month-view__days__day--weekend {
+  color: #d10000;
+}
+
+.custom-calendar .react-calendar__tile {
+  padding: 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #333;
+  font-weight: 500;
+}
+
+.custom-calendar .react-calendar__tile:enabled:hover,
+.custom-calendar .react-calendar__tile:enabled:focus {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-calendar .react-calendar__tile--now {
+  background: linear-gradient(135deg, #ffdd57, #ffc107);
+  color: white;
+}
+
+.custom-calendar .react-calendar__tile--now:enabled:hover,
+.custom-calendar .react-calendar__tile--now:enabled:focus {
+  background: linear-gradient(135deg, #ffc107, #ff9800);
+  color: white;
+}
+
+.custom-calendar .react-calendar__tile--active {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+}
+
+.custom-calendar .react-calendar__tile--active:enabled:hover,
+.custom-calendar .react-calendar__tile--active:enabled:focus {
+  background: linear-gradient(135deg, #0056b3, #003f7f);
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-calendar .react-calendar__year-view__months__month,
+.custom-calendar .react-calendar__decade-view__years__year,
+.custom-calendar .react-calendar__century-view__decades__decade {
+  padding: 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.custom-calendar .react-calendar__year-view__months__month:enabled:hover,
+.custom-calendar .react-calendar__decade-view__years__year:enabled:hover,
+.custom-calendar .react-calendar__century-view__decades__decade:enabled:hover {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-calendar .react-calendar__year-view__months__month--active,
+.custom-calendar .react-calendar__decade-view__years__year--active,
+.custom-calendar .react-calendar__century-view__decades__decade--active {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+}
+
+.custom-calendar .react-calendar__year-view__months__month--active:enabled:hover,
+.custom-calendar .react-calendar__decade-view__years__year--active:enabled:hover,
+.custom-calendar .react-calendar__century-view__decades__decade--active:enabled:hover {
+  background: linear-gradient(135deg, #0056b3, #003f7f);
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
