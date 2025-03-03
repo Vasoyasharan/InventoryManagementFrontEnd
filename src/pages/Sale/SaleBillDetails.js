@@ -83,7 +83,7 @@ const SaleBillDetails = () => {
                                     <td>{item.unit}</td>
                                     {bill.isGSTBill && <td>{parseFloat(item.GSTPercentage).toFixed(2)}%</td>}
                                     {bill.isGSTBill && <td>₹{parseFloat(item.GSTAmount).toFixed(2)}</td>}
-                                    <td>₹{parseFloat(item.amount).toFixed(2)}</td>
+                                    <td>₹{(item.qty * item.rate).toFixed(2)}</td>
                                 </tr>
                             ))}
                         </tbody>

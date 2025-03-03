@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { faFileCirclePlus, faFilePen, faTrashCan, faEye, faFileExcel, faFilter, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faFileCirclePlus, faFilePen, faTrashCan, faEye, faFileExcel, faFilter, faTimes, faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "../Purchase/PurchaseBillList.css";
+import { printSaleBill } from "./PrintSaleBill";  // Import the PrintSaleBill component
 
 const SaleBillList = (props) => {
     const [data, setData] = useState([]);
@@ -321,6 +322,18 @@ const SaleBillList = (props) => {
                                 <td className="text-center">{item.isGSTBill ? `${item.GSTAmount}` : "-"}</td>
                                 <td className="text-center">{item.finalAmount}</td>
                                 <td className="action-icons text-center">
+                                    <button
+                                        className="print-icon"
+                                        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px", fontSize: "1.3rem" }}
+                                        onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
+                                        onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            printSaleBill(item); // Call the printSaleBill function with the current bill data
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faPrint} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
+                                    </button>
                                     <button
                                         className="view-icon"
                                         style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px", fontSize: "1.3rem" }}
