@@ -28,7 +28,7 @@ const SaleBillDetails = () => {
                     <div className="vendor-details">
                         <div className="vendor-name-container">
                             <FontAwesomeIcon icon={faBuilding} className="vendor-icon" />
-                            <h4 className="vendor-name">{bill.customerId.customerName}</h4>
+                            <h4 className="vendor-name">{bill.customerId?.customerName ?? 'Unavailable customer'}</h4>
                         </div>
                         <p>
                             <FontAwesomeIcon icon={faPhone} className="detail-icon" />
@@ -76,8 +76,8 @@ const SaleBillDetails = () => {
                         <tbody>
                             {bill.saleItems.map((item) => (
                                 <tr key={item._id}>
-                                    <td>{item.productId.productName}</td>
-                                    <td>{item.productId.hsnCode}</td>
+                                    <td>{item.productId?.productName ?? 'Unavailable Product'}</td>
+                                    <td>{item.productId?.hsnCode ?? 'Unavailable Product'}</td>
                                     <td>{item.qty}</td>
                                     <td>₹{item.rate}</td>
                                     <td>{item.unit}</td>

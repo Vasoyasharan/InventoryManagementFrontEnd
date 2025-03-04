@@ -46,8 +46,8 @@ const SaleBillList = (props) => {
                 apiUrl += "?isGSTBill=false";
             }
             const response = await axios.get(apiUrl, config);
-            if (response.data.payload && response.data.payload.result) {
-                setData(response.data.payload.result);
+            if (response.data.payload && response.data.payload.saleBills) {
+                setData(response.data.payload.saleBills);
             } else {
                 toast.error("Invalid data format received from the server");
                 setData([]);

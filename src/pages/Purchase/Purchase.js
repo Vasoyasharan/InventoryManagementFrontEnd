@@ -113,7 +113,7 @@ const PurchaseBill = () => {
             const response = await axios.get(`${URL}/${id}`, config);
             const data = response.data.payload.purchaseBills[0];
 
-            setVendor(data.vendorId?.id ?? null);
+            setVendor(data.vendorId?._id ?? null);
             setBillNo(data.billNo);
             setBillDate(new Date(data.billDate).toISOString().split("T")[0]);
             setApplyGST(data.isGSTBill);
@@ -122,7 +122,7 @@ const PurchaseBill = () => {
             // Ensure products are set only after `allProducts` is fetched
             if (allProducts.length > 0) {
                 const updatedProducts = data.purchaseItems.map((item) => {
-                    const foundProduct = allProducts.find(prod => prod._id === item.productId._id);
+                    const foundProduct = allProducts.find(prod => prod._id === item.productId?._id) ?? null;
                     return {
                         product: foundProduct || "",  // Ensure a valid product object
                         qty: item.qty,
