@@ -1,53 +1,72 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Url, config } from "../../Url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusCircle, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import "../Purchase/PurchaseBillList.css"; // Reuse the same CSS as PurchaseBill
+import "./SaleBillDetails.css";
 
 const SalesBill = () => {
+    const params = useParams();
     const navigate = useNavigate();
-    const [customer, setCustomer] = useState("");
-    const [customers, setCustomers] = useState([]);
+    const [customer, seCustomer] = useState("");
+    const [customers, seCustomers] = useState([]);
     const [products, setProducts] = useState([
-        { product: "", qty: "", unit: "Pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 },
+        { product: "", qty: "", unit: "pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 },
     ]);
     const [allProducts, setAllProducts] = useState([]);
     const [remarks, setRemarks] = useState("");
     const [applyGST, setApplyGST] = useState(false);
     const [billNo, setBillNo] = useState("");
     const [billDate, setBillDate] = useState("");
+    const [isUpdating, setIsUpdating] = useState(false);
 
-    // Fetch Customers
-    useEffect(() => {
-        const fetchCustomers = async () => {
-            try {
-                const response = await axios.get(`${Url}/customer`, config);
-                setCustomers(response.data.payload.customerData);
-            } catch (error) {
-                toast.error(error.response.data.message);
-            }
-        };
-        fetchCustomers();
-    }, []);
+    const URL = Url + "/sale";
+
+
+    // Fetch customers
+    const fetchcustomers = async () => {
+        try {
+            const response = await axios.get(`${Url}/customer`, config);
+            seCustomers(response.data.payload.customerData);
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+    };
 
     // Fetch Products
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get(`${Url}/product`, config);
+            setAllProducts(response.data.payload.productData);
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+    };
+
+    // useEffect to call the functions on mount
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get(`${Url}/product`, config);
-                setAllProducts(response.data.payload.productData);
-            } catch (error) {
-                toast.error(error.response.data.message);
-            }
-        };
-        fetchProducts();
-    }, []);
+        fetchcustomers();
+        fetchProducts(); // Fetch allProducts first
+
+        // Fetch sale bill ONLY after products are fetched
+        if (params.type === "update" && params.id) {
+            setIsUpdating(true);
+        }
+    }, [params]);
+
+    // New useEffect to update products once `allProducts` is available
+    useEffect(() => {
+        if (isUpdating && params.id && allProducts.length > 0) {
+            fetchsaleBill(params.id);
+        }
+    }, [isUpdating, params.id, allProducts]);
+
+
 
     const handleAddProduct = () => {
-        setProducts([...products, { product: "", qty: "", unit: "Pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 }]);
+        setProducts([...products, { product: "", qty: "", unit: "pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 }]);
     };
 
     const handleRemoveProduct = (index) => {
@@ -88,38 +107,80 @@ const SalesBill = () => {
         setProducts(updatedProducts);
     };
 
+
+    const fetchsaleBill = async (id) => {
+        try {
+            const response = await axios.get(`${URL}/${id}`, config);
+            const data = response.data.payload.saleBills[0];
+            console.log('data::: ', data);
+
+            seCustomer(data.customerId?._id ?? null);
+            setBillNo(data.billNo);
+            setBillDate(new Date(data.billDate).toISOString().split("T")[0]);
+            setApplyGST(data.isGSTBill);
+            setRemarks(data.remarks);
+
+            // Ensure products are set only after `allProducts` is fetched
+            if (allProducts.length > 0) {
+                const updatedProducts = data.saleItems.map((item) => {
+                    const foundProduct = allProducts.find(prod => prod._id === item.productId?._id) ?? null;
+                    return {
+                        product: foundProduct || "",  // Ensure a valid product object
+                        qty: item.qty,
+                        unit: item.unit,
+                        rate: item.rate,
+                        GSTPercentage: item.GSTPercentage,
+                        GSTAmount: item.GSTAmount,
+                        amount: item.amount + item.GSTAmount,
+                    };
+                });
+
+                setProducts(updatedProducts);
+            }
+        } catch (error) {
+            console.error("Error fetching sale bill:", error);
+            toast.error("Failed to fetch sale bill details");
+        }
+    };
+
+
+
     const handleSubmit = async () => {
         const totalGSTAmount = products.reduce((acc, product) => acc + product.GSTAmount, 0);
         const GSTPercentage = products.reduce((acc, product) => acc + Number(product.GSTPercentage), 0);
 
-        const salesBill = {
+        const saleBill = {
             billNo,
             customerId: customer ? customer : null,
             billDate: new Date(billDate),
             isGSTBill: applyGST,
-            GSTPercentage,
-            GSTAmount: totalGSTAmount,
             totalAmount: netAmount,
+            GSTAmount: totalGSTAmount,
+            GSTPercentage,
             finalAmount: totalAmount,
             remarks,
-            saleBillItems: products.map(product => ({
+            saleItems: products.map(product => ({
                 productId: product.product?._id || "",
                 qty: product.qty,
                 unit: product.unit,
                 rate: product.rate,
                 GSTPercentage: product.GSTPercentage,
                 GSTAmount: product.GSTAmount,
+                amount: Number(product.amount) - Number(product.GSTAmount),
                 totalAmount: product.amount,
             })),
         };
-
         try {
-            await axios.post(`${Url}/sale`, salesBill, config);
-            toast.success("Sales Bill Created Successfully");
+            if (isUpdating) {
+                await axios.put(`${URL}/${params.id}`, saleBill, config);
+                toast.success("sale Bill Updated Successfully");
+            } else {
+                await axios.post(URL + "/", saleBill, config);
+                toast.success("sale Bill Created Successfully");
+            }
             navigate("/sale");
         } catch (error) {
-            console.error("Error creating sales bill:", error);
-            toast.error(error.response?.data?.message || "Failed to create sales bill");
+            toast.error(error.response.data.errors.message);
         }
     };
 
@@ -132,6 +193,14 @@ const SalesBill = () => {
     const totalGST = products.reduce((sum, product) => sum + (product.GSTAmount || 0), 0);
     const totalAmount = netAmount + totalGST;
 
+
+    let name = "";
+    if (params.type === "add") {
+        name = "ADD";
+    } else {
+        name = "UPDATE";
+    }
+
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ marginBottom: "100px" }}>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-2 border-bottom">
@@ -142,22 +211,22 @@ const SalesBill = () => {
                         style={{ cursor: "pointer" }}
                         onClick={() => navigate("/sale")}
                     />
-                    ADD SALES BILL
+                    {name} SALE BILL
                 </h3>
             </div>
 
-            {/* Customer Section */}
+            {/* customer Section */}
             <div className="row mt-3">
                 <div className="col-md-6 mb-3">
                     <label htmlFor="customer" className="form-label">
-                        Customer <span className="text-danger">*</span>
+                        customer <span className="text-danger">*</span>
                     </label>
                     <div className="input-group">
                         <select
                             className="form-select"
                             id="customer"
                             value={customer}
-                            onChange={(e) => setCustomer(e.target.value)}
+                            onChange={(e) => seCustomer(e.target.value)}
                         >
                             <option value="">Select Customer</option>
                             {customers.map((customer) => (
@@ -225,12 +294,16 @@ const SalesBill = () => {
                                 <th>Rate (₹) <span className="text-danger">*</span></th>
                                 {applyGST && (
                                     <>
-                                        <th>GST %</th>
+                                        <th>Select GST %</th>
                                         <th>GST Amount</th>
                                     </>
                                 )}
                                 <th>Amount (₹)</th>
-                                <th>Taxable Amount</th>
+                                {applyGST && (
+                                    <>
+                                        <th> Taxable Amount(₹)</th>
+                                    </>
+                                )}
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -240,7 +313,7 @@ const SalesBill = () => {
                                     <td>
                                         <select
                                             className="form-select"
-                                            value={product.product ? product.product._id : ""}
+                                            value={product.product ? product.product._id : ""}  // Ensure it gets the product ID
                                             onChange={(e) => handleProductChange(index, "product", e.target.value)}
                                         >
                                             <option value="" disabled>Select Product</option>
@@ -251,24 +324,31 @@ const SalesBill = () => {
                                             ))}
                                         </select>
                                     </td>
+
                                     <td>
                                         <input
                                             type="number"
                                             className="form-control"
                                             value={product.qty}
-                                            onChange={(e) => handleProductChange(index, "qty", e.target.value)}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                if (value >= 0 || value === "") {
+                                                    handleProductChange(index, "qty", value);
+                                                }
+                                            }}
                                         />
                                     </td>
+
                                     <td>
                                         <select
                                             className="form-select"
                                             value={product.unit}
                                             onChange={(e) => handleProductChange(index, "unit", e.target.value)}
                                         >
-                                            <option value="Pcs">Pcs</option>
+                                            <option value="pcs">Pcs</option>
                                             <option value="kg">kg</option>
-                                            <option value="Mtr">Mtr</option>
-                                            <option value="Ltr">Ltr</option>
+                                            <option value="meter">Mtr</option>
+                                            <option value="litre">Ltr</option>
                                         </select>
                                     </td>
                                     <td>
@@ -276,7 +356,12 @@ const SalesBill = () => {
                                             type="number"
                                             className="form-control"
                                             value={product.rate}
-                                            onChange={(e) => handleProductChange(index, "rate", e.target.value)}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                if (value >= 0 || value === "") {
+                                                    handleProductChange(index, "rate", value);
+                                                }
+                                            }}
                                         />
                                     </td>
                                     {applyGST && (
@@ -287,7 +372,7 @@ const SalesBill = () => {
                                                     value={product.GSTPercentage}
                                                     onChange={(e) => handleProductChange(index, "GSTPercentage", e.target.value)}
                                                 >
-                                                    <option value="" disabled>Select GST Percentage</option>
+                                                    <option value="" >Select GST Percentage</option>
                                                     <option value="0.25">GST 0.25%</option>
                                                     <option value="1">GST 1%</option>
                                                     <option value="1.50">GST 1.50%</option>
@@ -310,6 +395,7 @@ const SalesBill = () => {
                                             </td>
                                         </>
                                     )}
+
                                     <td>
                                         <input
                                             type="number"
@@ -318,14 +404,22 @@ const SalesBill = () => {
                                             readOnly
                                         />
                                     </td>
-                                    <td>
-                                        <input
-                                            type="number"
-                                            className="form-control"
-                                            value={(product.amount + (applyGST ? product.GSTAmount : 0)).toFixed(2)}
-                                            readOnly
-                                        />
-                                    </td>
+                                    {
+                                        applyGST && (
+                                            <>
+                                                <td>
+                                                    <input
+                                                        type="number"
+                                                        className="form-control"
+                                                        value={(product.amount + product.GSTAmount).toFixed(2)}
+                                                        readOnly
+                                                    />
+                                                </td>
+                                            </>
+                                        )
+                                    }
+
+
                                     <td>
                                         <button
                                             className="btn btn-link text-danger"
@@ -346,7 +440,7 @@ const SalesBill = () => {
                 </div>
             </div>
 
-            {/* Remarks and Summary Section */}
+            {/* Remarks and Summary Section (Side by Side) */}
             <div className="row mt-3">
                 <div className="col-md-6">
                     <label htmlFor="remarks" className="form-label">
@@ -355,7 +449,7 @@ const SalesBill = () => {
                     <textarea
                         className="form-control"
                         id="remarks"
-                        rows="3"
+                        rows="2"
                         value={remarks}
                         onChange={(e) => setRemarks(e.target.value)}
                     />
@@ -384,15 +478,13 @@ const SalesBill = () => {
                 </div>
             </div>
 
-            {/* Action Buttons */}
+            {/* Action Buttons (Fixed Width and Spacing) */}
             <div className="row mt-3">
                 <div className="col-md-12 d-flex justify-content-end">
-                    <button className="btn cancel-btn me-2" onClick={handleCancel}>
+                    <button className="btn cancel-btn me-2" onClick={handleCancel} >
                         Cancel
                     </button>
-                    <button className="btn submit-btn" onClick={handleSubmit}>
-                        Submit
-                    </button>
+                    <button className="btn submit-btn" onClick={handleSubmit}>{isUpdating ? "Update" : "Submit"}</button>
                 </div>
             </div>
         </main>
