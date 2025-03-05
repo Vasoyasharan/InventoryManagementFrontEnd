@@ -90,7 +90,7 @@ const PrivacyPolicy = () => {
                     <li><strong>Objection:</strong> You can object to the processing of your data for specific purposes.</li>
                 </ul>
                 <p>
-                    To exercise these rights, please contact us at <a href="mailto:Sharanvasoya.dev@protone.me">Sharanvasoya.dev@protone.me</a>.
+                    To exercise these rights, please contact us at <a href="mailto:support@stocknest.com">support@stocknest.com</a>.
                 </p>
             </section>
 
@@ -104,7 +104,7 @@ const PrivacyPolicy = () => {
             <section className="policy-section">
                 <h2>Contact Us</h2>
                 <p>
-                    If you have any questions, concerns, or requests regarding this Privacy Policy, please feel free to contact us at <a href="mailto:stock.tracker@email.com">stock.tracker@email.com</a>. We are here to assist you.
+                    If you have any questions, concerns, or requests regarding this Privacy Policy, please feel free to contact us at <a href="mailto:hello@stocknest.com">hello@stocknest.com</a>. We are here to assist you.
                 </p>
             </section>
         </div>

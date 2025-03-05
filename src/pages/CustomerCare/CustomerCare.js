@@ -31,7 +31,7 @@ const CustomerCare = () => {
                         </div>
                         <h3>Email Us</h3>
                         <p>
-                            <a href="mailto:stock.tracker@email.com">stock.tracker@email.com</a>
+                            <a href="mailto:support@stocknest.com">support@stocknest.com</a>
                         </p>
                     </div>
 

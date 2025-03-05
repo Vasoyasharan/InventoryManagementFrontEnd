@@ -73,7 +73,7 @@ const Login = () => {
                 <div className="login-form">
                     <form onSubmit={handleSubmit}>
                         <h6>Welcome back !!</h6>
-                        <h2>Login on Stock Tracker</h2>
+                        <h2>Login on StockNest</h2>
                         <hr />
 
                         {/* Username Input */}

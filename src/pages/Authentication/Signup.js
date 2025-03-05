@@ -72,7 +72,7 @@ const Signup = () => {
                 </div>
                 <div className="signup-form">
                     <form onSubmit={handleSubmit}>
-                        <h6>Join the Revolution – It All Starts with You!</h6>
+                        <h6>Your Nest for Smarter Stock Management</h6>
                         <h2>Sign-Up</h2>
                         <hr />
 

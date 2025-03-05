@@ -97,7 +97,7 @@ const TermsConditions = () => {
             <section className="terms-section">
                 <h2>8. Contact Us</h2>
                 <p>
-                    If you have any questions or concerns about these terms and conditions, please feel free to contact us at <a href="mailto:stock.tracker@email.com">stock.tracker@email.com</a>. We are here to assist you.
+                    If you have any questions or concerns about these terms and conditions, please feel free to contact us at <a href="mailto:support@stocknest.com">support@stocknest.com</a>. We are here to assist you.
                 </p>
             </section>
         </div>
