@@ -7,7 +7,6 @@ import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "../Purchase/PurchaseBillList.css";
-import { printSaleBill } from "./PrintSaleBill";  // Import the PrintSaleBill component
 
 const SaleBillList = (props) => {
     const [data, setData] = useState([]);
@@ -102,6 +101,21 @@ const SaleBillList = (props) => {
             toast.error(error.response?.data?.message || "Error deleting bill");
         }
     };
+
+    const handlePrint = async (id) => {
+        try {
+            const response = await axios.get(`http://localhost:5500/api/invoice/${id}`, config);
+
+            if (response.data.viewLink) {
+                window.open(response.data.viewLink, "_blank"); // Open PDF in a new tab
+            } else {
+                toast.error("Failed to generate PDF");
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Error printing bill");
+        }
+    };
+
 
     const applyFilters = () => {
         setAppliedFilters({
@@ -322,6 +336,8 @@ const SaleBillList = (props) => {
                                 <td className="text-center">{item.isGSTBill ? `${item.GSTAmount}` : "-"}</td>
                                 <td className="text-center">{item.finalAmount}</td>
                                 <td className="action-icons text-center">
+
+
                                     <button
                                         className="print-icon"
                                         style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px", fontSize: "1.3rem" }}
@@ -329,7 +345,7 @@ const SaleBillList = (props) => {
                                         onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            printSaleBill(item); // Call the printSaleBill function with the current bill data
+                                            handlePrint(item._id); // Call the printSaleBill function with the current bill data
                                         }}
                                     >
                                         <FontAwesomeIcon icon={faPrint} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
