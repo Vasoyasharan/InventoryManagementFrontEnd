@@ -1,71 +1,123 @@
 .terms-conditions-container {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
     background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Terms & Conditions Headings */
-.terms-conditions-container h1,
-.terms-conditions-container h2 {
-    color: #2a9d8f;
-    font-family: 'Arial', sans-serif;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #2a9d8f;
+.terms-conditions-container h1 {
+    font-size: 2.75rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
 }
 
-/* Terms & Conditions Paragraphs and Lists */
-.terms-conditions-container p,
-.terms-conditions-container ul {
-    color: #444;
-    line-height: 1.8;
-    font-family: 'Roboto', sans-serif;
+.terms-conditions-container .effective-date {
+    font-size: 1rem;
+    color: #777;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
-.terms-conditions-container ul {
-    list-style-type: circle;
-    margin-left: 20px;
-}
-
-.terms-conditions-container li {
-    margin-bottom: 12px;
-}
-
-/* Terms & Conditions Section Spacing */
-.terms-conditions-container section {
-    margin-bottom: 30px;
-}
-
-/* Back Button */
-.back-button {
-    background-color: #2a9d8f;
-    color: white;
-    border: none;
+.terms-conditions-container .terms-section {
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
     border-radius: 8px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.terms-conditions-container .terms-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.terms-conditions-container h2 {
+    font-size: 1.75rem;
+    color: #34495e;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.terms-conditions-container p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.terms-conditions-container ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.terms-conditions-container ul li {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 0.75rem;
+}
+
+.terms-conditions-container ul li strong {
+    color: #2c3e50;
+}
+
+.terms-conditions-container a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.terms-conditions-container a:hover {
+    color: #2980b9;
+}
+
+/* Back Arrow */
+.terms-conditions-container .back-arrow {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s, transform 0.2s;
+    top: 1.5rem;
+    left: 1.5rem;
+    font-size: 1.5rem;
+    color: #3498db;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-.back-button:hover {
-    background-color: #21867a;
-    transform: translateY(-2px);
+.terms-conditions-container .back-arrow:hover {
+    color: #2980b9;
 }
 
-.back-button:focus {
-    outline: none;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .terms-conditions-container {
+        padding: 1rem;
+    }
 
-.back-button::before {
-    content: "<";
-    margin-right: 8px;
-    font-size: 22px;
+    .terms-conditions-container h1 {
+        font-size: 2rem;
+    }
+
+    .terms-conditions-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .terms-conditions-container p,
+    .terms-conditions-container ul li {
+        font-size: 0.9rem;
+    }
+
+    .terms-conditions-container .back-arrow {
+        top: 1rem;
+        left: 1rem;
+        font-size: 1.25rem;
+    }
 }
