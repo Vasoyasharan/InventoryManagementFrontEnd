@@ -1,139 +1,135 @@
-/* Customer Care Container */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f3f3;
+}
+
 .customer-care-container {
-    padding: 50px 30px;
-    background-color: #ffffff; /* Clean white background */
-    border-radius: 12px;
-    max-width: 800px;
-    margin: 30px auto;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
     position: relative;
-    font-family: 'Roboto', sans-serif;
 }
 
-/* Title Styling */
+/* Back Arrow */
+.customer-care-container .back-arrow {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    font-size: 1.5rem;
+    color: #3498db;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.customer-care-container .back-arrow:hover {
+    color: #2980b9;
+}
+
+/* Main Content */
+.customer-care-content {
+    max-width: 900px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
 .customer-care-title {
-    font-size: 36px;
-    color: #333;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #007bff; /* Subtle underline for emphasis */
-    display: inline-block;
-    padding-bottom: 5px;
+    font-size: 2.75rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
 
-/* Text Styling */
 .customer-care-text {
-    font-size: 18px;
+    font-size: 1.1rem;
     color: #555;
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
     line-height: 1.8;
 }
 
-/* Contact Methods Container */
 .customer-care-info {
     display: flex;
-    flex-direction: column;
-    gap: 25px;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
 }
 
-/* Contact Method Styling */
 .contact-method {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 300px;
+    text-align: center;
 }
 
 .contact-method:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.icon-container {
+    margin-bottom: 1.5rem;
+}
+
+.icon-container svg {
+    color: #3498db;
 }
 
 .contact-method h3 {
-    margin-top: 10px;
-    font-size: 22px;
-    color: #333;
+    font-size: 1.5rem;
+    color: #34495e;
+    margin-bottom: 1rem;
+    font-weight: 500;
 }
 
 .contact-method p {
-    font-size: 16px;
+    font-size: 1rem;
     color: #555;
+    margin-bottom: 0;
 }
 
-/* Contact Links */
 .contact-method a {
-    color: #007bff;
+    color: #3498db;
     text-decoration: none;
-    font-size: 16px;
-    margin-top: 10px;
+    transition: color 0.3s ease;
 }
 
 .contact-method a:hover {
-    text-decoration: underline;
-}
-
-/* Icon Color */
-.contact-method svg {
-    color: #007bff;
-    font-size: 28px;
-}
-
-/* Back Button Styling */
-.back-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.back-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px); /* Lift effect on hover */
-}
-
-.back-button:focus {
-    outline: none;
-}
-
-/* Icon in Back Button */
-.back-button svg {
-    margin-right: 8px;
-    font-size: 18px;
+    color: #2980b9;
 }
 
 /* Responsive Design */
-@media (min-width: 768px) {
-    .customer-care-info {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 40px;
-    }
-
-    .contact-method {
-        width: 45%;
+@media (max-width: 768px) {
+    .customer-care-container {
+        padding: 1rem;
     }
 
     .customer-care-title {
-        font-size: 40px;
+        font-size: 2rem;
     }
 
     .customer-care-text {
-        font-size: 18px;
+        font-size: 1rem;
     }
 
-    .back-button {
-        font-size: 18px;
+    .contact-method {
+        width: 100%;
+        padding: 1.5rem;
+    }
+
+    .customer-care-container .back-arrow {
+        top: 1rem;
+        left: 1rem;
+        font-size: 1.25rem;
     }
 }
