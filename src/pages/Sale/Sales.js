@@ -4,14 +4,14 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Url, config } from "../../Url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinusCircle, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faMinusCircle, faArrowLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./SaleBillDetails.css";
 
 const SalesBill = () => {
     const params = useParams();
     const navigate = useNavigate();
-    const [customer, seCustomer] = useState("");
-    const [customers, seCustomers] = useState([]);
+    const [customer, setCustomer] = useState("");
+    const [customers, setCustomers] = useState([]);
     const [products, setProducts] = useState([
         { product: "", qty: "", unit: "pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 },
     ]);
@@ -24,12 +24,11 @@ const SalesBill = () => {
 
     const URL = Url + "/sale";
 
-
     // Fetch customers
-    const fetchcustomers = async () => {
+    const fetchCustomers = async () => {
         try {
             const response = await axios.get(`${Url}/customer`, config);
-            seCustomers(response.data.payload.customerData);
+            setCustomers(response.data.payload.customerData);
         } catch (error) {
             toast.error(error.response.data.message);
         }
@@ -45,9 +44,45 @@ const SalesBill = () => {
         }
     };
 
+    // Fetch sale bill data (for edit mode)
+    const fetchSaleBill = async (id) => {
+        try {
+            const response = await axios.get(`${URL}/${id}`, config);
+            const data = response.data.payload.saleBills[0];
+            console.log("Fetched sale bill data:", data);
+
+            // Set customer, billNo, billDate, applyGST, and remarks
+            setCustomer(data.customerId?._id ?? null);
+            setBillNo(data.billNo);
+            setBillDate(new Date(data.billDate).toISOString().split("T")[0]);
+            setApplyGST(data.isGSTBill);
+            setRemarks(data.remarks);
+
+            // Map saleBillItems to products
+            const updatedProducts = data.saleItems.map((item) => {
+                const foundProduct = allProducts.find((prod) => prod._id === item.productId?._id) ?? null;
+                return {
+                    product: foundProduct || "", // Ensure a valid product object
+                    qty: item.qty,
+                    unit: item.unit,
+                    rate: item.rate,
+                    GSTPercentage: item.GSTPercentage,
+                    GSTAmount: item.GSTAmount,
+                    amount: item.totalAmount, // Use totalAmount from the API
+                    _id: item._id, // Include _id for update mode
+                };
+            });
+
+            setProducts(updatedProducts);
+        } catch (error) {
+            console.error("Error fetching sale bill:", error);
+            toast.error("Failed to fetch sale bill details");
+        }
+    };
+
     // useEffect to call the functions on mount
     useEffect(() => {
-        fetchcustomers();
+        fetchCustomers();
         fetchProducts(); // Fetch allProducts first
 
         // Fetch sale bill ONLY after products are fetched
@@ -59,31 +94,31 @@ const SalesBill = () => {
     // New useEffect to update products once `allProducts` is available
     useEffect(() => {
         if (isUpdating && params.id && allProducts.length > 0) {
-            fetchsaleBill(params.id);
+            fetchSaleBill(params.id);
         }
     }, [isUpdating, params.id, allProducts]);
 
-
-
+    // Add a new product row
     const handleAddProduct = () => {
         setProducts([...products, { product: "", qty: "", unit: "pcs", rate: "", discount: "", GSTPercentage: 0, GSTAmount: 0, amount: 0 }]);
     };
 
+    // Remove a product row
     const handleRemoveProduct = (index) => {
         const updatedProducts = products.filter((_, i) => i !== index);
         setProducts(updatedProducts);
     };
 
+    // Handle changes in product fields
     const handleProductChange = (index, field, value) => {
         const updatedProducts = [...products];
 
         if (field === "product") {
-            // Find the selected product from allProducts
-            const selectedProduct = allProducts.find(prod => prod._id === value);
+            const selectedProduct = allProducts.find((prod) => prod._id === value);
             if (selectedProduct) {
                 updatedProducts[index] = {
                     ...updatedProducts[index],
-                    product: selectedProduct,  // Store the entire product object
+                    product: selectedProduct,
                 };
             }
         } else {
@@ -107,99 +142,79 @@ const SalesBill = () => {
         setProducts(updatedProducts);
     };
 
-
-    const fetchsaleBill = async (id) => {
-        try {
-            const response = await axios.get(`${URL}/${id}`, config);
-            const data = response.data.payload.saleBills[0];
-            console.log('data::: ', data);
-
-            seCustomer(data.customerId?._id ?? null);
-            setBillNo(data.billNo);
-            setBillDate(new Date(data.billDate).toISOString().split("T")[0]);
-            setApplyGST(data.isGSTBill);
-            setRemarks(data.remarks);
-
-            // Ensure products are set only after `allProducts` is fetched
-            if (allProducts.length > 0) {
-                const updatedProducts = data.saleItems.map((item) => {
-                    const foundProduct = allProducts.find(prod => prod._id === item.productId?._id) ?? null;
-                    return {
-                        product: foundProduct || "",  // Ensure a valid product object
-                        qty: item.qty,
-                        unit: item.unit,
-                        rate: item.rate,
-                        GSTPercentage: item.GSTPercentage,
-                        GSTAmount: item.GSTAmount,
-                        amount: item.amount + item.GSTAmount,
-                    };
-                });
-
-                setProducts(updatedProducts);
-            }
-        } catch (error) {
-            console.error("Error fetching sale bill:", error);
-            toast.error("Failed to fetch sale bill details");
-        }
-    };
-
-
-
+    // Handle form submission
     const handleSubmit = async () => {
+        // Calculate totals
         const totalGSTAmount = products.reduce((acc, product) => acc + product.GSTAmount, 0);
         const GSTPercentage = products.reduce((acc, product) => acc + Number(product.GSTPercentage), 0);
+        const netAmount = products.reduce((sum, product) => sum + (product.amount || 0), 0);
+        const totalAmount = netAmount + totalGSTAmount;
 
+        // Prepare the sale bill payload
         const saleBill = {
             billNo,
-            customerId: customer ? customer : null,
+            customerId: customer ? customer : null, // Ensure customerId is sent
             billDate: new Date(billDate),
             isGSTBill: applyGST,
-            totalAmount: netAmount,
-            GSTAmount: totalGSTAmount,
             GSTPercentage,
+            GSTAmount: totalGSTAmount,
+            totalAmount: netAmount,
             finalAmount: totalAmount,
             remarks,
-            saleItems: products.map(product => ({
-                productId: product.product?._id || "",
+            saleBillItems: products.map((product) => ({
+                _id: product._id || undefined, // Include _id for update mode
+                productId: product.product?._id || "", // Ensure productId is sent
                 qty: product.qty,
                 unit: product.unit,
                 rate: product.rate,
                 GSTPercentage: product.GSTPercentage,
                 GSTAmount: product.GSTAmount,
-                amount: Number(product.amount) - Number(product.GSTAmount),
-                totalAmount: product.amount,
+                totalAmount: product.amount, // Use amount from the frontend
             })),
         };
+
         try {
             if (isUpdating) {
+                // Update existing sale bill
                 await axios.put(`${URL}/${params.id}`, saleBill, config);
-                toast.success("sale Bill Updated Successfully");
+                toast.success("Sale Bill Updated Successfully");
             } else {
-                await axios.post(URL + "/", saleBill, config);
-                toast.success("sale Bill Created Successfully");
+                // Create new sale bill
+                await axios.post(URL, saleBill, config);
+                toast.success("Sale Bill Created Successfully");
             }
-            navigate("/sale");
+            navigate("/sale"); // Redirect to the sale bills list
         } catch (error) {
-            toast.error(error.response.data.errors.message);
+            console.error("Error submitting sale bill:", error);
+            toast.error(error.response?.data?.message || "Failed to submit sale bill");
         }
     };
 
+    // Handle delete sale bill
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`${URL}/${params.id}`, config);
+            toast.success("Sale Bill Deleted Successfully");
+            navigate("/sale");
+        } catch (error) {
+            console.error("Error deleting sale bill:", error);
+            toast.error(error.response?.data?.message || "Failed to delete sale bill");
+        }
+    };
+
+    // Handle cancel button click
     const handleCancel = () => {
         navigate("/sale");
     };
 
+    // Calculate totals
     const totalQty = products.reduce((sum, product) => sum + (parseFloat(product.qty) || 0), 0);
     const netAmount = products.reduce((sum, product) => sum + (product.amount || 0), 0);
     const totalGST = products.reduce((sum, product) => sum + (product.GSTAmount || 0), 0);
     const totalAmount = netAmount + totalGST;
 
-
-    let name = "";
-    if (params.type === "add") {
-        name = "ADD";
-    } else {
-        name = "UPDATE";
-    }
+    // Determine if the form is in add or update mode
+    const formTitle = params.type === "add" ? "ADD SALE BILL" : "UPDATE SALE BILL";
 
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4" style={{ marginBottom: "100px" }}>
@@ -211,22 +226,23 @@ const SalesBill = () => {
                         style={{ cursor: "pointer" }}
                         onClick={() => navigate("/sale")}
                     />
-                    {name} SALE BILL
+                    {formTitle}
                 </h3>
+
             </div>
 
-            {/* customer Section */}
+            {/* Customer Section */}
             <div className="row mt-3">
                 <div className="col-md-6 mb-3">
                     <label htmlFor="customer" className="form-label">
-                        customer <span className="text-danger">*</span>
+                        Customer <span className="text-danger">*</span>
                     </label>
                     <div className="input-group">
                         <select
                             className="form-select"
                             id="customer"
                             value={customer}
-                            onChange={(e) => seCustomer(e.target.value)}
+                            onChange={(e) => setCustomer(e.target.value)}
                         >
                             <option value="">Select Customer</option>
                             {customers.map((customer) => (
@@ -294,16 +310,12 @@ const SalesBill = () => {
                                 <th>Rate (₹) <span className="text-danger">*</span></th>
                                 {applyGST && (
                                     <>
-                                        <th>Select GST %</th>
+                                        <th>GST %</th>
                                         <th>GST Amount</th>
                                     </>
                                 )}
                                 <th>Amount (₹)</th>
-                                {applyGST && (
-                                    <>
-                                        <th> Taxable Amount(₹)</th>
-                                    </>
-                                )}
+                                {applyGST && <th>Taxable Amount (₹)</th>}
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -313,7 +325,7 @@ const SalesBill = () => {
                                     <td>
                                         <select
                                             className="form-select"
-                                            value={product.product ? product.product._id : ""}  // Ensure it gets the product ID
+                                            value={product.product ? product.product._id : ""}
                                             onChange={(e) => handleProductChange(index, "product", e.target.value)}
                                         >
                                             <option value="" disabled>Select Product</option>
@@ -324,21 +336,14 @@ const SalesBill = () => {
                                             ))}
                                         </select>
                                     </td>
-
                                     <td>
                                         <input
                                             type="number"
                                             className="form-control"
                                             value={product.qty}
-                                            onChange={(e) => {
-                                                const value = e.target.value;
-                                                if (value >= 0 || value === "") {
-                                                    handleProductChange(index, "qty", value);
-                                                }
-                                            }}
+                                            onChange={(e) => handleProductChange(index, "qty", e.target.value)}
                                         />
                                     </td>
-
                                     <td>
                                         <select
                                             className="form-select"
@@ -356,12 +361,7 @@ const SalesBill = () => {
                                             type="number"
                                             className="form-control"
                                             value={product.rate}
-                                            onChange={(e) => {
-                                                const value = e.target.value;
-                                                if (value >= 0 || value === "") {
-                                                    handleProductChange(index, "rate", value);
-                                                }
-                                            }}
+                                            onChange={(e) => handleProductChange(index, "rate", e.target.value)}
                                         />
                                     </td>
                                     {applyGST && (
@@ -372,7 +372,7 @@ const SalesBill = () => {
                                                     value={product.GSTPercentage}
                                                     onChange={(e) => handleProductChange(index, "GSTPercentage", e.target.value)}
                                                 >
-                                                    <option value="" >Select GST Percentage</option>
+                                                    <option value="" disabled>Select GST Percentage</option>
                                                     <option value="0.25">GST 0.25%</option>
                                                     <option value="1">GST 1%</option>
                                                     <option value="1.50">GST 1.50%</option>
@@ -395,7 +395,6 @@ const SalesBill = () => {
                                             </td>
                                         </>
                                     )}
-
                                     <td>
                                         <input
                                             type="number"
@@ -404,22 +403,16 @@ const SalesBill = () => {
                                             readOnly
                                         />
                                     </td>
-                                    {
-                                        applyGST && (
-                                            <>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        className="form-control"
-                                                        value={(product.amount + product.GSTAmount).toFixed(2)}
-                                                        readOnly
-                                                    />
-                                                </td>
-                                            </>
-                                        )
-                                    }
-
-
+                                    {applyGST && (
+                                        <td>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                value={(product.amount + product.GSTAmount).toFixed(2)}
+                                                readOnly
+                                            />
+                                        </td>
+                                    )}
                                     <td>
                                         <button
                                             className="btn btn-link text-danger"
@@ -440,7 +433,7 @@ const SalesBill = () => {
                 </div>
             </div>
 
-            {/* Remarks and Summary Section (Side by Side) */}
+            {/* Remarks and Summary Section */}
             <div className="row mt-3">
                 <div className="col-md-6">
                     <label htmlFor="remarks" className="form-label">
@@ -449,7 +442,7 @@ const SalesBill = () => {
                     <textarea
                         className="form-control"
                         id="remarks"
-                        rows="2"
+                        rows="3"
                         value={remarks}
                         onChange={(e) => setRemarks(e.target.value)}
                     />
@@ -478,13 +471,15 @@ const SalesBill = () => {
                 </div>
             </div>
 
-            {/* Action Buttons (Fixed Width and Spacing) */}
+            {/* Action Buttons */}
             <div className="row mt-3">
                 <div className="col-md-12 d-flex justify-content-end">
-                    <button className="btn cancel-btn me-2" onClick={handleCancel} >
+                    <button className="btn cancel-btn me-2" onClick={handleCancel}>
                         Cancel
                     </button>
-                    <button className="btn submit-btn" onClick={handleSubmit}>{isUpdating ? "Update" : "Submit"}</button>
+                    <button className="btn submit-btn" onClick={handleSubmit}>
+                        {isUpdating ? "Update" : "Submit"}
+                    </button>
                 </div>
             </div>
         </main>

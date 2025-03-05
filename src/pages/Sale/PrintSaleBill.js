@@ -1,5 +1,4 @@
 import moment from "moment";
-import { ToWords } from "to-words";
 import html2pdf from "html2pdf.js";
 
 export const printSaleBill = (bill) => {
@@ -7,10 +6,6 @@ export const printSaleBill = (bill) => {
         console.error("No bill data found.");
         return;
     }
-
-    // Convert final amount to words
-    const toWords = new ToWords();
-    const amountInWords = toWords.convert(bill.finalAmount, { currency: true, ignoreDecimal: true });
 
     // Generate the bill content
     const generateBillContent = () => {
