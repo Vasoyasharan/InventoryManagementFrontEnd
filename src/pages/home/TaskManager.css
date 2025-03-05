@@ -97,16 +97,21 @@
     border: none;
     border-radius: 8px;
     margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    gap: 10px; /* Space between task details and buttons */
+}
+
+.task-details {
+    width: 100%; /* Ensure details take full width */
 }
 
 .task-actions {
     display: flex;
-    gap: 10px;
+    gap: 10px; /* Space between buttons */
+    justify-content: flex-end; /* Align buttons to the right */
 }
 
 .task-btn {
@@ -144,17 +149,18 @@
     background-color: #b02a37;
 }
 
-.task-high {
-    background-color: #f8d7da;
-    color: #721c24;
+/* Custom Task Background Classes */
+.task-high-priority {
+    background-color: #f8d7da !important; /* Red for high priority */
+    color: #721c24 !important;
 }
 
-.task-medium {
-    background-color: #fff3cd;
-    color: #856404;
+.task-medium-priority {
+    background-color: #fff3cd !important; /* Yellow for medium priority */
+    color: #856404 !important;
 }
 
-.task-low {
-    background-color: #d4edda;
-    color: #155724;
+.task-low-priority {
+    background-color: #d4edda !important; /* Green for low priority */
+    color: #155724 !important;
 }
