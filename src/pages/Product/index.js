@@ -117,7 +117,7 @@ const ProductList = (props) => {
                         {currentRecords.map((item) => (
                             <tr key={item._id}>
                                 <td>{item.productName || "-"}</td>
-                                <td>{item.stock || "-"}</td>
+                                <td>{item.stock || "0"}</td>
                                 <td>{item.unit || "-"}</td>
                                 <td>{item.hsnCode || "-"}</td>
                                 <td className="action-icons text-center">

@@ -28,7 +28,11 @@ const Product = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(URL + "/", values, config);
+            const payload = {
+                ...values,
+                stock: values.stock || 0, // Set stock to 0 if it's empty
+            };
+            await axios.post(URL + "/", payload, config);
             setValues({ productName: "", stock: "", unit: "", hsnCode: "" });
             navigate("/product");
             toast.success("Product Created Successfully");
@@ -43,7 +47,10 @@ const Product = (props) => {
         event.preventDefault();
         if (!params.id) return;
         try {
-            const { userId, _id, ...payload } = values;
+            const { userId, _id, ...payload } = {
+                ...values,
+                stock: values.stock || 0, // Set stock to 0 if it's empty
+            };
             await axios.put(`${URL}/${params.id}`, payload, config);
             setValues({ productName: "", stock: "", unit: "", hsnCode: "" });
             navigate("/product");
@@ -109,8 +116,8 @@ const Product = (props) => {
                         </div>
                         <div className="col-md-6 mb-6">
                             <div className="form-group">
-                                <label htmlFor="stock" className="required-star">
-                                    Stock<span style={{ color: "red", marginLeft: "3px" }}>*</span>
+                                <label htmlFor="stock">
+                                    Stock
                                 </label>
                                 <input
                                     type="number"
@@ -118,7 +125,6 @@ const Product = (props) => {
                                     id="stock"
                                     placeholder="Enter Stock Quantity"
                                     name="stock"
-                                    required
                                     onChange={handleInput}
                                     value={values.stock}
                                 />
