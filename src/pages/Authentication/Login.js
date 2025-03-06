@@ -15,9 +15,9 @@ const Login = () => {
         password: "",
     });
 
-    const [isChecked, setIsChecked] = useState(false); // Checkbox state
+    const [isChecked, setIsChecked] = useState(false);
     const [errors, setErrors] = useState({});
-    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const URL = Url + "/user/signin";

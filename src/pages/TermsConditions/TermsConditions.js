@@ -9,7 +9,6 @@ const TermsConditions = () => {
 
     return (
         <div className="terms-conditions-container">
-            {/* Back Arrow */}
             <div className="back-arrow" onClick={() => navigate(-1)}>
                 <FontAwesomeIcon icon={faArrowLeft} />
             </div>

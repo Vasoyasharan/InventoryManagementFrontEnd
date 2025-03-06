@@ -11,12 +11,11 @@ import {
   faShop,
   faBars,
   faTimes,
-  faCalendarAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import defaultProfilePicture from "../images/def_admin_logo.avif";
 import { useNavigate } from "react-router-dom";
-import Calendar from "react-calendar"; // Import the calendar component
-import "react-calendar/dist/Calendar.css"; // Import the default calendar styles
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import "../Css/CustomModal.css";
 import "../Css/Sidebar.css";
 import { Url, config } from "../Url";
@@ -31,11 +30,10 @@ const Header = () => {
   const [todayDate, setTodayDate] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [showCalendarDropdown, setShowCalendarDropdown] = useState(false); // State for calendar dropdown
+  const [showCalendarDropdown, setShowCalendarDropdown] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Set today's date
     const date = new Date();
     const formattedDate = date.toLocaleDateString("en-US", {
       weekday: "long",
@@ -45,7 +43,7 @@ const Header = () => {
     });
     setTodayDate(formattedDate);
 
-    // Fetch user data, notifications, and tasks (same as before)
+    // Fetch user data, notifications, and tasks
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`${Url}/user`, config);
@@ -90,19 +88,16 @@ const Header = () => {
     fetchTasks();
   }, []);
 
-  // Handle logout functionality
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
     setShowLogoutModal(false);
   };
 
-  // Toggle mobile menu
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Get deadline notifications
   const getDeadlineNotifications = () => {
     const now = new Date();
     const nearDeadlineTasks = tasks.filter((task) => {
@@ -126,7 +121,6 @@ const Header = () => {
   // Combine low stock and deadline notifications
   const allNotifications = [...notifications, ...getDeadlineNotifications()];
 
-  // Handle calendar date change
   const handleCalendarChange = (date) => {
     console.log("Selected Date:", date);
     setShowCalendarDropdown(false); // Close the dropdown after selecting a date
@@ -134,12 +128,10 @@ const Header = () => {
 
   return (
     <div className="navbar">
-      {/* Mobile Menu Toggle */}
       <div className="mobile-menu-toggle" onClick={toggleMobileMenu}>
         <FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} />
       </div>
 
-      {/* Navbar Left */}
       <div className="navbar-left">
         <div className="shop-name">
           <FontAwesomeIcon icon={faShop} className="user-icon" />
@@ -147,9 +139,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Navbar Right */}
       <div className={`navbar-right ${isMobileMenuOpen ? "open" : ""}`}>
-        {/* Today's Date with Calendar Dropdown */}
         <div className="today-date-container">
           <div
             className="today-date"
@@ -168,7 +158,6 @@ const Header = () => {
           )}
         </div>
 
-        {/* Notification Icon */}
         <div className="navbar-icon-container" onClick={() => setShowNotifications(!showNotifications)}>
           <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
           {allNotifications.length > 0 && (
@@ -192,7 +181,6 @@ const Header = () => {
           )}
         </div>
 
-        {/* Other Icons */}
         <FontAwesomeIcon
           icon={faFileAlt}
           className="navbar-icon"
@@ -212,7 +200,6 @@ const Header = () => {
           onClick={() => navigate("/customer-care")}
         />
 
-        {/* Profile Picture */}
         <div
           className="navbar-profile-picture-container"
           onClick={() => setShowDropdown(!showDropdown)}

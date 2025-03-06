@@ -19,7 +19,7 @@ function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
-        <Loader /> {/* Loader Component */}
+        <Loader />
         <div className="App">
           <Routes>
             <Route

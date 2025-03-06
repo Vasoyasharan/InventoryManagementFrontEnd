@@ -40,9 +40,9 @@ const IncomeTable = () => {
     const handleDownloadCSV = async () => {
         try {
             const response = await axios.get("http://localhost:5500/api/csv", {
-                params: { type: "income" }, // Pass type as a query parameter
-                headers: { ...config.headers }, // Include config headers (if any)
-                responseType: "blob", // Important for handling file download
+                params: { type: "income" },
+                headers: { ...config.headers },
+                responseType: "blob",
             });
 
             // Create a Blob URL for the file
@@ -52,7 +52,7 @@ const IncomeTable = () => {
             // Create a temporary link and trigger download
             const a = document.createElement("a");
             a.href = url;
-            a.download = "Income_Bill.csv"; // File name
+            a.download = "Income_Bill.csv";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

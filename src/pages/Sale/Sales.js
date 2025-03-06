@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Url, config } from "../../Url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinusCircle, faArrowLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faMinusCircle, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import "./SaleBillDetails.css";
 
 const SalesBill = () => {
@@ -62,14 +62,14 @@ const SalesBill = () => {
             const updatedProducts = data.saleItems.map((item) => {
                 const foundProduct = allProducts.find((prod) => prod._id === item.productId?._id) ?? null;
                 return {
-                    product: foundProduct || "", // Ensure a valid product object
+                    product: foundProduct || "",
                     qty: item.qty,
                     unit: item.unit,
                     rate: item.rate,
                     GSTPercentage: item.GSTPercentage,
                     GSTAmount: item.GSTAmount,
-                    amount: item.totalAmount, // Use totalAmount from the API
-                    _id: item._id, // Include _id for update mode
+                    amount: item.totalAmount,
+                    _id: item._id,
                 };
             });
 
@@ -80,10 +80,9 @@ const SalesBill = () => {
         }
     };
 
-    // useEffect to call the functions on mount
     useEffect(() => {
         fetchCustomers();
-        fetchProducts(); // Fetch allProducts first
+        fetchProducts();
 
         // Fetch sale bill ONLY after products are fetched
         if (params.type === "update" && params.id) {
@@ -91,7 +90,7 @@ const SalesBill = () => {
         }
     }, [params]);
 
-    // New useEffect to update products once `allProducts` is available
+    // useEffect to update products once `allProducts` is available
     useEffect(() => {
         if (isUpdating && params.id && allProducts.length > 0) {
             fetchSaleBill(params.id);
@@ -153,7 +152,7 @@ const SalesBill = () => {
         // Prepare the sale bill payload
         const saleBill = {
             billNo,
-            customerId: customer ? customer : null, // Ensure customerId is sent
+            customerId: customer ? customer : null,
             billDate: new Date(billDate),
             isGSTBill: applyGST,
             GSTPercentage,
@@ -162,14 +161,14 @@ const SalesBill = () => {
             finalAmount: totalAmount,
             remarks,
             saleBillItems: products.map((product) => ({
-                _id: product._id || undefined, // Include _id for update mode
-                productId: product.product?._id || "", // Ensure productId is sent
+                _id: product._id || undefined,
+                productId: product.product?._id || "",
                 qty: product.qty,
                 unit: product.unit,
                 rate: product.rate,
                 GSTPercentage: product.GSTPercentage,
                 GSTAmount: product.GSTAmount,
-                totalAmount: product.amount, // Use amount from the frontend
+                totalAmount: product.amount,
             })),
         };
 
@@ -183,22 +182,10 @@ const SalesBill = () => {
                 await axios.post(URL, saleBill, config);
                 toast.success("Sale Bill Created Successfully");
             }
-            navigate("/sale"); // Redirect to the sale bills list
+            navigate("/sale");
         } catch (error) {
             console.error("Error submitting sale bill:", error);
             toast.error(error.response?.data?.message || "Failed to submit sale bill");
-        }
-    };
-
-    // Handle delete sale bill
-    const handleDelete = async () => {
-        try {
-            await axios.delete(`${URL}/${params.id}`, config);
-            toast.success("Sale Bill Deleted Successfully");
-            navigate("/sale");
-        } catch (error) {
-            console.error("Error deleting sale bill:", error);
-            toast.error(error.response?.data?.message || "Failed to delete sale bill");
         }
     };
 
@@ -212,8 +199,7 @@ const SalesBill = () => {
     const netAmount = products.reduce((sum, product) => sum + (product.amount || 0), 0);
     const totalGST = products.reduce((sum, product) => sum + (product.GSTAmount || 0), 0);
     const totalAmount = netAmount + totalGST;
-
-    // Determine if the form is in add or update mode
+    
     const formTitle = params.type === "add" ? "ADD SALE BILL" : "UPDATE SALE BILL";
 
     return (

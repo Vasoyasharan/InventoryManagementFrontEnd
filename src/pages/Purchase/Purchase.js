@@ -48,7 +48,7 @@ const PurchaseBill = () => {
     // useEffect to call the functions on mount
     useEffect(() => {
         fetchVendors();
-        fetchProducts(); // Fetch allProducts first
+        fetchProducts();
 
         // Fetch purchase bill ONLY after products are fetched
         if (params.type === "update" && params.id) {
@@ -56,7 +56,6 @@ const PurchaseBill = () => {
         }
     }, [params]);
 
-    // New useEffect to update products once `allProducts` is available
     useEffect(() => {
         if (isUpdating && params.id && allProducts.length > 0) {
             fetchPurchaseBill(params.id);
@@ -78,12 +77,11 @@ const PurchaseBill = () => {
         const updatedProducts = [...products];
 
         if (field === "product") {
-            // Find the selected product from allProducts
             const selectedProduct = allProducts.find(prod => prod._id === value);
             if (selectedProduct) {
                 updatedProducts[index] = {
                     ...updatedProducts[index],
-                    product: selectedProduct,  // Store the entire product object
+                    product: selectedProduct,
                 };
             }
         } else {
@@ -119,12 +117,11 @@ const PurchaseBill = () => {
             setApplyGST(data.isGSTBill);
             setRemarks(data.remarks);
 
-            // Ensure products are set only after `allProducts` is fetched
             if (allProducts.length > 0) {
                 const updatedProducts = data.purchaseItems.map((item) => {
                     const foundProduct = allProducts.find(prod => prod._id === item.productId?._id) ?? null;
                     return {
-                        product: foundProduct || "",  // Ensure a valid product object
+                        product: foundProduct || "",
                         qty: item.qty,
                         unit: item.unit,
                         rate: item.rate,
@@ -312,7 +309,7 @@ const PurchaseBill = () => {
                                     <td>
                                         <select
                                             className="form-select"
-                                            value={product.product ? product.product._id : ""}  // Ensure it gets the product ID
+                                            value={product.product ? product.product._id : ""}
                                             onChange={(e) => handleProductChange(index, "product", e.target.value)}
                                         >
                                             <option value="" disabled>Select Product</option>
@@ -439,7 +436,7 @@ const PurchaseBill = () => {
                 </div>
             </div>
 
-            {/* Remarks and Summary Section (Side by Side) */}
+            {/* Remarks and Summary Section */}
             <div className="row mt-3">
                 <div className="col-md-6">
                     <label htmlFor="remarks" className="form-label">
@@ -477,7 +474,7 @@ const PurchaseBill = () => {
                 </div>
             </div>
 
-            {/* Action Buttons (Fixed Width and Spacing) */}
+            {/* Action Buttons */}
             <div className="row mt-3">
                 <div className="col-md-12 d-flex justify-content-end">
                     <button className="btn cancel-btn me-2" onClick={handleCancel} >

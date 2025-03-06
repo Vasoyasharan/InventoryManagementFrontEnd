@@ -2,16 +2,40 @@ import React, { useEffect, useState } from "react";
 import { Url, config } from "../../Url";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
-// State-City Mapping (Sample Data)
+// State-City Mapping
 const stateCityMap = {
-    Gujarat: ["Surat", "Ahmedabad", "Vadodara", "Rajkot", "Gandhinagar", "Bhavnagar", "Jamnagar"],
-    Maharashtra: ["Mumbai", "Pune", "Nagpur", "Nashik", "Thane", "Aurangabad", "Solapur"],
-    Rajasthan: ["Jaipur", "Udaipur", "Jodhpur", "Kota", "Ajmer", "Bikaner", "Alwar"],
-    Karnataka: ["Bengaluru", "Mysuru", "Hubli", "Mangaluru", "Belagavi", "Davangere", "Ballari"],
-    TamilNadu: ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tirunelveli", "Erode"],
+    Gujarat: ["Surat", "Ahmedabad", "Vadodara", "Rajkot", "Gandhinagar", "Bhavnagar", "Jamnagar", "Anand", "Navsari", "Mehsana", "Junagadh"],
+    Maharashtra: ["Mumbai", "Pune", "Nagpur", "Nashik", "Thane", "Aurangabad", "Solapur", "Amravati", "Kolhapur", "Sangli", "Jalgaon"],
+    Rajasthan: ["Jaipur", "Udaipur", "Jodhpur", "Kota", "Ajmer", "Bikaner", "Alwar", "Bhilwara", "Sikar", "Pali", "Chittorgarh"],
+    Karnataka: ["Bengaluru", "Mysuru", "Hubli", "Mangaluru", "Belagavi", "Davangere", "Ballari", "Tumakuru", "Shivamogga", "Vijayapura", "Bidar"],
+    TamilNadu: ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tirunelveli", "Erode", "Vellore", "Thoothukudi", "Dindigul", "Thanjavur"],
+    UttarPradesh: ["Lucknow", "Kanpur", "Varanasi", "Agra", "Meerut", "Prayagraj", "Ghaziabad", "Bareilly", "Aligarh", "Moradabad", "Gorakhpur"],
+    WestBengal: ["Kolkata", "Howrah", "Durgapur", "Asansol", "Siliguri", "Bardhaman", "Malda", "Kharagpur", "Haldia", "Raiganj", "Krishnanagar"],
+    MadhyaPradesh: ["Bhopal", "Indore", "Jabalpur", "Gwalior", "Ujjain", "Sagar", "Dewas", "Satna", "Ratlam", "Rewa", "Chhindwara"],
+    Bihar: ["Patna", "Gaya", "Muzaffarpur", "Bhagalpur", "Darbhanga", "Purnia", "Begusarai", "Ara", "Katihar", "Munger", "Chapra"],
+    Punjab: ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Hoshiarpur", "Moga", "Pathankot", "Ferozepur", "Sangrur"],
+    Haryana: ["Gurgaon", "Faridabad", "Panipat", "Ambala", "Yamunanagar", "Rohtak", "Hisar", "Karnal", "Sonipat", "Bhiwani", "Rewari"],
+    AndhraPradesh: ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool", "Rajahmundry", "Kadapa", "Tirupati", "Anantapur", "Eluru", "Ongole"],
+    Telangana: ["Hyderabad", "Warangal", "Nizamabad", "Karimnagar", "Khammam", "Ramagundam", "Mahbubnagar", "Nalgonda", "Adilabad", "Siddipet", "Suryapet"],
+    Odisha: ["Bhubaneswar", "Cuttack", "Rourkela", "Berhampur", "Sambalpur", "Balasore", "Puri", "Bhadrak", "Baripada", "Jeypore", "Koraput"],
+    Kerala: ["Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur", "Kollam", "Palakkad", "Alappuzha", "Kannur", "Kottayam", "Malappuram", "Pathanamthitta"],
+    Chhattisgarh: ["Raipur", "Bhilai", "Bilaspur", "Korba", "Durg", "Rajnandgaon", "Jagdalpur", "Raigarh", "Ambikapur", "Mahasamund", "Dhamtari"],
+    Jharkhand: ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Hazaribagh", "Deoghar", "Giridih", "Ramgarh", "Chakradharpur", "Jharia", "Medininagar"],
+    Uttarakhand: ["Dehradun", "Haridwar", "Rishikesh", "Haldwani", "Nainital", "Rudrapur", "Kashipur", "Roorkee", "Pithoragarh", "Tehri", "Almora"],
+    HimachalPradesh: ["Shimla", "Manali", "Dharamshala", "Kullu", "Solan", "Mandi", "Chamba", "Bilaspur", "Nahan", "Kangra", "Hamirpur"],
+    Assam: ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Tezpur", "Tinsukia", "Nagaon", "Bongaigaon", "Diphu", "Karimganj", "Sivasagar"],
+    Goa: ["Panaji", "Margao", "Vasco da Gama", "Mapusa", "Ponda", "Bicholim", "Canacona", "Curchorem", "Sanquelim", "Quepem"],
+    Tripura: ["Agartala", "Dharmanagar", "Udaipur", "Ambassa", "Kailashahar", "Khowai", "Belonia", "Santirbazar", "Teliamura", "Jogendranagar"],
+    Manipur: ["Imphal", "Thoubal", "Bishnupur", "Churachandpur", "Senapati", "Ukhrul", "Tamenglong", "Kakching", "Moreh", "Jiribam"],
+    Meghalaya: ["Shillong", "Tura", "Jowai", "Nongpoh", "Baghmara", "Williamnagar", "Resubelpara", "Mairang", "Nongstoin", "Cherrapunji"],
+    ArunachalPradesh: ["Itanagar", "Naharlagun", "Tawang", "Pasighat", "Ziro", "Daporijo", "Roing", "Seppa", "Tezu", "Bomdila"],
+    Mizoram: ["Aizawl", "Lunglei", "Saiha", "Champhai", "Kolasib", "Serchhip", "Mamit", "Lawngtlai", "North Vanlaiphai", "Hnahthial"],
+    Nagaland: ["Kohima", "Dimapur", "Mokokchung", "Tuensang", "Mon", "Wokha", "Zunheboto", "Phek", "Kiphire", "Longleng"],
+    Sikkim: ["Gangtok", "Namchi", "Gyalshing", "Mangan", "Singtam", "Rangpo", "Jorethang", "Pakyong", "Soreng", "Lachen"],
 };
+
 
 const Customer = (props) => {
     const params = useParams();
@@ -93,7 +117,6 @@ const Customer = (props) => {
         fetchData();
     }, [params.id]);
 
-    // Handle cancel action
     const handleCancel = () => {
         navigate("/customer");
     };

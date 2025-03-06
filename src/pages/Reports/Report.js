@@ -4,9 +4,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faShoppingCart, // Purchase icon
-    faMoneyBillWave, // Sale icon
-    faPercent, // GST icon
+    faShoppingCart,
+    faMoneyBillWave, 
+    faPercent,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Report.css";
 
@@ -17,8 +17,8 @@ const Report = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
-    const [filter, setFilter] = useState("all"); // "all", "purchase", "sale"
-    const [showGST, setShowGST] = useState(false); // Toggle for GST transactions
+    const [filter, setFilter] = useState("all");
+    const [showGST, setShowGST] = useState(false);
 
     const URL = Url + "/reports";
 

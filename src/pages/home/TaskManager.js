@@ -16,7 +16,7 @@ const TaskManager = () => {
     const [loading, setLoading] = useState(true);
     const [editMode, setEditMode] = useState(false);
     const [currentTaskId, setCurrentTaskId] = useState(null);
-    const [filterPriority, setFilterPriority] = useState("All"); // Filter by priority
+    const [filterPriority, setFilterPriority] = useState("All");
 
     const URL = Url + "/task";
 

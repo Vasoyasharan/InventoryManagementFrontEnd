@@ -30,19 +30,16 @@ const Chatbot = () => {
     }
 };
 
-    // Function to clear chat
     const clearChat = () => {
         setMessages([{ text: "Hello! How can I assist you?", sender: "bot" }]);
     };
 
-    // Handle sending message on "Enter" key press
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             sendMessage();
         }
     };
 
-    // Auto-scroll to the latest response
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
@@ -58,14 +55,12 @@ const Chatbot = () => {
                     <div className="chatbot-header">
                         <h3>Smart Assistant</h3>
                         <div className="header-buttons">
-                            {/* Clear Chat Button*/}
                             <FontAwesomeIcon 
                                 icon={faTrash} 
                                 className="clear-icon" 
                                 onClick={clearChat} 
                                 title="Clear Chat" 
                             />
-                            {/* Close Button */}
                             <FontAwesomeIcon 
                                 icon={faTimes} 
                                 className="close-icon" 
@@ -75,7 +70,6 @@ const Chatbot = () => {
                         </div>
                     </div>
                     
-                    {/* Messages */}
                     <div className="chatbot-messages">
                         {messages.map((msg, index) => (
                             <div key={index} className={`message ${msg.sender}`}>
@@ -85,7 +79,6 @@ const Chatbot = () => {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* Input field */}
                     <div className="chatbot-input">
                         <input
                             type="text"

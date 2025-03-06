@@ -16,7 +16,7 @@ const Dashboard = () => {
     const [productCount, setProductCount] = useState(0);
     const [purchaseCount, setPurchaseCount] = useState(0);
     const [saleCount, setSaleCount] = useState(0);
-    const [transactionData, setTransactionData] = useState([]); // Real transaction data for charts
+    const [transactionData, setTransactionData] = useState([]);
 
     // Fetch counts for cards
     const fetchCounts = async () => {
@@ -67,36 +67,36 @@ const Dashboard = () => {
             title: "Vendors",
             value: vendorCount,
             icon: faStore,
-            iconColor: "#097066", // Teal
-            addRoute: "/vendor/add", // Route for adding a vendor
+            iconColor: "#097066",
+            addRoute: "/vendor/add",
         },
         {
             title: "Customers",
             value: customerCount,
             icon: faUsers,
-            iconColor: "#3f4add", // Blue
-            addRoute: "/customer/add", // Route for adding a customer
+            iconColor: "#3f4add",
+            addRoute: "/customer/add",
         },
         {
             title: "Products",
             value: productCount,
             icon: faCubes,
-            iconColor: "#df4b26", // Red
-            addRoute: "/product/add", // Route for adding a product
+            iconColor: "#df4b26",
+            addRoute: "/product/add",
         },
         {
             title: "Purchase Bills",
             value: purchaseCount,
             icon: faFileInvoiceDollar,
-            iconColor: "#c9cc1b", // Yellow
-            addRoute: "/purchase/add", // Route for adding a purchase bill
+            iconColor: "#c9cc1b",
+            addRoute: "/purchase/add",
         },
         {
             title: "Sale Bills",
             value: saleCount,
             icon: faMoneyBillWave,
-            iconColor: "#72ee72", // Green
-            addRoute: "/sale/add", // Route for adding a sale bill
+            iconColor: "#72ee72",
+            addRoute: "/sale/add",
         },
     ];
 
@@ -112,7 +112,6 @@ const Dashboard = () => {
                     {cardData.map((card, index) => (
                         <div key={index} className="col-12 col-md-6 col-lg-3 mb-4">
                             <div className="card shadow position-relative">
-                                {/* "+" Icon */}
                                 <div className="add-icon" onClick={() => navigate(card.addRoute)} title={`Add ${card.title}`}>
                                     <FontAwesomeIcon icon={faPlus} />
                                 </div>

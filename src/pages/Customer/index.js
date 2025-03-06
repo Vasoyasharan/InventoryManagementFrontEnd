@@ -4,13 +4,13 @@ import { Url, config } from "../../Url";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPen, faUserPlus, faEye, faUserSlash, faFilePen , faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus, faEye, faUserSlash, faFilePen , faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./CustomerList.css";
 
 const CustomerList = (props) => {
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [recordsPerPage, setRecordsPerPage] = useState(10); // Default records per page
+    const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const URL = Url + "/customer";
 

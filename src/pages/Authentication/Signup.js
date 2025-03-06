@@ -17,8 +17,8 @@ const Signup = () => {
     });
 
     const [errors, setErrors] = useState({});
-    const [isChecked, setIsChecked] = useState(false); // State for checkbox
-    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+    const [isChecked, setIsChecked] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const URL = Url + "/user/signup";
 
@@ -30,7 +30,7 @@ const Signup = () => {
     };
 
     const handleCheckboxChange = (event) => {
-        setIsChecked(event.target.checked); // Track checkbox state
+        setIsChecked(event.target.checked);
     };
 
     const togglePasswordVisibility = () => {
@@ -39,7 +39,7 @@ const Signup = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setErrors(Validation(values)); // Ensure validation includes email
+        setErrors(Validation(values));
         try {
             if (!errors.username && !errors.password && !errors.email) {
                 const res = await axios.post(URL, values);

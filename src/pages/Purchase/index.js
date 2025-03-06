@@ -14,12 +14,12 @@ const PurchaseBillList = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState("all");
     const [isFilterBoxOpen, setIsFilterBoxOpen] = useState(false);
-    const [vendors, setVendors] = useState([]); // State to store vendors
+    const [vendors, setVendors] = useState([]);
     const [vendorFilter, setVendorFilter] = useState("");
     const [dateFilter, setDateFilter] = useState("");
     const [billNoFilter, setBillNoFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
-    const [appliedFilters, setAppliedFilters] = useState({}); // Track applied filters
+    const [appliedFilters, setAppliedFilters] = useState({});
     const URL = Url + "/purchase";
     const navigate = useNavigate();
 
@@ -60,7 +60,7 @@ const PurchaseBillList = (props) => {
 
     useEffect(() => {
         fetchData();
-        fetchVendors(); // Fetch vendors when the component mounts
+        fetchVendors();
     }, [filter]);
 
     const handleRowClick = (item) => {
@@ -108,7 +108,7 @@ const PurchaseBillList = (props) => {
             billNo: billNoFilter,
             sortBy: sortBy,
         });
-        setIsFilterBoxOpen(false); // Close the filter box after applying filters
+        setIsFilterBoxOpen(false);
     };
 
     const resetFilters = () => {
@@ -116,7 +116,7 @@ const PurchaseBillList = (props) => {
         setDateFilter("");
         setBillNoFilter("");
         setSortBy("");
-        setAppliedFilters({}); // Clear applied filters
+        setAppliedFilters({});
     };
 
     const filteredData = (data || []).filter(
@@ -197,14 +197,14 @@ const PurchaseBillList = (props) => {
                         <option value={100}>Show 100</option>
                     </select>
                 </div>
-                <div className="col-md-8"></div> {/* Spacer to push buttons to the right */}
+                <div className="col-md-8"></div>
                 <div className="col-md-2 d-flex justify-content-end">
                     <div className="position-relative me-2">
                         <div
                             className="filter-icon"
                             onClick={() => setIsFilterBoxOpen(!isFilterBoxOpen)}
                             style={{
-                                border: "1px solid #ddd", // Slight grey border
+                                border: "1px solid #ddd",
                                 borderRadius: "8px",
                                 height: "48px",
                                 padding: "6px 12px",
@@ -221,7 +221,7 @@ const PurchaseBillList = (props) => {
                                     className="ms-2"
                                     style={{ color: "red", cursor: "pointer" }}
                                     onClick={(e) => {
-                                        e.stopPropagation(); // Prevent dropdown toggle
+                                        e.stopPropagation();
                                         resetFilters();
                                     }}
                                 />

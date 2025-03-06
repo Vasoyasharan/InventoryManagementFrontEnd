@@ -15,12 +15,12 @@ const SaleBillList = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState("all");
     const [isFilterBoxOpen, setIsFilterBoxOpen] = useState(false);
-    const [customers, setCustomers] = useState([]); // State to store customers
+    const [customers, setCustomers] = useState([]);
     const [customerFilter, setCustomerFilter] = useState("");
     const [dateFilter, setDateFilter] = useState("");
     const [billNoFilter, setBillNoFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
-    const [appliedFilters, setAppliedFilters] = useState({}); // Track applied filters
+    const [appliedFilters, setAppliedFilters] = useState({});
     const URL = Url + "/sale";
     const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ const SaleBillList = (props) => {
 
     useEffect(() => {
         fetchData();
-        fetchCustomers(); // Fetch customers when the component mounts
+        fetchCustomers();
     }, [filter]);
 
     const handleRowClick = (item) => {
@@ -124,7 +124,7 @@ const SaleBillList = (props) => {
             billNo: billNoFilter,
             sortBy: sortBy,
         });
-        setIsFilterBoxOpen(false); // Close the filter box after applying filters
+        setIsFilterBoxOpen(false);
     };
 
     const resetFilters = () => {
@@ -132,7 +132,7 @@ const SaleBillList = (props) => {
         setDateFilter("");
         setBillNoFilter("");
         setSortBy("");
-        setAppliedFilters({}); // Clear applied filters
+        setAppliedFilters({});
     };
 
     const filteredData = (data || []).filter(
@@ -213,14 +213,14 @@ const SaleBillList = (props) => {
                         <option value={100}>Show 100</option>
                     </select>
                 </div>
-                <div className="col-md-8"></div> {/* Spacer to push buttons to the right */}
+                <div className="col-md-8"></div>
                 <div className="col-md-2 d-flex justify-content-end">
                     <div className="position-relative me-2">
                         <div
                             className="filter-icon"
                             onClick={() => setIsFilterBoxOpen(!isFilterBoxOpen)}
                             style={{
-                                border: "1px solid #ddd", // Slight grey border
+                                border: "1px solid #ddd",
                                 borderRadius: "8px",
                                 height: "48px",
                                 padding: "6px 12px",
@@ -237,7 +237,7 @@ const SaleBillList = (props) => {
                                     className="ms-2"
                                     style={{ color: "red", cursor: "pointer" }}
                                     onClick={(e) => {
-                                        e.stopPropagation(); // Prevent dropdown toggle
+                                        e.stopPropagation();
                                         resetFilters();
                                     }}
                                 />
@@ -345,7 +345,7 @@ const SaleBillList = (props) => {
                                         onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            handlePrint(item._id); // Call the printSaleBill function with the current bill data
+                                            handlePrint(item._id);
                                         }}
                                     >
                                         <FontAwesomeIcon icon={faPrint} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />

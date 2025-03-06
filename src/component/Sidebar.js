@@ -6,7 +6,6 @@ const Sidebar = () => {
   return (
     <div className="sidebar-container">
       <aside id="leftsidebar" className="sidebar">
-        {/* Branding */}
         <div className="sidebar-brand">
           <NavLink to="/dashboard" className="navbar-brand">
             <i className="fas fa-store"></i>

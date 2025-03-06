@@ -14,7 +14,7 @@ const Product = (props) => {
         hsnCode: "",
     });
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const URL = Url + "/product";
 
@@ -30,7 +30,7 @@ const Product = (props) => {
         try {
             const payload = {
                 ...values,
-                stock: values.stock || 0, // Set stock to 0 if it's empty
+                stock: values.stock || 0,
             };
             await axios.post(URL + "/", payload, config);
             setValues({ productName: "", stock: "", unit: "", hsnCode: "" });
@@ -49,7 +49,7 @@ const Product = (props) => {
         try {
             const { userId, _id, ...payload } = {
                 ...values,
-                stock: values.stock || 0, // Set stock to 0 if it's empty
+                stock: values.stock || 0,
             };
             await axios.put(`${URL}/${params.id}`, payload, config);
             setValues({ productName: "", stock: "", unit: "", hsnCode: "" });

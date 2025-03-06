@@ -1,5 +1,4 @@
 
-/* FIlter Container styling */
 .row.mt-3 {
     display: flex;
     justify-content: space-between;
@@ -21,7 +20,6 @@ select.form-control {
     border-color: #0056b3;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .row.mt-3 {
         flex-direction: column;
@@ -228,7 +226,7 @@ select.form-control {
 }
 
 .filter-icon {
-    border: 1px solid #ddd; /* Slight grey border */
+    border: 1px solid #ddd;
     border-radius: 8px;
     padding: 6px 12px;
     cursor: pointer;

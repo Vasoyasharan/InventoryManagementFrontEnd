@@ -9,7 +9,6 @@ const PrivacyPolicy = () => {
 
     return (
         <div className="privacy-policy-container">
-            {/* Back Arrow */}
             <div className="back-arrow" onClick={() => navigate(-1)}>
                 <FontAwesomeIcon icon={faArrowLeft} />
             </div>

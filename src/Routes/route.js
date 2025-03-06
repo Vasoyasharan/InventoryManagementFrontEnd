@@ -22,9 +22,9 @@ const ProtectedRoute = (props) => {
     const Cmp = props.element;
     const navigate = useNavigate();
     const [profilePicture, setProfilePicture] = useState(null);
-    const [reload, setReload] = useState(false); // ✅ Add a state to trigger re-fetch
+    const [reload, setReload] = useState(false);
 
-    // ✅ Define fetchUserData to update the profile picture
+    // Define fetchUserData to update the profile picture
     const fetchUserData = async () => {
         try {
             const response = await axios.get(`${Url}/user`, config);
@@ -40,9 +40,9 @@ useEffect(() => {
         if (!localStorage.getItem("token")) {
             navigate("/login");
         } else {
-            fetchUserData(); // ✅ Fetch on mount and when `reload` changes
+            fetchUserData();
         }
-    }, [navigate, reload]); // ✅ Trigger update when `reload` changes
+    }, [navigate, reload]);
 
     return (
         <div className="routes-page">

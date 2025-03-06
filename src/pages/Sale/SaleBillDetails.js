@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBuilding, faPhone, faMapMarkerAlt, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBuilding, faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import "./SaleBillDetails.css";
 
 const SaleBillDetails = () => {

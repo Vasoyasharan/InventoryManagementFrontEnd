@@ -5,7 +5,6 @@ body {
 }
 
 .dashboard-main {
-  /* padding-top: 40px; */
   background-color: #f8f9fa;
 }
 
@@ -44,7 +43,7 @@ body {
     font-weight: 500;
 }
 
-/* ✨ "+ ADD" BUTTON STYLING */
+/* + ADD BUTTON STYLING */
 .dashboard-content .card .add-icon {
     position: absolute;
     top: 10px;
@@ -67,7 +66,6 @@ body {
     transform: scale(1.1);
 }
 
-/* FontAwesome "+" Icon Styling */
 .dashboard-content .card .add-icon svg {
     font-size: 16px;
     color: #007bff;

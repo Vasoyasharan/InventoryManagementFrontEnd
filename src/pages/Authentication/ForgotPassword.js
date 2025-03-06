@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Url } from "../../Url";
 import { toast } from "react-toastify";
-import "./ForgotPassword.css"; // Updated CSS file
-import loginImage from "../../images/loginImage.png"; // Optional: Add an image for better UI
+import "./ForgotPassword.css";
+import loginImage from "../../images/loginImage.png";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");

@@ -1,16 +1,16 @@
 import { faFileCirclePlus, faFilePen, faTrashCan, faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import { Url, config } from "../../Url";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./ExpenseTracker.css"; // Import the CSS file
+import "./ExpenseTracker.css";
 
 const ExpenseTrackerTable = () => {
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [recordsPerPage, setRecordsPerPage] = useState(100); // Default records per page
+    const [recordsPerPage, setRecordsPerPage] = useState(100);
     const [currentPage, setCurrentPage] = useState(1);
     const URL = Url + "/expense";
 
@@ -41,9 +41,9 @@ const ExpenseTrackerTable = () => {
     const handleDownloadCSV = async () => {
         try {
             const response = await axios.get("http://localhost:5500/api/csv", {
-                params: { type: "expense" }, // Pass type as a query parameter
-                headers: { ...config.headers }, // Include config headers (if any)
-                responseType: "blob", // Important for handling file download
+                params: { type: "expense" },
+                headers: { ...config.headers },
+                responseType: "blob",
             });
 
             // Create a Blob URL for the file

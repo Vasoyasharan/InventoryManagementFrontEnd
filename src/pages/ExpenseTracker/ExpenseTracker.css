@@ -1,4 +1,3 @@
-/* Form Styling */
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -27,51 +26,50 @@
 }
 
 textarea.form-control {
-    resize: vertical; /* Allow vertical resizing */
+    resize: vertical;
 }
 
 /* Button Styling */
 .button-group {
     display: flex;
-    gap: 10px; /* Space between buttons */
+    gap: 10px;
     margin-top: 20px;
 }
 
 .button-group .btn {
-    width: 120px; /* Fixed width for buttons */
-    padding: 0.75rem 1rem; /* Padding for better appearance */
-    font-size: 1rem; /* Font size */
-    font-weight: 500; /* Font weight */
-    border-radius: 6px; /* Rounded corners */
-    text-align: center; /* Center text */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
+    width: 120px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 6px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     cursor: pointer;
 }
 
 .btn-primary {
-    background-color: #007bff; /* Blue color */
+    background-color: #007bff;
     border: none;
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .btn-danger {
-    background-color: #dc3545; /* Red color */
+    background-color: #dc3545;
     border: none;
     color: white;
 }
 
 .btn-danger:hover {
-    background-color: #b02a37; /* Darker red on hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    background-color: #b02a37;
+    transform: translateY(-2px);
 }
 
 /*output page css */
-/* Custom table styling */
 .custom-table {
     width: 100%;
     border-collapse: separate;
@@ -158,8 +156,8 @@ textarea.form-control {
 }
 
 .truncate-text {
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflowed text */
-    text-overflow: ellipsis; /* Show ellipsis when text overflows */
-    max-width: 50px; /* Set a maximum width for the column */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 50px;
 }

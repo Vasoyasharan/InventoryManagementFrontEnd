@@ -1,4 +1,3 @@
-/* Modern table styling */
 .custom-table {
     width: 100%;
     border-collapse: separate;
@@ -12,7 +11,7 @@
 }
 
 .custom-table thead {
-    background: linear-gradient(135deg, #3498db, #2980b9); /* Gradient header */
+    background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
 }
 
@@ -35,21 +34,19 @@
 }
 
 .custom-table tbody tr:hover {
-    background-color: #f5f6fa; /* Light hover effect */
+    background-color: #f5f6fa;
 }
 
-/* Action column styling */
 .custom-table th:nth-child(5),
 .custom-table td:nth-child(5) {
-    text-align: center; /* Center align the Action header and cells */
+    text-align: center;
 }
 
-/* Action icons styling */
 .action-icons {
     display: flex;
-    justify-content: center; /* Center icons horizontally */
-    align-items: center; /* Center icons vertically */
-    gap: 15px; /* Space between icons */
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }
 
 .action-icons a,
@@ -65,14 +62,12 @@
     position: relative;
 }
 
-/* Fixed header for better scrolling */
 .custom-table thead {
     position: sticky;
     top: 0;
     z-index: 1;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .custom-table {
         display: block;

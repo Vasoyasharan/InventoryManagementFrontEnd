@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { FaBox, FaUsers, FaFileInvoice, FaTasks, FaSpinner } from "react-icons/fa";
+import {FaSpinner } from "react-icons/fa";
 import "../Css/Loader.css";
 
 const Loader = () => {

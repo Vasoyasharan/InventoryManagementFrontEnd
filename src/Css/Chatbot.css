@@ -1,4 +1,3 @@
-/* Floating chatbot button */
 .chatbot-icon {
     position: fixed;
     bottom: 20px;
@@ -64,7 +63,7 @@
     color: #ffcccb;
 }
 
-/* Auto-Scroll Fix */
+/* Auto-Scroll */
 .chatbot-messages {
     max-height: 250px;
     overflow-y: auto;

@@ -1,4 +1,3 @@
-/* Main Container */
 .bill-container {
   background: #fff;
   padding: 20px;
@@ -7,7 +6,6 @@
   margin-left: 280px;
 }
 
-/* Back Arrow */
 .back-arrow {
   cursor: pointer;
   font-size: 18px;

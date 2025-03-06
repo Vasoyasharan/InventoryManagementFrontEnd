@@ -4,8 +4,8 @@ import { Url, config } from "../../Url";
 import { ToastContainer, toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileCirclePlus, faEllipsisVertical, faFilePen, faTrashCan, faSearch, faEye } from "@fortawesome/free-solid-svg-icons";
-import "./ProductList.css"; // Import the CSS file
+import { faFileCirclePlus, faFilePen, faTrashCan, faSearch, faEye } from "@fortawesome/free-solid-svg-icons";
+import "./ProductList.css";
 
 const ProductList = (props) => {
     const [data, setData] = useState([]);
