@@ -12,6 +12,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import { ToastContainer } from "react-toastify";
 import Loader from "./component/Loader";
 import 'react-toastify/dist/ReactToastify.css';
+import TabTitleUpdater from "./component/TabTitleUpdater";
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
@@ -20,6 +21,7 @@ function App() {
     <React.Fragment>
       <BrowserRouter>
         <Loader />
+        <TabTitleUpdater />
         <div className="App">
           <Routes>
             <Route
