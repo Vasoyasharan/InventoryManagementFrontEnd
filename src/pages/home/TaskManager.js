@@ -69,12 +69,15 @@ const TaskManager = () => {
     const fetchData = async (taskId) => {
         try {
             const response = await axios.get(`${URL}/${taskId}`, config);
-            const taskData = response.data.payload.taskData[0]; // Assuming the task data is in the first element of the array
+            const taskData = response.data.payload.taskData[0];
+
+            // Format the date to YYYY-MM-DD
+            const formattedDate = new Date(taskData.date).toISOString().split('T')[0];
 
             // Ensure the task data matches the structure of the `values` state
             setValues({
                 taskName: taskData.taskName,
-                date: taskData.date,
+                date: formattedDate,
                 status: taskData.status,
             });
 
@@ -211,40 +214,40 @@ const TaskManager = () => {
                         </div>
                     </div>
                     <ul className="list-group">
-    {filteredTasks.map((task) => {
-        const taskClass =
-            task.status === "High"
-                ? "task-high-priority"
-                : task.status === "Medium"
-                ? "task-medium-priority"
-                : "task-low-priority";
+                        {filteredTasks.map((task) => {
+                            const taskClass =
+                                task.status === "High"
+                                    ? "task-high-priority"
+                                    : task.status === "Medium"
+                                        ? "task-medium-priority"
+                                        : "task-low-priority";
 
-        return (
-            <li key={task._id} className={`list-group-item ${taskClass}`}>
-                <div className="task-details">
-                    <strong>{task.taskName.toUpperCase()}</strong> <br />
-                    <small>
-                        <i>Date: </i>
-                        <b>{new Date(task.date).toDateString()}</b>
-                    </small>{" "}
-                    <br />
-                    <small>
-                        <i>Status: </i>
-                        <b>{task.status}</b>
-                    </small>
-                </div>
-                <div className="task-actions">
-                    <button className="task-btn edit-btn" onClick={() => fetchData(task._id)}>
-                        <i className="fas fa-edit"></i> Edit
-                    </button>
-                    <button className="task-btn delete-btn" onClick={() => deleteTask(task._id)}>
-                        <i className="fas fa-trash-alt"></i> Delete
-                    </button>
-                </div>
-            </li>
-        );
-    })}
-</ul>
+                            return (
+                                <li key={task._id} className={`list-group-item ${taskClass}`}>
+                                    <div className="task-details">
+                                        <strong>{task.taskName.toUpperCase()}</strong> <br />
+                                        <small>
+                                            <i>Date: </i>
+                                            <b>{new Date(task.date).toDateString()}</b>
+                                        </small>{" "}
+                                        <br />
+                                        <small>
+                                            <i>Status: </i>
+                                            <b>{task.status}</b>
+                                        </small>
+                                    </div>
+                                    <div className="task-actions">
+                                        <button className="task-btn edit-btn" onClick={() => fetchData(task._id)}>
+                                            <i className="fas fa-edit"></i> Edit
+                                        </button>
+                                        <button className="task-btn delete-btn" onClick={() => deleteTask(task._id)}>
+                                            <i className="fas fa-trash-alt"></i> Delete
+                                        </button>
+                                    </div>
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </div>
             </main>
         </>
