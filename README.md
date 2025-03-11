@@ -1,72 +1,137 @@
-# This is Smart Inventory management Project
+# **StockNest - Inventory Management System**
 
-## Getting Started with Create React App
+## **Overview**  
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+StockNest is a web-based **Inventory Management System** built using **React.js, Node.js, and MongoDB**. It allows businesses to efficiently track **products, vendors, customers, sales, and purchase bills** while providing insightful reports and analytics.  
 
-## Available Scripts
+## **Features**  
 
-In the project directory, you can run:
+✅ **Dashboard:** A visually appealing dashboard with key metrics (*Total Sales, Purchases, Products, etc.*).  
+✅ **Purchase Management:** Manage purchase bills, vendors, and stock updates.  
+✅ **Sales Management:** Generate & track sales bills, manage customers, and update stock accordingly.  
+✅ **Product Management:** Add, update, and track product details.  
+✅ **Expense Tracker:** Monitor expenses for better financial management.  
+✅ **Reports & Analytics:** View insightful reports for better decision-making.  
+✅ **Smart Assistant (AI Chatbot):** Get instant answers to queries like **"How many sales today?"**  
+✅ **User Management:** Secure authentication & role-based access.  
+✅ **Security:** Implement robust security measures to protect sensitive data.  
+✅ **Notifications:**  
+   - 🔔 Receive timely reminders **2 days before a task deadline arrives**.  
+   - 🔔 Get alerts for **low stock levels** to refill inventory on time.
+   
+✅ **Export:** Export data to **CSV** for further processing.  
+✅ **Admin Panel:** Dedicated **Admin Panel** for user management. 
+## **Tech Stack**  
 
-### `npm start`
+- **Frontend:** React.js (TypeScript), Bootstrap/Tailwind CSS  
+- **Backend:** Node.js, Express.js  
+- **Database:** MongoDB  
+- **State Management:** React Context API  
+- **Authentication:** JWT-based authentication  
+- **Styling:** CSS for aesthetic UI  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## **Admin Panel**  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+🔹 **[Inventory Admin Panel](https://github.com/Vasoyasharan/InventoryAdminPanel.git)**  
+The **Admin Panel** handles **user management**. If an **admin deactivates a user**, they **cannot log in** until reactivated.  
 
-### `npm test`
+## **Installation & Setup**  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### **Prerequisites**  
 
-### `npm run build`
+- Node.js & npm installed  
+- MongoDB running locally  
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### **Setup Instructions**  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Clone the repositories**  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```sh
+   git clone https://github.com/Vasoyasharan/InventoryManagementFrontEnd.git
 
-### `npm run eject`
+   git clone https://github.com/Hardik-Vanani/Inventory-management-node.git
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   git clone https://github.com/Vasoyasharan/InventoryAdminPanel.git
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Backend Setup**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+     ```sh
+    cd Inventory-management-node
+    npm install
+    npm run start
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. **FrontEnd Setup**
 
-## Learn More
+     ```sh
+    cd ../InventoryManagementFrontEnd
+    npm install
+    npm run start
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. **Admin Panel Setup**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+     ```sh
+    cd invadmin
+    npm install
+    npm run start
 
-### Code Splitting
+## **Usage Guide**  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. **Login/Register** with valid credentials.  
+2. Navigate to the **Dashboard** to get an overview.  
+3. Use the sidebar to manage **Sales, Purchases, Products, and Customers**.  
+4. Generate & update **bills** with automatic tax & stock adjustments.  
+5. View reports & analytics for insights into sales & stock.  
+6. **Admin can manage users** via the [Admin Panel](https://github.com/Vasoyasharan/InventoryAdminPanel.git).  
 
-### Analyzing the Bundle Size
+## **Screenshots**  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Below are some screenshots of the system:  
 
-### Making a Progressive Web App
+📸 **Dashboard**  
+![Dashboard Screenshot](/public/Dashboard-1.png)  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+📸 **Sales Bill Management**  
+![Sales Bill Screenshot](/public/Sale%20Bill.png)  
 
-### Advanced Configuration
+📸 **Purchase Bill Management**  
+![Purchase Bill Screenshot](/public/Purchase%20Bill.png)  
+  
+📸 **Create Purchase Page**  
+![Settings Screenshot](/public/Create%20Purchase.png)  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+📸 **External Income Page**  
+![Settings Screenshot](/public/Income.png)
 
-### Deployment
+📸 **External Expense Page**  
+![Settings Screenshot](/public/Expense%20Tracker.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+📸 **Reports & Analytics**  
+![Reports Screenshot](/public/Report.png)
 
-### `npm run build` fails to minify
+📸 **Smart Assistant (ChatBot)**  
+![Reports Screenshot](/public/ChatBot.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## **Contributing**  
+
+We welcome contributions! If you want to improve this project:  
+
+1. **Fork** the repository.  
+2. **Clone** your forked repository:  
+
+   ```sh
+   git clone https://github.com/your-username/InventoryManagementFrontEnd.git
+3. **Create a new Branch** for your feature or bug fix ::  
+
+   ```sh
+   git checkout -b feature-name
+
+4. **Make your changes** and commit them
+
+    ```sh
+    git commit -m "Added new feature"
+
+5. **Push** to your fork and  **create pull request**
+
+## Licence
+
+This project is developed for **academic purposes only**.
