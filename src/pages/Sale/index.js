@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { faFileCirclePlus, faFilePen, faTrashCan, faEye, faFileExcel, faFilter, faTimes, faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
@@ -21,6 +20,7 @@ const SaleBillList = (props) => {
     const [billNoFilter, setBillNoFilter] = useState("");
     const [sortBy, setSortBy] = useState("");
     const [appliedFilters, setAppliedFilters] = useState({});
+    const [isPrinting, setIsPrinting] = useState(false);
     const URL = Url + "/sale";
     const navigate = useNavigate();
 
@@ -103,19 +103,21 @@ const SaleBillList = (props) => {
     };
 
     const handlePrint = async (id) => {
+        setIsPrinting(true);
         try {
             const response = await axios.get(`http://localhost:5500/api/invoice/${id}`, config);
 
             if (response.data.viewLink) {
-                window.open(response.data.viewLink, "_blank"); // Open PDF in a new tab
+                window.open(response.data.viewLink, "_blank");
             } else {
                 toast.error("Failed to generate PDF");
             }
         } catch (error) {
             toast.error(error.response?.data?.message || "Error printing bill");
+        } finally {
+            setIsPrinting(false);
         }
     };
-
 
     const applyFilters = () => {
         setAppliedFilters({
@@ -336,8 +338,6 @@ const SaleBillList = (props) => {
                                 <td className="text-center">{item.isGSTBill ? `${item.GSTAmount}` : "-"}</td>
                                 <td className="text-center">{item.finalAmount}</td>
                                 <td className="action-icons text-center">
-
-
                                     <button
                                         className="print-icon"
                                         style={{ background: "none", border: "none", cursor: "pointer", padding: 0, margin: "0 4px", fontSize: "1.3rem" }}
@@ -401,6 +401,16 @@ const SaleBillList = (props) => {
                     </ul>
                 </nav>
             </div>
+
+            {/* Improved Loader for PDF generation */}
+            {isPrinting && (
+                <div className="loader-overlay">
+                    <div className="loader-content">
+                        <div className="spinner"></div>
+                        <p className="loader-text">Generating PDF...</p>
+                    </div>
+                </div>
+            )}
         </main>
     );
 };
