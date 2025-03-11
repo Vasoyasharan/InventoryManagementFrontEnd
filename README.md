@@ -135,3 +135,10 @@ We welcome contributions! If you want to improve this project:
 ## Licence
 
 This project is developed for **academic purposes only**.
+
+## 📞 Contact
+
+For any queries or feedback, feel free to reach out:
+
+- 📧 **Email:** [sharanvasoya.dev@gmail.com](mailto:sharanvasoya.dev@gmail.com)  
+- 🔗 **GitHub:** [Vasoyasharan](https://github.com/Vasoyasharan)
