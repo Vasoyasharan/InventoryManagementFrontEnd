@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBuilding, faPhone, faMapMarkerAlt, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBuilding, faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import "./PurchaseBillDetails.css";
 
 const PurchaseBillDetails = () => {
@@ -41,7 +41,6 @@ const PurchaseBillDetails = () => {
                     </div>
                 </div>
 
-
                 <div className="bill-info">
                     <p><strong>Bill No:</strong> <span className="bill-no">{bill.billNo}</span></p>
                     <div className="bill-row">
@@ -56,8 +55,6 @@ const PurchaseBillDetails = () => {
                     </div>
                 </div>
             </div>
-
-
 
             {/* Product Details */}
             <div className="bill-section">
@@ -94,7 +91,6 @@ const PurchaseBillDetails = () => {
                 </div>
             </div>
 
-
             {/* Bill Summary */}
             <div className="bill-summary">
                 <div className="summary-details">
@@ -121,6 +117,10 @@ const PurchaseBillDetails = () => {
                 </div>
             </div>
 
+            <div className="bill-footer">
+                <p>Created on: {new Date(bill.createdAt).toLocaleString()}</p>
+                <p>Last updated on: {new Date(bill.updatedAt).toLocaleString()}</p>
+            </div>
         </div>
     );
 };

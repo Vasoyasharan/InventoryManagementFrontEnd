@@ -116,6 +116,11 @@ const SaleBillDetails = () => {
                     </p>
                 </div>
             </div>
+
+            <div className="bill-footer">
+                <p>Created on: {new Date(bill.createdAt).toLocaleString()}</p>
+                <p>Last updated on: {new Date(bill.updatedAt).toLocaleString()}</p>
+            </div>
         </div>
     );
 };
