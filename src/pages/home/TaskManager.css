@@ -112,11 +112,50 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+/* Filter and Sort Section Styling */
+.filter-sort-container {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
 /* Task Grid Layout */
 .task-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 tasks per row */
-    gap: 20px; /* Space between cards */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 /* Task Card Styling */
@@ -184,32 +223,28 @@
     color: #155724;
 }
 
-/* Filter and Sort Container */
-.filter-sort-container {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.filter-group {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.filter-group label {
-    margin-bottom: 0;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .task-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 tasks per row on smaller screens */
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filter-sort-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .filter-group select {
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) {
     .task-grid {
-        grid-template-columns: 1fr; /* 1 task per row on mobile */
+        grid-template-columns: 1fr;
     }
 }
