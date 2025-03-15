@@ -174,25 +174,21 @@ const TaskManager = () => {
                                 />
                             </div>
                         </div>
-                        <div className="filter-sort-container">
-                            <div className="filter-group">
-                                <label>Priority:</label>
+                        <div className="col-md-6 mb-6">
+                            <div className="form-group">
+                                <label htmlFor="status">
+                                    Priority<span style={{ color: "red", marginLeft: "3px" }}>*</span>
+                                </label>
                                 <select
-                                    value={filters.priority}
-                                    onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
+                                    className="form-control"
+                                    id="status"
+                                    name="status"
+                                    onChange={handleInput}
+                                    value={values.status}
                                 >
-                                    <option value="All">All</option>
                                     <option value="High">High</option>
                                     <option value="Medium">Medium</option>
                                     <option value="Low">Low</option>
-                                </select>
-                            </div>
-                            <div className="filter-group">
-                                <label>Sort By:</label>
-                                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                                    <option value="dueDate">Due Date</option>
-                                    <option value="priority">Priority</option>
-                                    <option value="createdAt">Created At</option>
                                 </select>
                             </div>
                         </div>
