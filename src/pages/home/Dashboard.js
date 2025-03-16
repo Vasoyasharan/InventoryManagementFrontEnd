@@ -140,9 +140,10 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Sales Overview and Product Performance */}
+                {/* Overview Graphs */}
                 <div className="row mb-4">
-                    <div className="col-md-6">
+                    {/* Sales Overview */}
+                    <div className="col-12 mb-4">
                         <div className="card shadow">
                             <div className="card-header bg-white">
                                 <h4 className="card-title">Sales Overview</h4>
@@ -152,7 +153,11 @@ const Dashboard = () => {
                                     <LineChart data={transactionData}>
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="date" />
-                                        <YAxis />
+                                        <YAxis
+                                            domain={[0, 'auto']} // Automatically adjust the domain based on the data
+                                            tick={{ fontSize: 12 }} // Adjust font size if needed
+                                            padding={{ top: 10, bottom: 10 }} // Add padding to the top and bottom of the Y-axis
+                                        />
                                         <Tooltip />
                                         <Legend />
                                         <Line type="monotone" dataKey="purchase" stroke="#8884d8" strokeWidth={2} />
@@ -162,7 +167,9 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-6">
+
+                    {/* Transactions Overview */}
+                    <div className="col-12 mb-4">
                         <div className="card shadow">
                             <div className="card-header bg-white">
                                 <h4 className="card-title">Transactions Overview</h4>
@@ -172,7 +179,11 @@ const Dashboard = () => {
                                     <BarChart data={transactionData}>
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="date" />
-                                        <YAxis />
+                                        <YAxis
+                                            domain={[0, 'auto']} // Automatically adjust the domain based on the data
+                                            tick={{ fontSize: 12 }} // Adjust font size if needed
+                                            padding={{ top: 10, bottom: 10 }} // Add padding to the top and bottom of the Y-axis
+                                        />
                                         <Tooltip />
                                         <Legend />
                                         <Bar dataKey="purchase" fill="#8884d8" />
