@@ -11,8 +11,9 @@ import CustomerCare from "./pages/CustomerCare/CustomerCare";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import { ToastContainer } from "react-toastify";
 import Loader from "./component/Loader";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import TabTitleUpdater from "./component/TabTitleUpdater";
+import PricingPage from "./pages/Authentication/PricingPage"; // Import PricingPage
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
@@ -24,19 +25,21 @@ function App() {
         <TabTitleUpdater />
         <div className="App">
           <Routes>
+            {/* Landing Page (PricingPage) */}
             <Route
               path="/"
               element={
-                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="*"
-              element={
-                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
+                isAuthenticated ? <Navigate to="/dashboard" /> : <PricingPage />
               }
             />
 
+            {/* Catch-all Route */}
+            <Route
+              path="*"
+              element={
+                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/" />
+              }
+            />
 
             {/* Auth Page Protected */}
             <Route exact path="/login" element={<AuthProtected element={Login} />} />
