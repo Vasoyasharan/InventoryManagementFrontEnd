@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./PricingPage.css"; // Import the external CSS file
+import "./PricingPage.css";
 
 const PricingPage = () => {
   const navigate = useNavigate();
@@ -94,9 +94,8 @@ const PricingPage = () => {
             <p className="plan-price">₹0</p>
             <ul className="plan-features">
               <li>Access to all features</li>
-              <li>1 Firm Registration</li>
-              <li>Unlimited Bill generation</li>
-              <li>All Report Access</li>
+              <li>10 Bill generation</li>
+              <li>Limited Report Access</li>
               <li>24/7 Customer Support</li>
             </ul>
             <button
@@ -114,7 +113,6 @@ const PricingPage = () => {
             <p className="plan-price">₹499</p>
             <ul className="plan-features">
               <li>Access to all features</li>
-              <li>1 Firm Registration</li>
               <li>Unlimited Bill generation</li>
               <li>All Report Access</li>
               <li>24/7 Customer Support</li>
@@ -134,7 +132,6 @@ const PricingPage = () => {
             <p className="plan-price">₹2499</p>
             <ul className="plan-features">
               <li>Access to all features</li>
-              <li>1 Firm Registration</li>
               <li>Unlimited Bill generation</li>
               <li>All Report Access</li>
               <li>24/7 Customer Support</li>
@@ -154,7 +151,6 @@ const PricingPage = () => {
             <p className="plan-price">₹4999</p>
             <ul className="plan-features">
               <li>Access to all features</li>
-              <li>1 Firm Registration</li>
               <li>Unlimited Bill generation</li>
               <li>All Report Access</li>
               <li>24/7 Customer Support</li>

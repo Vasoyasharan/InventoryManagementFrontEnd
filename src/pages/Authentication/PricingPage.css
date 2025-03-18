@@ -1,6 +1,3 @@
-/* PricingPage.css */
-
-/* Global Styles */
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
@@ -26,7 +23,7 @@ body {
 }
 
 .company-logo {
-  height: 40px; /* Adjust as needed */
+  height: 40px;
 }
 
 .company-name {
@@ -187,51 +184,51 @@ body {
 
 /* Background Colors for Cards */
 .free-card {
-  background-color: #e3fafc; /* Light blue */
+  background-color: #e3fafc;
 }
 
 .free-card .get-started-button {
-  background-color: #10b981; /* Green */
+  background-color: #10b981;
 }
 
 .free-card .get-started-button:hover {
-  background-color: #059669; /* Darker green */
+  background-color: #059669;
 }
 
 .one-month-card {
-  background-color: #fff3e6; /* Light orange */
+  background-color: #fff3e6;
 }
 
 .one-month-card .get-started-button {
-  background-color: #3b82f6; /* Blue */
+  background-color: #3b82f6;
 }
 
 .one-month-card .get-started-button:hover {
-  background-color: #2563eb; /* Darker blue */
+  background-color: #2563eb;
 }
 
 .six-months-card {
-  background-color: #f0f4ff; /* Light purple */
+  background-color: #f0f4ff;
 }
 
 .six-months-card .get-started-button {
-  background-color: #8b5cf6; /* Purple */
+  background-color: #8b5cf6;
 }
 
 .six-months-card .get-started-button:hover {
-  background-color: #7c3aed; /* Darker purple */
+  background-color: #7c3aed;
 }
 
 .one-year-card {
-  background-color: #e6fffa; /* Light teal */
+  background-color: #e6fffa;
 }
 
 .one-year-card .get-started-button {
-  background-color: #1a202c; /* Dark gray */
+  background-color: #1a202c;
 }
 
 .one-year-card .get-started-button:hover {
-  background-color: #2d3748; /* Darker gray */
+  background-color: #2d3748;
 }
 
 .plan-title {

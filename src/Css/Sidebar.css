@@ -100,6 +100,16 @@
     padding: 10px;
   }
 }
+
+/* Hide Scrollbar */
+.sidebar-container {
+  scrollbar-width: none;
+}
+
+.sidebar-container::-webkit-scrollbar {
+  display: none;
+}
+
 /* Navbar styles */
 .navbar {
     top: 0;

@@ -71,6 +71,12 @@ const Sidebar = () => {
               </NavLink>
             </li>
             <li>
+              <NavLink to="/premium" className="menu-item">
+                <i className="fas fa-crown"></i>
+                <span>Go Premium</span>
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/setting" className="menu-item">
                 <i className="fas fa-cogs"></i>
                 <span>Settings</span>
