@@ -251,12 +251,12 @@ body {
 
 /* Features Section */
 .features-section {
-  padding: 4rem 1rem;
-  background-color: #ffffff;
+  padding: 4rem 2rem;
+  background-color: #f9fafb;
 }
 
 .features-title {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
   color: #1a202c;
   text-align: center;
@@ -265,30 +265,82 @@ body {
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .feature-card {
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  padding: 2rem;
+  border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .feature-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1a202c;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
   margin-bottom: 1rem;
 }
 
 .feature-description {
   font-size: 1rem;
   color: #4a5568;
+  line-height: 1.6;
+}
+
+/* Gradient Backgrounds for Feature Cards */
+.feature-card:nth-child(1) {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+}
+
+.feature-card:nth-child(2) {
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+}
+
+.feature-card:nth-child(3) {
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+}
+
+.feature-card:nth-child(4) {
+  background: linear-gradient(135deg, #84fab0, #8fd3f4);
+}
+
+.feature-card:nth-child(5) {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+}
+
+.feature-card:nth-child(6) {
+  background: linear-gradient(135deg, #ff9a9e, #fecfef);
+}
+
+.feature-card:nth-child(7) {
+  background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+}
+
+.feature-card:nth-child(8) {
+  background: linear-gradient(135deg, #f6d365, #fda085);
+}
+
+.feature-card:nth-child(9) {
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+}
+
+.feature-card:nth-child(10) {
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+}
+
+.feature-card:nth-child(11) {
+  background: linear-gradient(135deg, #84fab0, #8fd3f4);
 }
 
 /* Pricing Cards Section */
