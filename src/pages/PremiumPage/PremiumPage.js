@@ -153,34 +153,39 @@ const PremiumPage = () => {
     <div className="premium-container">
       {/* Header Section */}
       <header className="premium-header">
-        <h1 className="premium-title">Upgrade to Premium</h1>
-        <p className="premium-description">
-          Unlock advanced features and take your business to the next level with our premium plans.
-        </p>
-
-      </header>
-      <u><p
-        style={{
-          textAlign: "right",
-          fontWeight: "bold",
-          color: expiryDate && moment(expiryDate).isAfter(moment()) ? "green" : "red",
-        }}
-      >
-        {expiryDate ? (
-          moment(expiryDate).isAfter(moment()) ? (
-            <>
-              Your current plan will expire on {moment(expiryDate).format("DD/MM/YYYY")} ({daysLeft} days left)
-            </>
-          ) : (
-            <>
-              Your current plan already expired on {moment(expiryDate).format("DD/MM/YYYY")}, Upgrade Plan!
-            </>
-          )
+  <h1 className="premium-title">Upgrade to Premium</h1>
+  <p className="premium-description">
+    Unlock advanced features and take your business to the next level with our premium plans.
+  </p>
+  <div className="plan-expiry">
+    <p>
+      {expiryDate ? (
+        moment(expiryDate).isAfter(moment()) ? (
+          <>
+            <span className="expiry-date active-plan">
+              Your plan expires on {moment(expiryDate).format("DD MMM YYYY")}
+            </span>
+            <br />
+            <span className="days-left">({daysLeft} days remaining)</span>
+          </>
         ) : (
-          "No subscription found. Please subscribe to a plan!"
-        )}
-      </p>
-      </u>
+          <>
+            <span className="expiry-date expired-plan">
+              Your plan expired on {moment(expiryDate).format("DD MMM YYYY")}
+            </span>
+            <br />
+            <span className="days-left">Upgrade now to continue!</span>
+          </>
+        )
+      ) : (
+        <span className="no-subscription">
+          No active subscription. Choose a plan to get started!
+        </span>
+      )}
+    </p>
+  </div>
+</header>
+      
 
 
       {/* Pricing Cards Section */}

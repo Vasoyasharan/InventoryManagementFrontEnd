@@ -181,3 +181,50 @@
   font-size: 1rem;
   color: #4a5568;
 }
+
+/* Plan Expiry Section */
+.plan-expiry {
+  position: absolute;
+  top: 75px;
+  right: 0;
+  padding: 15px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 250px;
+  z-index: 10;
+  margin-top: 20px;
+}
+
+.plan-expiry p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.plan-expiry .expiry-date {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.plan-expiry .days-left {
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  margin-top: 5px;
+}
+
+.plan-expiry .active-plan {
+  color: #27ae60; 
+}
+
+.plan-expiry .expired-plan {
+  color: #e74c3c;
+}
+
+.plan-expiry .no-subscription {
+  color: #e67e22;
+}
