@@ -163,19 +163,24 @@ const PremiumPage = () => {
         style={{
           textAlign: "right",
           fontWeight: "bold",
-          color: expiryDate && moment(expiryDate).isAfter(moment()) ? "green" : "red",
+          color: expiryDate && moment(expiryDate).isAfter(moment()) ? "yellow" : "red",
         }}
       >
-        {expiryDate && moment(expiryDate).isAfter(moment()) ? (
-          <>
-            Your current plan will expire on {moment(expiryDate).format("DD/MM/YYYY")} ({daysLeft} days left)...
-          </>
+        {expiryDate ? (
+          moment(expiryDate).isAfter(moment()) ? (
+            <>
+              Your current plan will expire on {moment(expiryDate).format("DD/MM/YYYY")} ({daysLeft} days left)
+            </>
+          ) : (
+            <>
+              Your current plan already expired on {moment(expiryDate).format("DD/MM/YYYY")}, Upgrade Plan!
+            </>
+          )
         ) : (
-          <>
-            Your current plan already expired on {moment(expiryDate).format("DD/MM/YYYY")}, Upgrade Plan!
-          </>
+          "No subscription found. Please subscribe to a plan!"
         )}
-      </p></u>
+      </p>
+      </u>
 
 
 
