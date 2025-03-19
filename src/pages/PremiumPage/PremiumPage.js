@@ -183,7 +183,6 @@ const PremiumPage = () => {
       </u>
 
 
-
       {/* Pricing Cards Section */}
       <div className="pricing-cards">
         {/* 1 Month Plan */}
