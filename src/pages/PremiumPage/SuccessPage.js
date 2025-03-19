@@ -1,66 +1,67 @@
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./PremiumPage.css"; // New CSS file for the modal
 
-const SuccessPage = () => {
-    const location = useLocation();
-    const { paymentId, amount, status } = location.state || {};
-    const navigate = useNavigate();
+const SuccessPage = ({ paymentId, amount, status, onClose }) => {
+  const navigate = useNavigate();
 
-    // Confetti Animation Script
-    useEffect(() => {
-
-    }, []);
-
-    return (
-        <center> <div>
-            <div className="container">
-                <h2 className="animate__animated animate__fadeIn">🎉 Payment Successful 🎉</h2>
-                <p className="text-center animate__animated animate__fadeIn animate__delay-1s">
-                    Thank you for your payment. Your transaction has been completed successfully.
-                </p>
-
-                <div className="row">
-                    <div className="col-md-4 animate__animated animate__fadeInUp animate__delay-1s">
-                        <div className="info-box">
-                            <h3>Payment Details</h3>
-                            <p>
-                                <strong>Payment ID:</strong> {paymentId}
-                            </p>
-                            <p>
-                                <strong>Amount Paid:</strong> ₹{amount}
-                            </p>
-                            <p>
-                                <strong>Payment Status:</strong> success
-                            </p>
-                            <p>
-                                <strong>Payment Date:</strong> {new Date().toLocaleString()}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="col-md-4 animate__animated animate__fadeInRight animate__delay-1s">
-                        <div className="info-box">
-                            <h3>User Details</h3>
-                            <p>
-                                <strong>Name:</strong> Test User
-                            </p>
-                            <p>
-                                <strong>Email:</strong> test@example.com
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <button
-                    onClick={() => navigate("/premium")} // Redirect to history page
-                    className="btn-back animate__animated animate__fadeIn animate__delay-2s"
-                >
-                    Done 
-                </button>
-            </div>
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        {/* Header with Icon and Title */}
+        <div className="modal-header">
+          <div className="icon-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#27ae60"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
+          <h2 className="modal-title">Payment Successful!</h2>
         </div>
-        </center>
-    );
+
+        {/* Payment Details */}
+        <div className="payment-details">
+          <div className="detail-item">
+            <span className="detail-label">Payment ID:</span>
+            <span className="detail-value">{paymentId}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Amount Paid:</span>
+            <span className="detail-value">₹{amount}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Status:</span>
+            <span className="detail-value status-success">{status}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Date:</span>
+            <span className="detail-value">{new Date().toLocaleString()}</span>
+          </div>
+        </div>
+
+        {/* Close Button */}
+        <button
+          onClick={() => {
+            onClose(); // Close the modal
+            navigate("/premium"); // Navigate to the premium page
+          }}
+          className="close-button"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default SuccessPage;

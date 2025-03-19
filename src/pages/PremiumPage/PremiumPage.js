@@ -2,22 +2,45 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./PremiumPage.css";
-import image from "../../images/stock.jpg"
+import image from "../../images/stock.jpg";
 import { Url, config } from "../../Url";
 import moment from "moment";
-
-
+import SuccessPage from "./SuccessPage"; // Import the SuccessPage as a modal
 
 const PremiumPage = () => {
-
   const [expiryDate, setExpiryDate] = useState(null);
   const [daysLeft, setDaysLeft] = useState(0);
+  const [isPaymentSuccess, setIsPaymentSuccess] = useState(false); // State to control modal visibility
+  const [paymentDetails, setPaymentDetails] = useState({}); // State to store payment details
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+
+  const navigate = useNavigate();
+
+  // Fetch subscription data
+  const fetchSubscriptionData = async () => {
+    setIsLoading(true); // Start loading
+    try {
+      const response = await axios.get(`${Url}/user`, config);
+      const fetchedDate = response.data.payload[0].expiryDate;
+      setExpiryDate(fetchedDate);
+
+      // Calculate remaining days
+      const today = moment();
+      const expiryMoment = moment(fetchedDate, "YYYY-MM-DD");
+      const diffDays = expiryMoment.diff(today, "days");
+      setDaysLeft(diffDays + 1);
+    } catch (error) {
+      console.error("Error fetching subscription data:", error);
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  };
 
   useEffect(() => {
     fetchSubscriptionData();
-  }, [])
+  }, []);
 
-  const navigate = useNavigate();
+  // Load Razorpay script
   const loadScript = (src) => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -32,20 +55,19 @@ const PremiumPage = () => {
     });
   };
 
-  const fetchSubscriptionData = async () => {
-    const response = await axios.get(`${Url}/user`, config);
-    const fetchedDate = response.data.payload[0].expiryDate
-    setExpiryDate(fetchedDate);
+  // Handle payment success
+  const handlePaymentSuccess = (paymentId, amount, status) => {
+    setPaymentDetails({ paymentId, amount, status });
+    setIsPaymentSuccess(true); // Show the modal
+  };
 
-    // Calculate remaining days
-    const today = moment();
-    const expiryMoment = moment(fetchedDate, "YYYY-MM-DD");
-    const diffDays = expiryMoment.diff(today, "days");
-    setDaysLeft(diffDays + 1);
-  }
+  // Close the modal
+  const closeModal = () => {
+    setIsPaymentSuccess(false); // Hide the modal
+  };
 
+  // Display Razorpay payment form
   const displayRazorpay = async (amount, planName) => {
-    // Load Razorpay SDK
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
     if (!res) {
@@ -53,7 +75,7 @@ const PremiumPage = () => {
       return;
     }
 
-    // Create an order by calling the backend
+    // Create an order
     const result = await axios.post(`${Url}/payment/createOrder`, {
       amount: amount * 100, // Convert to paise
       currency: "INR",
@@ -73,7 +95,7 @@ const PremiumPage = () => {
       currency: currency,
       name: "Stocknest",
       description: planName,
-      image: `${image}`, // Replace with your logo URL
+      image: `${image}`,
       order_id: order_id,
       handler: async function (response) {
         const data = {
@@ -83,21 +105,20 @@ const PremiumPage = () => {
           razorpaySignature: response.razorpay_signature,
         };
 
-        // Verify payment on the backend
+        // Verify payment
         const result = await axios.post(`${Url}/payment/verifyPayment`, data);
 
         if (result.data.msg === "success") {
-          const paymentDetails = await axios.get(
-            `${Url}/payment/getPaymentDetails/${response.razorpay_payment_id}`
-          );
+          // Show the payment success modal
+          handlePaymentSuccess(response.razorpay_payment_id, amount, "success");
 
+          // Update user's expiry date
           const userData = await axios.get(`${Url}/user`, config);
           const currentExpiryDate = userData.data.payload[0].expiryDate || moment().format("YYYY-MM-DD");
 
           let newExpiryDate;
           let planInfo = "";
 
-          // Determine the new expiry date based on the payment amount
           switch (amount) {
             case 1299:
               newExpiryDate = moment(currentExpiryDate).add(3, "months").format("YYYY-MM-DD");
@@ -116,26 +137,19 @@ const PremiumPage = () => {
               return;
           }
 
-          // Send updated expiry date to the API
+          // Update expiry date in the backend
           await axios.put(`${Url}/user/update-profile`, { expiryDate: newExpiryDate, plan: planInfo }, config);
 
-          // Redirect to success page with payment details
-          navigate("/success", {
-            state: {
-              paymentId: paymentDetails.data.paymentId,
-              amount: paymentDetails.data.amount,
-              status: paymentDetails.data.status,
-            },
-          });
-          // Redirect or update user's premium status here
+          // Fetch the updated subscription data
+          await fetchSubscriptionData(); // Fetch latest data
         } else {
-          alert("Fake Payment Failed");
+          alert("Payment verification failed");
         }
       },
       prefill: {
-        name: "Tony Stark", // Replace with test user's name
-        email: "test@example.com", // Replace with test user's email
-        contact: "9999999999", // Replace with test user's phone number
+        name: "Tony Stark",
+        email: "test@example.com",
+        contact: "9999999999",
       },
       notes: {
         address: "Test Address",
@@ -153,40 +167,44 @@ const PremiumPage = () => {
     <div className="premium-container">
       {/* Header Section */}
       <header className="premium-header">
-  <h1 className="premium-title">Upgrade to Premium</h1>
-  <p className="premium-description">
-    Unlock advanced features and take your business to the next level with our premium plans.
-  </p>
-  <div className="plan-expiry">
-    <p>
-      {expiryDate ? (
-        moment(expiryDate).isAfter(moment()) ? (
-          <>
-            <span className="expiry-date active-plan">
-              Your plan expires on {moment(expiryDate).format("DD MMM YYYY")}
-            </span>
-            <br />
-            <span className="days-left">({daysLeft} days remaining)</span>
-          </>
-        ) : (
-          <>
-            <span className="expiry-date expired-plan">
-              Your plan expired on {moment(expiryDate).format("DD MMM YYYY")}
-            </span>
-            <br />
-            <span className="days-left">Upgrade now to continue!</span>
-          </>
-        )
-      ) : (
-        <span className="no-subscription">
-          No active subscription. Choose a plan to get started!
-        </span>
-      )}
-    </p>
-  </div>
-</header>
-      
+        <h1 className="premium-title">Upgrade to Premium</h1>
+        <p className="premium-description">
+          Unlock advanced features and take your business to the next level with our premium plans.
+        </p>
 
+        {/* Plan Expiry Section */}
+        <div className="plan-expiry">
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <p>
+              {expiryDate ? (
+                moment(expiryDate).isAfter(moment()) ? (
+                  <>
+                    <span className="expiry-date active-plan">
+                      Your plan expires on {moment(expiryDate).format("DD MMM YYYY")}
+                    </span>
+                    <br />
+                    <span className="days-left">({daysLeft} days remaining)</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="expiry-date expired-plan">
+                      Your plan expired on {moment(expiryDate).format("DD MMM YYYY")}
+                    </span>
+                    <br />
+                    <span className="days-left">Upgrade now to continue!</span>
+                  </>
+                )
+              ) : (
+                <span className="no-subscription">
+                  No active subscription. Choose a plan to get started!
+                </span>
+              )}
+            </p>
+          )}
+        </div>
+      </header>
 
       {/* Pricing Cards Section */}
       <div className="pricing-cards">
@@ -262,33 +280,16 @@ const PremiumPage = () => {
           </div>
         </div>
       </div>
-      {/* Additional Features Section */}
-      <section className="additional-features">
-        <h2 className="features-title">Why Choose Premium?</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            <i className="fas fa-chart-line feature-icon"></i>
-            <h3 className="feature-title">Advanced Analytics</h3>
-            <p className="feature-description">
-              Get detailed insights and reports to grow your business.
-            </p>
-          </div>
-          <div className="feature-card">
-            <i className="fas fa-headset feature-icon"></i>
-            <h3 className="feature-title">Priority Support</h3>
-            <p className="feature-description">
-              Dedicated support team available 24/7 to assist you.
-            </p>
-          </div>
-          <div className="feature-card">
-            <i className="fas fa-shield-alt feature-icon"></i>
-            <h3 className="feature-title">Enhanced Security</h3>
-            <p className="feature-description">
-              Your data is safe with our advanced security measures.
-            </p>
-          </div>
-        </div>
-      </section>
+
+      {/* Payment Success Modal */}
+      {isPaymentSuccess && (
+        <SuccessPage
+          paymentId={paymentDetails.paymentId}
+          amount={paymentDetails.amount}
+          status={paymentDetails.status}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };
