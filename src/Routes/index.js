@@ -19,6 +19,8 @@ import ExpenseTrackerForm from "../pages/ExpenseTracker/ExpenseTrackerForm";
 import IncomeForm from "../pages/Income/IncomeForm";
 import IncomeList from "../pages/Income/IncomeTable";
 import PremiumPage from "../pages/PremiumPage/PremiumPage";
+import SuccessPage from "../pages/PremiumPage/SuccessPage";
+
 
 const PageRoutes = [
     { path: "/dashboard", element: Dashboard, name: "DASHBOARD" },
@@ -42,6 +44,7 @@ const PageRoutes = [
     { path: "/income", element: IncomeList, name: "INCOME" },
     { path: "/income/:type/:id?", element: IncomeForm },
     { path: "/premium", element: PremiumPage, name: "GO PREMIUM" },
+    { path: "/success", element: SuccessPage, name: "SUCCESS" },
 ];
 
 export { PageRoutes };
