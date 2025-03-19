@@ -163,7 +163,7 @@ const PremiumPage = () => {
         style={{
           textAlign: "right",
           fontWeight: "bold",
-          color: expiryDate && moment(expiryDate).isAfter(moment()) ? "yellow" : "red",
+          color: expiryDate && moment(expiryDate).isAfter(moment()) ? "green" : "red",
         }}
       >
         {expiryDate ? (
