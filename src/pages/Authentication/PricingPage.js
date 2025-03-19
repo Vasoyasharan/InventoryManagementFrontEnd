@@ -48,36 +48,117 @@ const PricingPage = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="hero-section">
-        <h1 className="hero-title">
-          Empower Your Management System with StockNest
-        </h1>
-        <p className="hero-description">
-          Simplify stock management, billing, report generation, and more. Make your management system easy and advanced.
-        </p>
+      {/* Hero Section  */}
+      <section id="hero">
+        <div class="hero-content">
+          <h1>Revolutionize Your Stock Management</h1>
+          <p>Efficient, intuitive, and scalable solutions for businesses of all sizes. Take control of your inventory with StockNest.</p>
+          <a href="/signup" class="cta-button">Get Started Now →</a>
+        </div>
+        <div class="hero-image">
+          {/* <img src="https://via.placeholder.com/500x400" alt="Placeholder Image"> */}
+        </div>
+      </section>
+
+      {/* About Us Section  */}
+      <section id="about-us">
+        <h2>ABOUT US</h2>
+        <p>From Passion to Precision in Stock Management</p>
+        <p>StockNest was born from a founder’s vision to simplify stock management for businesses of all sizes. Inspired by the challenges faced in tracking inventory, managing stock levels, and optimizing supply chains, our mission is to revolutionize how businesses handle their stock. Our goal is to provide an intuitive and powerful tool that streamlines stock management, saving time and reducing errors.</p>
+        <p>Our mission is clear: to deliver a cost-effective, efficient, and scalable solution tailored to the unique needs of modern businesses.</p>
+        <p>With StockNest, experience the perfect blend of innovation and practicality, offering a solution designed by experts who understand the complexities of stock management.</p>
+        <a href="/signup" class="explore-now">Explore Now →</a>
       </section>
 
       {/* Features Section */}
       <section id="features-section" className="features-section">
         <h2 className="features-title">Features Overview</h2>
         <div className="features-grid">
+          {/* Dashboard */}
           <div className="feature-card">
-            <h3 className="feature-title">Stock Management</h3>
+            <h3 className="feature-title">Dashboard</h3>
             <p className="feature-description">
-              Easily manage your stock, track inventory, and generate reports.
+              A visually appealing dashboard with key metrics like total sales, purchases, products, and more.
             </p>
           </div>
+
+          {/* Purchase Management */}
           <div className="feature-card">
-            <h3 className="feature-title">Billing & Invoicing</h3>
+            <h3 className="feature-title">Purchase Management</h3>
             <p className="feature-description">
-              Simplify billing and invoicing with automated tools.
+              Manage purchase bills, vendors, and update stock levels seamlessly.
             </p>
           </div>
+
+          {/* Sales Management */}
           <div className="feature-card">
-            <h3 className="feature-title">User & Vendor Management</h3>
+            <h3 className="feature-title">Sales Management</h3>
             <p className="feature-description">
-              Manage user, vendor, and product information seamlessly.
+              Generate and track sales bills, manage customers, and update stock accordingly.
+            </p>
+          </div>
+
+          {/* Product Management */}
+          <div className="feature-card">
+            <h3 className="feature-title">Product Management</h3>
+            <p className="feature-description">
+              Add, update, and track product details with ease.
+            </p>
+          </div>
+
+          {/* Expense Tracker */}
+          <div className="feature-card">
+            <h3 className="feature-title">Expense Tracker</h3>
+            <p className="feature-description">
+              Monitor expenses for better financial management.
+            </p>
+          </div>
+
+          {/* Reports & Analytics */}
+          <div className="feature-card">
+            <h3 className="feature-title">Reports & Analytics</h3>
+            <p className="feature-description">
+              View insightful reports for better decision-making.
+            </p>
+          </div>
+
+          {/* Smart Assistant (AI Chatbot) */}
+          <div className="feature-card">
+            <h3 className="feature-title">Smart Assistant (AI Chatbot)</h3>
+            <p className="feature-description">
+              Get instant answers to queries like "How many sales today?"
+            </p>
+          </div>
+
+          {/* User Management */}
+          <div className="feature-card">
+            <h3 className="feature-title">User Management</h3>
+            <p className="feature-description">
+              Secure authentication and role-based access control.
+            </p>
+          </div>
+
+          {/* Security */}
+          <div className="feature-card">
+            <h3 className="feature-title">Security</h3>
+            <p className="feature-description">
+              Robust security measures to protect sensitive data.
+            </p>
+          </div>
+
+          {/* Notifications */}
+          <div className="feature-card">
+            <h3 className="feature-title">Notifications</h3>
+            <p className="feature-description">
+              Receive timely reminders for task deadlines and low stock alerts.
+            </p>
+          </div>
+
+          {/* Export */}
+          <div className="feature-card">
+            <h3 className="feature-title">Export</h3>
+            <p className="feature-description">
+              Export data to CSV for further processing.
             </p>
           </div>
         </div>
@@ -211,8 +292,8 @@ const PricingPage = () => {
                 Terms & Conditions
               </a>
               <a href="/customer-care" className="footer-link">
-              Customer Care
-            </a>
+                Customer Care
+              </a>
             </div>
           </div>
         </div>

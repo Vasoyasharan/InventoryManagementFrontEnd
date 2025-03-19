@@ -83,25 +83,170 @@ body {
   background-color: #059669;
 }
 
-/* Hero Section */
-.hero-section {
-  text-align: center;
-  padding: 4rem 1rem;
-  background-color: #f9fafb;
+/* Hero Section Styling */
+#hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 5%;
+    background: linear-gradient(135deg, #007BFF, #00C6FF); /* Gradient background */
+    color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    margin: 20px 0;
 }
 
-.hero-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #1a202c;
-  margin-bottom: 1rem;
+.hero-content {
+    max-width: 600px;
+    z-index: 2;
 }
 
-.hero-description {
-  font-size: 1.125rem;
-  color: #4a5568;
-  max-width: 800px;
-  margin: 0 auto;
+#hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    animation: fadeInUp 1s ease-out;
+}
+
+#hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: #ffffff;
+    color: #007BFF;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    animation: fadeInUp 2s ease-out;
+}
+
+.cta-button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hero-image img {
+    max-width: 500px;
+    height: auto;
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Floating Animation for Image */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Fade-In Animation for Text */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 5%;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    #hero h1 {
+        font-size: 2.5rem;
+    }
+
+    #hero p {
+        font-size: 1rem;
+    }
+
+    .hero-image img {
+        max-width: 100%;
+        margin-top: 30px;
+    }
+}
+/* About Section */
+/* About Us Section Styling */
+#about-us {
+    background-color: #f9f9f9; /* Light background for contrast */
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 20px 0;
+}
+
+#about-us h2 {
+    font-size: 2.5rem;
+    color: #333; /* Dark text for readability */
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+#about-us p {
+    font-size: 1.1rem;
+    color: #555; /* Slightly lighter text for paragraphs */
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 20px auto; /* Center-align paragraphs */
+}
+
+#about-us .explore-now {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #007BFF; /* Primary button color */
+    color: white;
+    text-decoration: none;
+    border-radius: 25px; /* Rounded corners for the button */
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    margin-top: 20px;
+}
+
+#about-us .explore-now:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); /* Glow effect on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #about-us h2 {
+        font-size: 2rem; /* Smaller heading for mobile */
+    }
+
+    #about-us p {
+        font-size: 1rem; /* Smaller text for mobile */
+    }
+
+    #about-us .explore-now {
+        padding: 10px 25px; /* Smaller button for mobile */
+        font-size: 0.9rem;
+    }
 }
 
 /* Features Section */

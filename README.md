@@ -16,11 +16,13 @@ StockNest is a web-based **Inventory Management System** built using **React.js,
 ✅ **User Management:** Secure authentication & role-based access.  
 ✅ **Security:** Implement robust security measures to protect sensitive data.  
 ✅ **Notifications:**  
-   - 🔔 Receive timely reminders **2 days before a task deadline arrives**.  
-   - 🔔 Get alerts for **low stock levels** to refill inventory on time.
-   
+
+- 🔔 Receive timely reminders **2 days before a task deadline arrives**.  
+- 🔔 Get alerts for **low stock levels** to refill inventory on time.
+
 ✅ **Export:** Export data to **CSV** for further processing.  
-✅ **Admin Panel:** Dedicated **Admin Panel** for user management. 
+✅ **Admin Panel:** Dedicated **Admin Panel** for user management.
+
 ## **Tech Stack**  
 
 - **Frontend:** React.js (TypeScript), Bootstrap/Tailwind CSS  
