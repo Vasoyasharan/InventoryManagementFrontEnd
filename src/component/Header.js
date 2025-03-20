@@ -34,7 +34,64 @@ const Header = () => {
   const [showCalendarDropdown, setShowCalendarDropdown] = useState(false);
   const navigate = useNavigate();
 
+  // Fetch data function
+  const fetchData = async () => {
+    try {
+      // Fetch user data
+      const userResponse = await axios.get(`${Url}/user`, config);
+      const userData = userResponse.data.payload[0];
+
+      // Update profile picture
+      if (userData?.profileImage) {
+        setProfilePicture(`http://localhost:5500${userData.profileImage}`);
+      }
+
+      // Update shop name
+      if (userData?.shopName) {
+        setShopName(userData.shopName);
+      }
+
+      // Check plan expiry
+      if (userData?.expiryDate) {
+        const today = moment();
+        const expiryDate = moment(userData.expiryDate);
+        const daysLeft = expiryDate.diff(today, "days");
+
+        // Add plan expiry notification if 2 days or less are left
+        if (daysLeft <= 2 && daysLeft >= 0) {
+          setNotifications((prevNotifications) => [
+            ...prevNotifications,
+            {
+              message: `Your plan expires in ${daysLeft} day(s). Please renew to continue using the service.`,
+              type: "plan-expiry",
+            },
+          ]);
+        }
+      }
+
+      // Fetch low stock notifications
+      const productResponse = await axios.get(`${Url}/product`, config);
+      const lowStockNotifications = productResponse.data.payload.productData
+        .filter((item) => item.stock <= 5)
+        .map((item) => ({
+          message: `Low stock for ${item.productName}. Current stock: ${item.stock}. Please reorder!`,
+          productId: item._id,
+        }));
+
+      // Fetch tasks
+      const taskResponse = await axios.get(`${Url}/task`, config);
+      const tasks = taskResponse.data.payload.taskData;
+
+      // Update state
+      setNotifications(lowStockNotifications);
+      setTasks(tasks);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
+
   useEffect(() => {
+    // Set today's date
     const date = new Date();
     const formattedDate = date.toLocaleDateString("en-US", {
       weekday: "long",
@@ -44,74 +101,14 @@ const Header = () => {
     });
     setTodayDate(formattedDate);
 
-    // Fetch user data, notifications, and tasks
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`${Url}/user`, config);
-        const userData = response.data.payload[0];
+    // Fetch data immediately
+    fetchData();
 
-        // Set profile picture
-        if (userData?.profileImage) {
-          setProfilePicture(`http://localhost:5500${userData.profileImage}`);
-        }
+    // Set up polling (e.g., every 20 seconds)
+    const interval = setInterval(fetchData, 20000);
 
-        // Set shop name
-        if (userData?.shopName) {
-          setShopName(userData.shopName);
-        }
-
-        // Check plan expiry
-        if (userData?.expiryDate) {
-          const today = moment();
-          const expiryDate = moment(userData.expiryDate);
-          const daysLeft = expiryDate.diff(today, "days");
-
-          // Add plan expiry notification if 2 days or less are left
-          if (daysLeft <= 2 && daysLeft >= 0) {
-            setNotifications((prevNotifications) => [
-              ...prevNotifications,
-              {
-                message: `Your plan expires in ${daysLeft} day(s). Please renew to continue using the service.`,
-                type: "plan-expiry",
-              },
-            ]);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-
-    const fetchLowStockNotifications = async () => {
-      try {
-        const response = await axios.get(`${Url}/product`, config);
-        const lowStockNotifications = response.data.payload.productData
-          .filter((item) => item.stock <= 5)
-          .map((item) => ({
-            message: `Low stock for ${item.productName}. Current stock: ${item.stock}. Please reorder!`,
-            productId: item._id,
-          }));
-        setNotifications((prevNotifications) => [
-          ...prevNotifications,
-          ...lowStockNotifications,
-        ]);
-      } catch (error) {
-        console.error("Failed to fetch low stock notifications:", error);
-      }
-    };
-
-    const fetchTasks = async () => {
-      try {
-        const response = await axios.get(`${Url}/task`, config);
-        setTasks(response.data.payload.taskData);
-      } catch (error) {
-        console.error("Failed to fetch tasks:", error);
-      }
-    };
-
-    fetchUserData();
-    fetchLowStockNotifications();
-    fetchTasks();
+    // Clean up interval on unmount
+    return () => clearInterval(interval);
   }, []);
 
   const handleLogout = () => {
@@ -146,13 +143,13 @@ const Header = () => {
 
   // Combine all notifications
   const allNotifications = [
-    ...notifications,
-    ...getDeadlineNotifications(),
+    ...notifications, // Includes low stock and plan expiry notifications
+    ...getDeadlineNotifications(), // Includes task deadline notifications
   ];
 
   const handleCalendarChange = (date) => {
     console.log("Selected Date:", date);
-    setShowCalendarDropdown(false);
+    setShowCalendarDropdown(false); // Close the dropdown after selecting a date
   };
 
   return (
