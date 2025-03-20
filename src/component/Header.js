@@ -19,6 +19,7 @@ import "react-calendar/dist/Calendar.css";
 import "../Css/CustomModal.css";
 import "../Css/Sidebar.css";
 import { Url, config } from "../Url";
+import moment from "moment";
 
 const Header = () => {
   const [profilePicture, setProfilePicture] = useState(defaultProfilePicture);
@@ -48,11 +49,33 @@ const Header = () => {
       try {
         const response = await axios.get(`${Url}/user`, config);
         const userData = response.data.payload[0];
+
+        // Set profile picture
         if (userData?.profileImage) {
           setProfilePicture(`http://localhost:5500${userData.profileImage}`);
         }
+
+        // Set shop name
         if (userData?.shopName) {
           setShopName(userData.shopName);
+        }
+
+        // Check plan expiry
+        if (userData?.expiryDate) {
+          const today = moment();
+          const expiryDate = moment(userData.expiryDate);
+          const daysLeft = expiryDate.diff(today, "days");
+
+          // Add plan expiry notification if 2 days or less are left
+          if (daysLeft <= 2 && daysLeft >= 0) {
+            setNotifications((prevNotifications) => [
+              ...prevNotifications,
+              {
+                message: `Your plan expires in ${daysLeft} day(s). Please renew to continue using the service.`,
+                type: "plan-expiry",
+              },
+            ]);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -68,7 +91,10 @@ const Header = () => {
             message: `Low stock for ${item.productName}. Current stock: ${item.stock}. Please reorder!`,
             productId: item._id,
           }));
-        setNotifications(lowStockNotifications);
+        setNotifications((prevNotifications) => [
+          ...prevNotifications,
+          ...lowStockNotifications,
+        ]);
       } catch (error) {
         console.error("Failed to fetch low stock notifications:", error);
       }
@@ -118,12 +144,15 @@ const Header = () => {
     });
   };
 
-  // Combine low stock and deadline notifications
-  const allNotifications = [...notifications, ...getDeadlineNotifications()];
+  // Combine all notifications
+  const allNotifications = [
+    ...notifications,
+    ...getDeadlineNotifications(),
+  ];
 
   const handleCalendarChange = (date) => {
     console.log("Selected Date:", date);
-    setShowCalendarDropdown(false); // Close the dropdown after selecting a date
+    setShowCalendarDropdown(false);
   };
 
   return (
@@ -158,7 +187,10 @@ const Header = () => {
           )}
         </div>
 
-        <div className="navbar-icon-container" onClick={() => setShowNotifications(!showNotifications)}>
+        <div
+          className="navbar-icon-container"
+          onClick={() => setShowNotifications(!showNotifications)}
+        >
           <FontAwesomeIcon icon={faBell} className="navbar-icon" title="Notifications" />
           {allNotifications.length > 0 && (
             <span className="notification-badge">{allNotifications.length}</span>
