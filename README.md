@@ -19,6 +19,7 @@ StockNest is a web-based **Inventory Management System** built using **React.js,
 
 - 🔔 Receive timely reminders **2 days before a task deadline arrives**.  
 - 🔔 Get alerts for **low stock levels** to refill inventory on time.
+- 🔔 Notified 2 days before your **plan expires** to avoid service interruption.
 
 ✅ **Export:** Export data to **CSV** for further processing.  
 ✅ **Admin Panel:** Dedicated **Admin Panel** for user management.
@@ -83,7 +84,8 @@ The **Admin Panel** handles **user management**. If an **admin deactivates a use
 3. Use the sidebar to manage **Sales, Purchases, Products, and Customers**.  
 4. Generate & update **bills** with automatic tax & stock adjustments.  
 5. View reports & analytics for insights into sales & stock.  
-6. **Admin can manage users** via the [Admin Panel](https://github.com/Vasoyasharan/InventoryAdminPanel.git).  
+6. Upgrade to **Premium** for advanced features and exclusive tools.
+7. **Admin can manage users** via the [Admin Panel](https://github.com/Vasoyasharan/InventoryAdminPanel.git).  
 
 ## **Screenshots**  
 
@@ -91,6 +93,9 @@ Below are some screenshots of the system:
 
 📸 **Dashboard**  
 ![Dashboard Screenshot](/public/Dashboard-1.png)  
+
+📸 **Dashboard**  
+![Dashboard Screenshot](/public/PremiumPage.png)
 
 📸 **Sales Bill Management**  
 ![Sales Bill Screenshot](/public/Sale%20Bill.png)  
