@@ -27,7 +27,7 @@ function App() {
           <Routes>
             {/* Unprotected Routes */}
             <Route
-              path="/"
+              path="/home"
               element={
                 isAuthenticated ? <Navigate to="/dashboard" /> : <PricingPage />
               }
@@ -56,7 +56,7 @@ function App() {
             <Route
               path="*"
               element={
-                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/" />
+                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/home" />
               }
             />
           </Routes>

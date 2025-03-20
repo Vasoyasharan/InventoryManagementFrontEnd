@@ -113,7 +113,7 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/");
+    navigate("/home");
     setShowLogoutModal(false);
   };
 
