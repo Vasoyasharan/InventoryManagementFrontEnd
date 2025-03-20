@@ -13,7 +13,7 @@ import { ToastContainer } from "react-toastify";
 import Loader from "./component/Loader";
 import "react-toastify/dist/ReactToastify.css";
 import TabTitleUpdater from "./component/TabTitleUpdater";
-import PricingPage from "./pages/Authentication/PricingPage"; // Import PricingPage
+import PricingPage from "./pages/Authentication/PricingPage";
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
@@ -25,38 +25,22 @@ function App() {
         <TabTitleUpdater />
         <div className="App">
           <Routes>
-            {/* Landing Page (PricingPage) */}
+            {/* Unprotected Routes */}
             <Route
               path="/"
               element={
                 isAuthenticated ? <Navigate to="/dashboard" /> : <PricingPage />
               }
             />
-
-            {/* Catch-all Route */}
-            <Route
-              path="*"
-              element={
-                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/" />
-              }
-            />
-
-            {/* Auth Page Protected */}
             <Route exact path="/login" element={<AuthProtected element={Login} />} />
             <Route exact path="/signup" element={<AuthProtected element={Signup} />} />
             <Route exact path="/forgot-password" element={<AuthProtected element={ForgotPassword} />} />
             <Route exact path="/reset-password" element={<AuthProtected element={ResetPassword} />} />
-
-            {/* Terms and Conditions Route */}
             <Route path="/terms-conditions" element={<TermsConditions />} />
-
-            {/* Privacy Policy */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-
-            {/* Customer Care Page */}
             <Route path="/customer-care" element={<CustomerCare />} />
 
-            {/* Page Module Protected */}
+            {/* Protected Routes */}
             {PageRoutes.map((route, id) => (
               <Route
                 key={id}
@@ -67,6 +51,14 @@ function App() {
                 exact
               />
             ))}
+
+            {/* Catch-all Route */}
+            <Route
+              path="*"
+              element={
+                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/" />
+              }
+            />
           </Routes>
         </div>
         <ToastContainer />
