@@ -119,7 +119,7 @@ const IncomeTable = () => {
                     onClick={handleDownloadCSV}
                     style={{ border: "2px solid blue", borderRadius: "8px", padding: "6px 12px", fontWeight: "bold" }}
                 >
-                    <FontAwesomeIcon icon={faFileExcel} className="me-2" style={{ color: "green", fontSize: "19px" }} /> Export
+                    <FontAwesomeIcon icon={faFileExcel} className="me-2" style={{ color: "green", fontSize: "17px" }} /> Export
                 </button>
             </div>
 
