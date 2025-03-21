@@ -166,6 +166,8 @@ const PurchaseBill = () => {
                 totalAmount: product.amount,
             })),
         };
+        console.log('purchaseBill::: ', purchaseBill);
+
         try {
             if (isUpdating) {
                 await axios.put(`${URL}/${params.id}`, purchaseBill, config);
@@ -176,7 +178,7 @@ const PurchaseBill = () => {
             }
             navigate("/purchase");
         } catch (error) {
-            toast.error(error.response.data.errors.message);
+            toast.error(error.response.data.errors);
         }
     };
 

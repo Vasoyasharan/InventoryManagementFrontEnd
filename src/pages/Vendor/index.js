@@ -130,7 +130,6 @@ const VendorList = (props) => {
                                         onMouseEnter={(e) => e.currentTarget.style.opacity = 0.8}
                                         onMouseLeave={(e) => e.currentTarget.style.opacity = 1}
                                     >
-                                        <FontAwesomeIcon icon={faEye} style={{ color: "#666", transition: "opacity 0.3s", opacity: 1 }} />
                                     </button>
                                     <NavLink
                                         to={{ pathname: `update/${item._id}` }}

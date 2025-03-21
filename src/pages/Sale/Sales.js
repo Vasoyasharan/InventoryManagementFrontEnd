@@ -161,7 +161,7 @@ const SalesBill = () => {
             finalAmount: totalAmount,
             remarks,
             saleBillItems: products.map((product) => ({
-                _id: product._id || undefined,
+                // _id: product._id || undefined,
                 productId: product.product?._id || "",
                 qty: product.qty,
                 unit: product.unit,
