@@ -281,6 +281,34 @@ const PremiumPage = () => {
         </div>
       </div>
 
+      {/* Additional Features Section */}
+      <section className="additional-features">
+        <h2 className="features-title">Why Choose Premium?</h2>
+        <div className="features-grid">
+          <div className="feature-card">
+            <i className="fas fa-chart-line feature-icon"></i>
+            <h3 className="feature-title">Advanced Analytics</h3>
+            <p className="feature-description">
+              Get detailed insights and reports to grow your business.
+            </p>
+          </div>
+          <div className="feature-card">
+            <i className="fas fa-headset feature-icon"></i>
+            <h3 className="feature-title">Priority Support</h3>
+            <p className="feature-description">
+              Dedicated support team available 24/7 to assist you.
+            </p>
+          </div>
+          <div className="feature-card">
+            <i className="fas fa-shield-alt feature-icon"></i>
+            <h3 className="feature-title">Enhanced Security</h3>
+            <p className="feature-description">
+              Your data is safe with our advanced security measures.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Payment Success Modal */}
       {isPaymentSuccess && (
         <SuccessPage
