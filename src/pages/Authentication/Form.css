@@ -1,3 +1,7 @@
+.btn-login .fa-spinner {
+    margin-right: 8px;
+}
+
 .login-container {
     display: flex;
     justify-content: center;

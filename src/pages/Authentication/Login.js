@@ -5,7 +5,7 @@ import axios from "axios";
 import { Url } from "../../Url";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import "./Form.css";
 import loginImage from "../../images/loginImage.png";
 
@@ -18,6 +18,7 @@ const Login = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [errors, setErrors] = useState({});
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoggingIn, setIsLoggingIn] = useState(false); // New loading state
     const navigate = useNavigate();
 
     const URL = Url + "/user/signin";
@@ -42,20 +43,28 @@ const Login = () => {
         setErrors(Validation(values));
         try {
             if (!errors.username && !errors.password) {
+                setIsLoggingIn(true); // Start loading
                 const res = await axios.post(URL, values);
                 if (res.data.payload.token) {
                     localStorage.setItem("token", res.data.payload.token);
                     localStorage.setItem("username", res.data.payload.name);
                     navigate("/dashboard");
-                    return toast.success("Login Successfully");
+                    toast.success("Login Successfully");
+                    
+                    // Delay refresh to show toast and add loading spinner
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 100); // 0.1 second delay
                 } else {
                     alert("No record exists");
                     setValues({ username: "", password: "" });
+                    setIsLoggingIn(false);
                 }
             }
         } catch (error) {
             console.log(error);
             setValues({ username: "", password: "" });
+            setIsLoggingIn(false);
             return toast.error(error.response.data.message);
         }
     };
@@ -136,9 +145,16 @@ const Login = () => {
                         <button
                             type="submit"
                             className="btn-login"
-                            disabled={!isChecked}
+                            disabled={!isChecked || isLoggingIn}
                         >
-                            Log in
+                            {isLoggingIn ? (
+                                <>
+                                    <FontAwesomeIcon icon={faSpinner} spin className="me-2" />
+                                    Logging in...
+                                </>
+                            ) : (
+                                "Log in"
+                            )}
                         </button>
 
                         {/* Create Account Link */}
