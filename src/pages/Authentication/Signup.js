@@ -158,7 +158,7 @@ const Signup = () => {
                         </button>
 
                         {/* Login Link */}
-                        <Link to="/" className="btn-login-link">
+                        <Link to="/login" className="btn-login-link">
                             Already have an account? Login
                         </Link>
                     </form>
