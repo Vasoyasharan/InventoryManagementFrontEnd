@@ -7,6 +7,154 @@ body {
 .dashboard-main {
   background-color: #f8f9fa;
 }
+/*  Dashboard Header & Shortcut Button */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 1.5rem;
+}
+
+.shortcut-btn {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: #495057;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.shortcut-btn:hover {
+    background: #fff;
+    border-color: #adb5bd;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.shortcut-btn .icon {
+    margin-right: 0.5rem;
+    color: #6c757d;
+}
+
+/* Elegant Shortcuts Modal */
+.shortcuts-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.shortcuts-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 420px;
+    max-width: 90%;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.shortcuts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.shortcuts-header h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #212529;
+    font-weight: 600;
+}
+
+.shortcuts-header .close-btn {
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shortcuts-header .close-btn:hover {
+    background: #f8f9fa;
+    color: #dc3545;
+}
+
+.shortcuts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.shortcuts-list li {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.shortcuts-list li:last-child {
+    border-bottom: none;
+}
+
+.shortcut-key {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    margin-right: 1rem;
+    font-family: 'SF Mono', monospace;
+    font-size: 0.85rem;
+    color: #495057;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.shortcut-description {
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .shortcut-text {
+        display: none;
+    }
+    .shortcuts-content {
+        padding: 1.5rem;
+    }
+}
 
 /* DASHBOARD CARDS */
 .dashboard-content .card {
@@ -16,7 +164,8 @@ body {
     border-radius: 12px;
     transition: all 0.3s ease-in-out;
     position: relative;
-    overflow: hidden;
+    overflow: visible; 
+    z-index: 1; 
 }
 
 .dashboard-content .card:hover {
@@ -29,6 +178,8 @@ body {
     display: flex;
     align-items: center;
     padding: 20px;
+    position: relative; 
+    z-index: 1;
 }
 
 .dashboard-content .card-value {
@@ -43,31 +194,62 @@ body {
     font-weight: 500;
 }
 
+/* Add Button Container */
+.dashboard-content .card .add-icon-container {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 3;
+}
+
 /* + ADD BUTTON STYLING */
 .dashboard-content .card .add-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(0, 123, 255, 0.1);
-    border-radius: 50%;
     width: 30px;
     height: 30px;
+    border-radius: 50%;
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0px 2px 8px rgba(0, 123, 255, 0.2);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(74, 108, 247, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+/* Shortcut Hint */
+.dashboard-content .card .shortcut-hint {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #6c757d;
+    color: white;
+    border-radius: 10px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 4;
+    white-space: nowrap;
+    transform: translateY(-50%);
+}
+
+/* Show shortcut on hover */
+.dashboard-content .card .add-icon-container:hover .shortcut-hint {
+    opacity: 1;
 }
 
 .dashboard-content .card .add-icon:hover {
-    background: rgba(0, 123, 255, 0.2);
-    box-shadow: 0px 4px 12px rgba(0, 123, 255, 0.4);
+    background: #b7c1e7;
     transform: scale(1.1);
+    box-shadow: 0 3px 6px rgba(74, 108, 247, 0.4);
 }
 
 .dashboard-content .card .add-icon svg {
-    font-size: 16px;
+    font-size: 14px;
     color: #007bff;
     transition: color 0.3s ease;
 }
@@ -112,5 +294,5 @@ body {
 }
 
 .chart-container {
-    overflow: visible; /* Ensure overflow is visible */
+    overflow: visible;
 }

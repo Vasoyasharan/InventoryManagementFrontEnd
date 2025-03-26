@@ -5,7 +5,16 @@ import { Url, config } from "../../Url";
 import "./Dashboard.css";
 import TaskManager from "./TaskManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faCubes, faFileInvoiceDollar, faMoneyBillWave, faStore, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+    faUsers,
+    faCubes,
+    faFileInvoiceDollar,
+    faMoneyBillWave,
+    faStore,
+    faPlus,
+    faKeyboard,
+    faTimes
+} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import Chatbot from "../../component/Chatbot";
 
@@ -17,6 +26,28 @@ const Dashboard = () => {
     const [purchaseCount, setPurchaseCount] = useState(0);
     const [saleCount, setSaleCount] = useState(0);
     const [transactionData, setTransactionData] = useState([]);
+    const [showShortcuts, setShowShortcuts] = useState(false);
+
+    // Keyboard shortcuts handler
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                switch (e.key.toLowerCase()) {
+                    case 'v': navigate("/vendor/add"); break;
+                    case 'u': navigate("/customer/add"); break;
+                    case 'p': navigate("/product/add"); break;
+                    case 'b': navigate("/purchase/add"); break;
+                    case 's': navigate("/sale/add"); break;
+                    case 'i': setShowShortcuts(prev => !prev); break;
+                    default: break;
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [navigate]);
 
     // Fetch counts for cards
     const fetchCounts = async () => {
@@ -37,17 +68,12 @@ const Dashboard = () => {
             const response = await axios.get(`${Url}/reports`, config);
             const data = response.data.payload.transactionData;
 
-            // Prepare data for the charts
             const barData = data.reduce((acc, transaction) => {
                 const date = new Date(transaction.billDate).toLocaleDateString();
-                if (!acc[date]) {
-                    acc[date] = { date, purchase: 0, sale: 0 };
-                }
-                if (transaction.transaction_type === "purchase") {
-                    acc[date].purchase += transaction.amount;
-                } else {
-                    acc[date].sale += transaction.amount;
-                }
+                if (!acc[date]) acc[date] = { date, purchase: 0, sale: 0 };
+                transaction.transaction_type === "purchase" 
+                    ? acc[date].purchase += transaction.amount 
+                    : acc[date].sale += transaction.amount;
                 return acc;
             }, {});
 
@@ -69,6 +95,7 @@ const Dashboard = () => {
             icon: faStore,
             iconColor: "#097066",
             addRoute: "/vendor/add",
+            shortcut: "Ctrl+V"
         },
         {
             title: "Customers",
@@ -76,6 +103,7 @@ const Dashboard = () => {
             icon: faUsers,
             iconColor: "#3f4add",
             addRoute: "/customer/add",
+            shortcut: "Ctrl+U",
         },
         {
             title: "Products",
@@ -83,6 +111,7 @@ const Dashboard = () => {
             icon: faCubes,
             iconColor: "#df4b26",
             addRoute: "/product/add",
+            shortcut: "Ctrl+P"
         },
         {
             title: "Purchase Bills",
@@ -90,6 +119,7 @@ const Dashboard = () => {
             icon: faFileInvoiceDollar,
             iconColor: "#c9cc1b",
             addRoute: "/purchase/add",
+            shortcut: "Ctrl+B"
         },
         {
             title: "Sale Bills",
@@ -97,14 +127,54 @@ const Dashboard = () => {
             icon: faMoneyBillWave,
             iconColor: "#72ee72",
             addRoute: "/sale/add",
+            shortcut: "Ctrl+S"
         },
     ];
 
     return (
         <main className="dashboard-main col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div className="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <div className="dashboard-header">
                 <h1 className="h2">Dashboard</h1>
+                <button
+                    className="shortcut-btn"
+                    onClick={() => setShowShortcuts(true)}
+                    title="Show keyboard shortcuts"
+                >
+                    <FontAwesomeIcon icon={faKeyboard} className="icon" />
+                    <span>Shortcuts</span>
+                    <span className="shortcut-text"> (Crtl + i )</span>
+                </button>
             </div>
+
+            {/* Keyboard Shortcuts Modal */}
+            {showShortcuts && (
+                <div className="shortcuts-modal" onClick={() => setShowShortcuts(false)}>
+                    <div className="shortcuts-content" onClick={e => e.stopPropagation()}>
+                        <div className="shortcuts-header">
+                            <h5>Keyboard Shortcuts</h5>
+                            <button
+                                className="close-btn"
+                                onClick={() => setShowShortcuts(false)}
+                                aria-label="Close shortcuts"
+                            >
+                                <FontAwesomeIcon icon={faTimes} />
+                            </button>
+                        </div>
+                        <ul className="shortcuts-list">
+                            {cardData.map((card, index) => (
+                                <li key={index}>
+                                    <span className="shortcut-key">{card.shortcut}</span>
+                                    <span className="shortcut-description">Add {card.title}</span>
+                                </li>
+                            ))}
+                            <li>
+                                <span className="shortcut-key">Ctrl + i</span>
+                                <span className="shortcut-description">Toggle this help</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            )}
 
             {/* Cards Section */}
             <section className="dashboard-content">
@@ -112,8 +182,15 @@ const Dashboard = () => {
                     {cardData.map((card, index) => (
                         <div key={index} className="col-12 col-md-6 col-lg-3 mb-4">
                             <div className="card shadow position-relative">
-                                <div className="add-icon" onClick={() => navigate(card.addRoute)} title={`Add ${card.title}`}>
-                                    <FontAwesomeIcon icon={faPlus} />
+                                <div className="add-icon-container">
+                                    <div
+                                        className="add-icon"
+                                        onClick={() => navigate(card.addRoute)}
+                                        title={`Add ${card.title}`}
+                                    >
+                                        <FontAwesomeIcon icon={faPlus} />
+                                    </div>
+                                    <span className="shortcut-hint">{card.shortcut}</span>
                                 </div>
 
                                 <div className="card-body d-flex align-items-center">
@@ -154,9 +231,9 @@ const Dashboard = () => {
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="date" />
                                         <YAxis
-                                            domain={[0, 'auto']} // Automatically adjust the domain based on the data
-                                            tick={{ fontSize: 12 }} // Adjust font size if needed
-                                            padding={{ top: 10, bottom: 10 }} // Add padding to the top and bottom of the Y-axis
+                                            domain={[0, 'auto']}
+                                            tick={{ fontSize: 12 }}
+                                            padding={{ top: 10, bottom: 10 }}
                                         />
                                         <Tooltip />
                                         <Legend />
@@ -180,9 +257,9 @@ const Dashboard = () => {
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="date" />
                                         <YAxis
-                                            domain={[0, 'auto']} // Automatically adjust the domain based on the data
-                                            tick={{ fontSize: 12 }} // Adjust font size if needed
-                                            padding={{ top: 10, bottom: 10 }} // Add padding to the top and bottom of the Y-axis
+                                            domain={[0, 'auto']}
+                                            tick={{ fontSize: 12 }}
+                                            padding={{ top: 10, bottom: 10 }}
                                         />
                                         <Tooltip />
                                         <Legend />
