@@ -1,4 +1,4 @@
-const Url = "http://localhost:5500/api";
+const Url = "https://inventory-management-node.onrender.com/api";
 
 let token = localStorage.getItem("token");
 
